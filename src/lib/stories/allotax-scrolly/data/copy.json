@@ -1,0 +1,53 @@
+{
+  "title": "A whirlwind tour of the allotaxonometer",
+  "subtitle": "Comparing baby name distributions in Quebec with rank-turbulence divergence",
+  "description": "Comparing baby name distributions in Quebec with rank-turbulence divergence.",
+  "authors": [
+    { "name": "Jonathan St-Onge", "url": "https://vermontcomplexsystems.org/who-we-are/jso/" }
+  ],
+  "date": "June 23, 2025",
+
+  "intro": [
+    { "type": "markdown", "value": "Every year in Quebec, the newspaper *La Presse* does a [short analysis](https://www.lapresse.ca/societe/2025-06-22/palmares-des-prenoms/pres-d-un-demi-siecle-en-modes-et-tendances.php) of baby name dynamics. On June 22nd, they examined the trend of 433,000 unique baby names Quebecers have given to their children, over 4.1 million births since <span class=\"year-1980\">1980</span>. They found that Emma hit first place in <span class=\"year-2023\">2023</span>, while Noah stayed at the top for the fourth consecutive year. Some names have made a comeback, such as *Charlie*, a popular name in the 2000s that lost ground in the 2010s, before making a comeback between 2018 and 2023." },
+    { "type": "markdown", "sex": "girls", "value": "Here is the ranking of the <span class=\"gender-text girls\">girl</span> baby names in <span class=\"year-1980\">1980</span>:" },
+    { "type": "markdown", "sex": "boys",  "value": "Here is the ranking of the <span class=\"gender-text boys\">boy</span> baby names in <span class=\"year-1980\">1980</span>:" },
+    { "type": "component", "value": "BarChartRank1980" },
+
+    { "type": "markdown", "sex": "girls", "value": "Here is the ranking for <span class=\"gender-text girls\">girl</span> baby names in Quebec for <span class=\"year-2023\">2023</span>:" },
+    { "type": "markdown", "sex": "boys",  "value": "Here is the ranking for <span class=\"gender-text boys\">boy</span> baby names in Quebec for <span class=\"year-2023\">2023</span>:" },
+    { "type": "component", "value": "BarChartRank2023" },
+
+    { "type": "markdown", "value": "I really like this analysis, but there are some limitations in comparing ranks using raw counts, especially when it comes to systems that are known to be \"heavy-tailed\". That is, when a few names, or types, occur many more times in your dataset than less frequent ones, aka the tail. For instance, in the analysis the author compares baby names between \"then and now\". By just looking at raw counts, we are stuck with such comparisons where top-ranking baby names in <span class=\"year-1980\">1980</span> might now be in the tail, which is a bit underwhelming. How can we know about the most surprising comparisons, given the heavy-tailed distribution?" },
+    { "type": "markdown", "value": "Allotaxonometer provides a systematic way to analyze these shifts using [divergence metrics](https://arxiv.org/abs/2008.13078)." }
+  ],
+
+  "stepsGirls": [
+    { "type": "markdown", "value": "This is the diamond plot. The axes here represent the ranks for different types for a pair of systems. If, say, <span class=\"name-highlight girls\">Alice</span> and <span class=\"name-highlight girls\">Florence</span> were very frequent both now and then, exactly as frequent, they would rank high on both axes, and sit on the diagonal." },
+    { "type": "markdown", "value": "As we saw, <span class=\"name-highlight girls\">Julie</span> was the most popular baby name in <span class=\"year-1980\">1980</span>, while it was ranked much lower in <span class=\"year-2023\">2023</span>. Now, you'll notice that as you hover over less frequent types, they tend to have more types in them. This is because each cell represents the number of times baby names appear; there is only one <span class=\"name-highlight girls\">Alice</span>, appearing hundreds or thousands of times, while there are many names that appear only once or twice, like <span class=\"name-highlight girls\">Ysabelle</span> or <span class=\"name-highlight girls\">Xiomara</span>. The legend indicates the scale, with darker colors showing there are more counts per cell." },
+    { "type": "markdown", "value": "We now add <span class=\"year-2023\">2023</span> to examine the shift in popularity. The bottom right plot helps keep track of the contribution from each system in the shared vocabulary, as we throw out any names that are not shared between the two systems. As discussed in the analysis, we can see that <span class=\"name-highlight girls\">Charlie</span> was in the tail in <span class=\"year-1980\">1980</span>, before ranking much higher in <span class=\"year-2023\">2023</span>." }
+  ],
+
+  "stepsBoys": [
+    { "type": "markdown", "value": "This is the diamond plot. The axes here represent the ranks for different types for a pair of systems. If, say, <span class=\"name-highlight boys\">Eric</span> and <span class=\"name-highlight boys\">Jonathan</span> were very frequent both now and then, exactly as frequent, they would rank high on both axes, and sit on the diagonal." },
+    { "type": "markdown", "value": "As we saw, <span class=\"name-highlight boys\">Noah</span> was the most popular baby name in <span class=\"year-1980\">1980</span>, while it was ranked much lower in <span class=\"year-2023\">2023</span>. Now, you'll notice that as you hover over less frequent types, they tend to have more types in them. This is because each cell represents the number of times baby names appear; there is only one <span class=\"name-highlight boys\">Eric</span>, appearing hundreds or thousands of times, while there are many names that appear only once or twice, like <span class=\"name-highlight boys\">Jeffery</span> or <span class=\"name-highlight boys\">Tomasz</span>. The legend indicates the scale, with darker colors showing there are more counts per cell." },
+    { "type": "markdown", "value": "We now add <span class=\"year-2023\">2023</span> to examine the shift in popularity. The bottom right plot helps keep track of the contribution from each system in the shared vocabulary, as we throw out any names that are not shared between the two systems. As discussed in the analysis, we can see that <span class=\"name-highlight boys\">Noah</span> was in the tail in <span class=\"year-1980\">1980</span>, before ranking much higher in <span class=\"year-2023\">2023</span>." }
+  ],
+
+  "fullPicture": [
+    { "type": "markdown", "sex": "girls", "value": "We now add the final chart to our canvas, the wordshift plot, with our divergence metric of choice, the rank-turbulence divergence. The wordshift plot shows a more direct view of how baby names shift across pairs of systems, with the rank being shown in pale grey. For instance, <span class=\"gender-text girls\">Florence</span> going from the 409 rank in <span class=\"year-1980\">1980</span> to 1.5 in <span class=\"year-2023\">2023</span>." },
+    { "type": "markdown", "sex": "boys",  "value": "We now add the final chart to our canvas, the wordshift plot, with our divergence metric of choice, the rank-turbulence divergence. The wordshift plot shows a more direct view of how baby names shift across pairs of systems, with the rank being shown in pale grey. For instance, <span class=\"gender-text boys\">Noah</span> going from the 855 rank in <span class=\"year-1980\">1980</span> to 1 in <span class=\"year-2023\">2023</span>." }
+  ],
+
+  "afterAlpha": [
+    { "type": "markdown", "sex": "girls", "value": "Where the α parameter lets us tweak the relative importance of the divergence metric, as shown in the top left expression. Try α = ∞, you will see that types tend to be similarly ranked with their frequency, with <span class=\"gender-text girls\">Julie</span> at the top. By contrast, α = 0 allows us to inspect what is happening further down in the tail. Finally, those contour lines underlying the diamond plot help guide our interpretation of the rank-divergence metric, tracking how α is varied." },
+    { "type": "markdown", "sex": "boys",  "value": "Where the α parameter lets us tweak the relative importance of the divergence metric, as shown in the top left expression. Try α = ∞, you will see that types tend to be similarly ranked with their frequency, with <span class=\"gender-text boys\">Eric</span> at the top. By contrast, α = 0 allows us to inspect what is happening further down in the tail. Finally, those contour lines underlying the diamond plot help guide our interpretation of the rank-divergence metric, tracking how α is varied." }
+  ],
+
+  "foundational": [
+    { "type": "markdown", "value": "For much more detail about this tool, see the foundational [paper](https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-023-00400-x). To try the tool with your own dataset, visit our [web app](/allotaxonometry). If you are more of a coder, you might enjoy our [Python version](https://github.com/car-d00r/py-allotax)." }
+  ],
+
+  "appendix": [
+    { "type": "markdown", "value": "*Appendix: Data can be found [here](https://www.donneesquebec.ca/recherche/dataset/banque-de-prenoms-garcons/resource/c35c6bc3-fbc1-47bd-bfa9-90be087f954a), La Presse trend analysis can be found [here](https://www.lapresse.ca/societe/2025-06-22/palmares-des-prenoms/pres-d-un-demi-siecle-en-modes-et-tendances.php).*" }
+  ]
+}

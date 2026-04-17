@@ -1,0 +1,11 @@
+slug,title,description,author,date,externalUrl,tags
+networks-fast-and-slow,Networks Fast And Slow,Mean-field and quench assumptions in network science,Jonathan St-Onge,2025-02-11,,scrolly
+vermont-livability-map,The Vermont Livability Map,Predicting floods in Vermont,Ben Dexter Cooley,2025-03-15,https://verso-uvm.github.io/Vermont-Livability-Map/,scrolly
+tokenization,Tokenization,What are they thinking?,Ben Dexter Cooley,2025-01-05,,scrolly
+explore-the-cat-project,Exploring course catalogs,Course catalogs are cooler than you thought,Jonathan St-Onge,2025-07-25,https://catalogresearch.uvm.edu/,dashboard
+uvm-research-groups,Featuring UVM Research Groups,Becoming an R1 institution,Jonathan St-Onge,2025-05-16,,scrolly
+open-academic-analytics,Open Academic Analytics,Investigating the coevolution of productivity and collaborations,Jonathan St-Onge Name,2025-08-26,,dashboard
+allotax-scrolly,But what is the Allotaxonograph,You too can use complex systems tools,Jonathan St-Onge,2025-06-23,,"allotaxonometry,scrolly"
+hello-sciscidb,Hello SciSciDB,Introducing a science of science database build on top of database aggregators,Jonathan St-Onge,2025-10-01,,dataset
+friends-funnier-than-you-are,Your friends are funnier than you are,But don't feel bad about it,Laurent Hébert-Dufresne,2026-04-15,,scrolly
+allotaxonometry,ALLotaxonometry,You too can use complex systems tools,Jonathan St-Onge,2026-04-16,,"allotaxonometry,dashboard"

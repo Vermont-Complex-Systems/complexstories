@@ -1,0 +1,628 @@
+<script>
+    import { Button } from "bits-ui";
+    import { parseDataFile } from '../../utils.ts';
+
+    let {
+        onFilesUploaded = () => {}
+    } = $props();
+
+    let fileInput;
+    let dragOver = $state(false);
+    let showFormatHint = $state(false);
+    let availableFiles = $state([]);
+    let selectedSys1Index = $state(0);
+    let selectedSys2Index = $state(1);
+    let uploadStatus = $state('');
+    let uploadWarnings = $state([]);
+
+    let uploadedSys1 = $state(null);
+    let uploadedSys2 = $state(null);
+    let uploadedTitle = $state(['System 1', 'System 2']);
+
+    // Handle file selection and auto-populate first two
+    async function handleFiles(files) {
+        const newFiles = [];
+
+        for (const file of files) {
+            newFiles.push({
+                id: crypto.randomUUID(),
+                name: file.name.replace(/\.(json|csv)$/i, ''),
+                fileType: file.name.split('.').pop()?.toLowerCase(),
+                file: file,
+                addedAt: new Date()
+            });
+        }
+
+        // Sort alphabetically for consistent ordering
+        newFiles.sort((a, b) => a.name.localeCompare(b.name));
+        availableFiles = newFiles;
+
+        // Reset selections and auto-upload first two
+        selectedSys1Index = 0;
+        selectedSys2Index = Math.min(1, availableFiles.length - 1);
+
+        if (availableFiles.length >= 1) {
+            await uploadToSystem(availableFiles[0], 'sys1');
+        }
+        if (availableFiles.length >= 2) {
+            await uploadToSystem(availableFiles[1], 'sys2');
+        }
+    }
+
+    // Direct upload on click
+    async function uploadToSystem(fileEntry, system) {
+        uploadStatus = `Loading ${fileEntry.file.name}...`;
+        uploadWarnings = [];
+        console.log('Uploading file:', fileEntry.file.name, 'to', system);
+
+        try {
+            const result = await parseDataFile(fileEntry.file, {
+                enableTruncation: true,
+                maxRows: 1_000_000,
+                warnThreshold: 50_000,
+                maxFileSize: 50 * 1024 * 1024 // 50MB
+            });
+
+            if (!result.success || !result.data) {
+                throw new Error(result.error || 'Failed to parse file');
+            }
+
+            // Update state based on system
+            if (system === 'sys1') {
+                uploadedSys1 = result.data;
+                uploadedTitle = [
+                    result.fileName || fileEntry.file.name.replace(/\.(json|csv)$/i, ''),
+                    uploadedTitle[1]
+                ];
+            } else {
+                uploadedSys2 = result.data;
+                uploadedTitle = [
+                    uploadedTitle[0],
+                    result.fileName || fileEntry.file.name.replace(/\.(json|csv)$/i, '')
+                ];
+            }
+
+            // Set warnings if any
+            if (result.warnings.length > 0) {
+                uploadWarnings = result.warnings;
+            }
+
+            uploadStatus = `${system.toUpperCase()}: ${fileEntry.file.name} loaded successfully!`;
+            setTimeout(() => uploadStatus = '', 3000);
+
+            // Trigger callback when BOTH files are uploaded
+            setTimeout(() => {
+                if (uploadedSys1 && uploadedSys2) {
+                    uploadStatus = 'Both files loaded! Generating visualization...';
+                    console.log('Both files ready, triggering callback');
+                    onFilesUploaded(uploadedSys1, uploadedSys2, uploadedTitle);
+                } else {
+                    uploadStatus = `Waiting for ${uploadedSys1 ? 'System 2' : 'System 1'} file...`;
+                }
+            }, 0);
+
+            return { success: true, fileName: fileEntry.file.name };
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            uploadStatus = `Error loading ${fileEntry.file.name}: ${errorMessage}`;
+            setTimeout(() => uploadStatus = '', 5000);
+            return { success: false, error: errorMessage };
+        }
+    }
+
+    // Handle keyboard navigation
+    function handleSys1KeyDown(e) {
+        if (!availableFiles.length) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedSys1Index = Math.min(selectedSys1Index + 1, availableFiles.length - 1);
+            uploadToSystem(availableFiles[selectedSys1Index], 'sys1');
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedSys1Index = Math.max(selectedSys1Index - 1, 0);
+            uploadToSystem(availableFiles[selectedSys1Index], 'sys1');
+        }
+    }
+
+    function handleSys2KeyDown(e) {
+        if (!availableFiles.length) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedSys2Index = Math.min(selectedSys2Index + 1, availableFiles.length - 1);
+            uploadToSystem(availableFiles[selectedSys2Index], 'sys2');
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedSys2Index = Math.max(selectedSys2Index - 1, 0);
+            uploadToSystem(availableFiles[selectedSys2Index], 'sys2');
+        }
+    }
+
+    // Handle option keyboard events
+    function handleOptionKeyDown(e, index, system) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (system === 'sys1') {
+                selectSys1File(index);
+            } else {
+                selectSys2File(index);
+            }
+        }
+    }
+
+    // Handle click selection
+    function selectSys1File(index) {
+        selectedSys1Index = index;
+        uploadToSystem(availableFiles[index], 'sys1');
+    }
+
+    function selectSys2File(index) {
+        selectedSys2Index = index;
+        uploadToSystem(availableFiles[index], 'sys2');
+    }
+
+    function clearFiles() {
+        availableFiles = [];
+        uploadedSys1 = null;
+        uploadedSys2 = null;
+        uploadedTitle = ['System 1', 'System 2'];
+        uploadStatus = '';
+        uploadWarnings = [];
+        console.log('Cleared all uploaded files');
+    }
+
+    // Drag and drop handlers
+    function handleDragOver(e) {
+        e.preventDefault();
+        dragOver = true;
+    }
+
+    function handleDragLeave(e) {
+        e.preventDefault();
+        dragOver = false;
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        dragOver = false;
+        const files = Array.from(e.dataTransfer.files).filter(f =>
+            f.name.endsWith('.json') || f.name.endsWith('.csv')
+        );
+        if (files.length > 0) {
+            handleFiles(files);
+        }
+    }
+
+    // Handle drop zone keyboard events
+    function handleDropZoneKeyDown(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            fileInput.click();
+        }
+    }
+</script>
+
+<div class="upload-container">
+    <div class="upload-content">
+        <div class="upload-section">
+            <!-- Drop Zone with proper accessibility -->
+            <div
+                class="drop-zone {dragOver ? 'drag-over' : ''}"
+                ondragover={handleDragOver}
+                ondragleave={handleDragLeave}
+                ondrop={handleDrop}
+                onkeydown={handleDropZoneKeyDown}
+                onclick={() => fileInput.click()}
+                role="button"
+                tabindex="0"
+                aria-label="Upload files by dragging and dropping or clicking to browse"
+            >
+                <input
+                    type="file"
+                    accept=".json,.csv"
+                    multiple
+                    bind:this={fileInput}
+                    onchange={(e) => e.target.files?.length && handleFiles(Array.from(e.target.files))}
+                    class="file-input-hidden"
+                />
+
+                <div class="drop-zone-content">
+                    <div class="upload-icon">📁</div>
+                    <p class="drop-text">
+                        Drag files or
+                        <button
+                            class="browse-link"
+                            onclick={(e) => {
+                                e.stopPropagation();
+                                fileInput.click();
+                            }}
+                        >
+                            browse
+                        </button>
+                    </p>
+                </div>
+            </div>
+
+            <div class="upload-hint">
+                CSV or JSON · hold Ctrl for multiple ·
+                <button class="format-toggle" onclick={() => showFormatHint = !showFormatHint}>
+                    {showFormatHint ? 'hide format' : 'show format'}
+                </button>
+            </div>
+
+            {#if showFormatHint}
+                <div class="format-examples">
+                    <span class="fmt-label">CSV</span>
+                    <pre class="fmt-block">{`types,counts\nEmma,4589\nLiam,3201\n...`}</pre>
+                    <span class="fmt-label">JSON</span>
+                    <pre class="fmt-block">{`[\n  {"types":"Emma","counts":4589},\n  {"types":"Liam","counts":3201}\n...\n]`}</pre>
+                </div>
+            {/if}
+
+            <!-- Multi-Select Widgets -->
+            {#if availableFiles.length > 0}
+                <div class="multiselect-container">
+                    <!-- System 1 -->
+                    <div class="multiselect-widget">
+                        <div class="widget-label">
+                            <span class="system-number sys1">1</span>
+                            System 1
+                        </div>
+                        <div
+                            class="custom-select"
+                            onkeydown={handleSys1KeyDown}
+                            tabindex="0"
+                            role="listbox"
+                            aria-label="System 1 files"
+                        >
+                            {#each availableFiles as file, index (file.id)}
+                                <div
+                                    class="select-option {selectedSys1Index === index ? 'selected' : ''} {index === 0 ? 'auto-selected' : ''}"
+                                    onclick={() => selectSys1File(index)}
+                                    onkeydown={(e) => handleOptionKeyDown(e, index, 'sys1')}
+                                    role="option"
+                                    tabindex="0"
+                                    aria-selected={selectedSys1Index === index}
+                                >
+                                    {file.name}.{file.fileType}
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+
+                    <!-- System 2 -->
+                    <div class="multiselect-widget">
+                        <div class="widget-label">
+                            <span class="system-number sys2">2</span>
+                            System 2
+                        </div>
+                        <div
+                            class="custom-select"
+                            onkeydown={handleSys2KeyDown}
+                            tabindex="0"
+                            role="listbox"
+                            aria-label="System 2 files"
+                        >
+                            {#each availableFiles as file, index (file.id)}
+                                <div
+                                    class="select-option {selectedSys2Index === index ? 'selected' : ''} {index === 1 ? 'auto-selected' : ''}"
+                                    onclick={() => selectSys2File(index)}
+                                    onkeydown={(e) => handleOptionKeyDown(e, index, 'sys2')}
+                                    role="option"
+                                    tabindex="0"
+                                    aria-selected={selectedSys2Index === index}
+                                >
+                                    {file.name}.{file.fileType}
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clear Button -->
+                <div class="clear-section">
+                    <Button.Root
+                        onclick={clearFiles}
+                        variant="outline"
+                        size="sm"
+                        class="clear-button"
+                    >
+                        Clear Files
+                    </Button.Root>
+                </div>
+            {/if}
+
+            <!-- Status Messages -->
+            {#if uploadStatus}
+                <div class="upload-status {uploadStatus.includes('Error') ? 'error' : 'success'}">
+                    {uploadStatus}
+                </div>
+            {/if}
+
+            {#if uploadWarnings.length > 0}
+                <div class="upload-warnings">
+                    <div class="warning-header">⚠️ Warnings:</div>
+                    {#each uploadWarnings as warning}
+                        <div class="warning-item">{warning}</div>
+                    {/each}
+                </div>
+            {/if}
+        </div>
+    </div>
+</div>
+
+<style>
+    .upload-container {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .upload-content {
+        margin-top: 0.25rem;
+    }
+
+    .upload-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Drop Zone */
+    .drop-zone {
+        border: 1px dashed var(--vcsi-border);
+        border-radius: 3px;
+        padding: 0.75rem;
+        text-align: center;
+        background-color: var(--vcsi-gray-100);
+        transition: all 200ms ease;
+        cursor: pointer;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.drag-over {
+        border-color: rgb(0, 91, 187);
+        background-color: rgba(0, 123, 255, 0.05);
+    }
+
+    .drop-zone:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+        border-color: rgb(0, 91, 187);
+    }
+
+    .file-input-hidden {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .drop-zone-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .upload-icon {
+        font-size: 1rem;
+        opacity: 0.7;
+    }
+
+    .drop-text {
+        font-size: 0.8125rem;
+        color: var(--vcsi-fg);
+        margin: 0;
+    }
+
+    .browse-link {
+        color: rgb(0, 91, 187);
+        text-decoration: underline;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: inherit;
+    }
+
+    .upload-hint {
+        font-size: 0.69rem;
+        color: #999;
+        margin: 0.375rem 0 0 0;
+        text-align: center;
+        font-style: italic;
+    }
+
+    .format-toggle {
+        background: none;
+        border: none;
+        padding: 0;
+        color: rgb(0, 91, 187);
+        font-size: inherit;
+        font-style: inherit;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .format-examples {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .fmt-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        color: var(--vcsi-gray-600);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .fmt-block {
+        margin: 0;
+        padding: 0.375rem 0.5rem;
+        background-color: var(--vcsi-gray-100);
+        border: 1px solid var(--vcsi-border);
+        border-radius: 4px;
+        font-family: var(--vcsi-font-mono);
+        font-size: 0.625rem;
+        color: var(--vcsi-fg);
+        line-height: 1.5;
+    }
+
+    /* Multi-Select Container */
+    .multiselect-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .multiselect-widget {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+
+    .widget-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--vcsi-fg);
+    }
+
+    .system-number {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.625rem;
+        font-weight: 900;
+        color: rgb(59, 59, 59);
+    }
+
+    .system-number.sys1 {
+        background-color: rgb(230, 230, 230);
+    }
+
+    .system-number.sys2 {
+        background-color: rgb(195, 230, 243);
+    }
+
+    /* Custom Select */
+    .custom-select {
+        width: 100%;
+        height: 120px;
+        border: 1px solid var(--vcsi-border);
+        border-radius: 3px;
+        background-color: var(--vcsi-gray-100);
+        color: var(--vcsi-fg);
+        font-family: var(--vcsi-font-serif);
+        font-size: 0.75rem;
+        overflow-y: auto;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .custom-select:focus {
+        outline: 2px solid rgb(0, 91, 187);
+        outline-offset: -2px;
+        border-color: rgb(0, 91, 187);
+    }
+
+    .select-option {
+        padding: 0.15rem 0.5rem;
+        background-color: var(--vcsi-gray-100);
+        color: var(--vcsi-fg);
+        cursor: pointer;
+        transition: background-color 100ms ease;
+        flex-shrink: 0;
+    }
+
+    .select-option:hover,
+    .select-option:focus {
+        background-color: rgba(0, 123, 255, 0.1);
+        outline: none;
+    }
+
+    .select-option.selected {
+        background-color: rgb(0, 91, 187);
+        color: white;
+    }
+
+    .select-option.auto-selected {
+        background-color: rgba(0, 123, 255, 0.2);
+        font-weight: 500;
+    }
+
+    .select-option.selected.auto-selected {
+        background-color: rgb(0, 91, 187);
+        color: white;
+    }
+
+    /* Clear Section */
+    .clear-section {
+        display: flex;
+        justify-content: center;
+    }
+
+    :global(.clear-button) {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+        color: var(--vcsi-gray-600);
+        border-color: var(--vcsi-border);
+    }
+
+    :global(.clear-button:hover) {
+        color: #ff533d;
+        border-color: #ff533d;
+    }
+
+    /* Status Messages */
+    .upload-status {
+        font-size: 0.8125rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 3px;
+        font-weight: 400;
+    }
+
+    .upload-status.success {
+        color: #3AE660;
+        background-color: rgba(58, 230, 96, 0.1);
+        border: 1px solid #3AE660;
+    }
+
+    .upload-status.error {
+        color: #ff533d;
+        background-color: rgba(255, 83, 61, 0.1);
+        border: 1px solid #ff533d;
+    }
+
+    .upload-warnings {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 3px;
+        background-color: rgba(255, 193, 7, 0.1);
+        border: 1px solid #ffc107;
+        color: #856404;
+    }
+
+    .warning-header {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+    }
+
+    .warning-item {
+        margin-bottom: 0.125rem;
+        padding-left: 0.75rem;
+        font-size: 0.69rem;
+    }
+
+    .warning-item:last-child {
+        margin-bottom: 0;
+    }
+</style>

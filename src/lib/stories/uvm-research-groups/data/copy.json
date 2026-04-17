@@ -1,0 +1,74 @@
+{
+  "title": "Mapping the Research Ecosystem of the University of Vermont",
+  "subtitle": "A group-based perspective on UVM research",
+  "description": "Group-based perspective on UVM research.",
+  "authors": [
+    { "name": "Jonathan St-Onge", "url": "https://vermontcomplexsystems.org/who-we-are/jso/" }
+  ],
+  "date": "May 2025",
+
+  "introduction": [
+    { "type": "markdown", "value": "In 2008, Sears adopted an organizational structure that pitted departments against each other. This led to a tribal warfare state of affairs, [accelerating its downfall](https://d3.harvard.edu/platform-rctom/submission/sears-the-collapse-of-a-company-from-within/). Some say that US universities operate somewhat similarly today, with each department reporting its own profit and remaining siloed. While this is slowly changing, I have yet to meet anyone at UVM who understands the broader research ecosystem, particularly around software development." },
+    { "type": "component", "value": "FacultyOverviewWaffle" },
+    { "type": "markdown", "value": "We denote faculty with or without research groups in yellow and green in typical UVM fashion. Highlighted in red, we have faculty without openAlex identifiers, which we use as our main academic database for author metadata. As can be seen below, these are mostly faculty engaged in the arts: theater, music, dance, art history." },
+    { "type": "markdown", "value": "Last but not least, we chose to represent perceived sex as binary shapes. Unfortunately, we didn't record faculty gender identity, and even if we did we would be hesitant to share the data here. The assessment of perceived sex was done while annotating faculty with research groups or not, and was based on perceived information about faculty; mostly their faculty headshots. We felt it was important to represent that category to better understand gendered patterns in science, and in particular at UVM." },
+    { "type": "markdown", "value": "Now, we can see that about one third of faculty have research groups, defined here as any claim from faculty to have some kind of research group on the Internet. This is a somewhat restrictive definition of research groups, but that is somewhat aligned with the idea of groups in collective action theory. That is, it is a definition of groups that stems from individuals, here principal investigators (PIs), recognizing themselves as such. Now, we can look at how this proportion changes when stratified by college or department:" },
+    { "type": "component", "value": "CollegeWaffles" },
+    { "type": "markdown", "value": "Already these waffle charts are saying something interesting. Looking at colleges, we note that roughly half of faculty in the College of Medicine and CEMS have research groups. Looking at perceived sex, we can see there are more male PIs with research groups (83.33% of PIs are also males) than women (versus 67.50% of non-PIs are perceived as males in the College of Medicine. Combining both numbers, we find that only 23.19% of faculty in the College of Medicine are women)." },
+    { "type": "markdown", "value": "CEMS has an even lower proportion with only 12.5% PIs perceived as women. We should be careful in interpreting those numbers at face value though. Part of our definition of research group is that the faculty is claiming publicly (on the Internet) to have a group. By that definition, Professor [Donna M. Rizzo](https://drizzo.w3.uvm.edu/), for example, has more graduate students than some PIs, but she never explicitly says that this is \"her research group\". We had to draw the line somewhere. Future modeling work could potentially address those pitfalls, but the [ontology of groups](https://arxiv.org/abs/2507.02758) is famously hard to pin down." },
+    { "type": "markdown", "value": "The College of Agriculture and Life Sciences (CALS) and the Rubenstein School of Environment have higher proportions of faculty with groups and are closer to gender equality! Finally, as one would expect, the College of Arts and Sciences (CAS) has fewer PIs, with about 23.75% of faculty having groups. In the College of Nursing and Health Sciences, Education and Social Services, and Business, faculty with research groups are in the minority, hinting at different epistemic cultures at UVM." },
+    { "type": "markdown", "value": "Looking at the department level, we can see that most groups in CAS are either in Psychological Science, Biology, or Chemistry. In CALS, it is also heterogeneous with CDAE having no research groups, while in other departments the majority of faculty do have groups." }
+  ],
+
+  "zoomingIn": [
+    { "type": "markdown", "value": "## Zooming in" },
+    { "type": "markdown", "value": "To better understand faculty career trajectories, we build a simple timeline plot showing how scientific productivity coevolves with social collaborations. As a faculty member advances in his career—call him Peter—it is expected that his patterns of collaborations will change. We are interested in a few relevant features to determine from the data when Peter started his research group." },
+    { "type": "component", "value": "MorphingScrolly" }
+  ],
+
+  "embeddings": [
+    { "type": "markdown", "value": "## Embeddings" },
+    { "type": "markdown", "value": "Instead of using time to position papers, we can also use embeddings to position similar papers closer together in space. To do so, we use the [Specter2 model](https://allenai.org/blog/specter2-adapting-scientific-document-embeddings-to-multiple-fields-and-task-formats-c95686c06567), accessible via Semantic Scholar's API, which has the benefit of taking into account the similarity of paper titles and abstracts, but also the relative proximity in citation space. That is, a paper can be similar in terms of content but pushed apart by virtue of being cited by different communities. We use [UMAP](https://umap-learn.readthedocs.io/en/latest/) to project down the high-dimensional embedding space onto a two-dimensional cartesian plane." },
+    { "type": "markdown", "value": "Taking Peter again as our example, what is of interest to us is how his exploration of this embedding space might have been modified by his diverse coauthors. We situate Peter's papers within the backdrop of papers written by the UVM 2023 faculty (the papers themselves can be older than that):" },
+    { "type": "component", "value": "EmbeddingCharts" },
+    { "type": "markdown", "value": "On desktop, we show that by brushing over the years we can see that Peter focused on a mixed bag of computational sciences early on (2015-2016), which makes sense. Starting in 2020-2021, he made incursions into health science. From ground truth, we know that this corresponds to different periods for his lab, with the Mass Mutual funding coming in later on." },
+    { "type": "markdown", "value": "There are a few issues with this plot, such as reducing the high-dimensionality of papers onto two dimensions. Another issue is that earlier papers have worse embedding coverage, which is too bad (we might fix that later on by running the embedding model ourselves)." },
+    { "type": "markdown", "value": "All that being said, this plot remains highly informative for getting a glimpse of the UVM ecosystem, and exploring how different periods in collaboration are reflected in how faculty might explore topics." }
+  ],
+
+  "conclusion": [
+    { "type": "markdown", "value": "## Conclusion" },
+    { "type": "markdown", "value": "We started out by looking at the broader picture of how many groups there were at UVM. Then, we zoomed in on a particular faculty, trying to better understand the coevolution of collaborations and productivity. Our analysis remains limited, as we didn't analyze how the patterns we noticed in the timeline plot generalized to other researchers. This is for a future post." }
+  ],
+
+  "morphingSteps": [
+    {
+      "type": "markdown",
+      "value": "**Setup**: We first color co-author nodes by author age difference (as shown in the legend), while node size is proportional to the number of collaborations. For the papers, we use square root scaling for nodes with citation count, binding node size between a radius of 3 and 15 pixels. Note that we use total citations as of 2024, while collaboration is cumulative collaboration count."
+    },
+    {
+      "type": "markdown",
+      "value": "**Early Career Foundation (1999-2006)**: Peter's first 8 years show the initial formation of his research network. Notice the sparse but foundational collaborations that would shape his academic trajectory. We can see here that in the first few papers he collaborated on, he worked with older coauthors, as one would expect, but also many collaborators of the same age."
+    },
+    {
+      "type": "html",
+      "value": "<b>Hiring</b>: If we look at shared affiliation with coauthors, we can see a typical pattern for early career researchers. We can see that he started out at <span style='color:#FF6B35; font-weight:bold;'>MIT</span>, before moving on to <span style='color:#4682B4; font-weight:bold;'>Columbia</span>. Then, he moved at <span style='color:#2E8B57; font-weight:bold;'>University of Vermont</span> to spent the rest of his career. We can corroborate this information by looking up his CV, which indicates that his PhD was indeed at <span style='color:#FF6B35; font-weight:bold;'>MIT</span>, while he did a postdoc at <span style='color:#4682B4; font-weight:bold;'>Columbia</span>. He started at <span style='color:#2E8B57; font-weight:bold;'>UVM</span> as assistant professor earlier than we thought, in 2006."
+    },
+    {
+      "type": "markdown",
+      "value": "**Faculty first years**: The hallmark of having a research group is that you collaborate much more extensively with younger collaborators, as you become a mentor (or administrator). Across domains, this happens in different ways. In this case, we can also see something different."
+    },
+    {
+      "type": "markdown",
+      "value": "**Power of two**: The size of each circle represents the total number of collaborations with that person. The complete picture reveals recurrent collaborations, here with professor Danforth, and the dramatic growth in collaboration density over time."
+    },
+    {
+      "type": "markdown",
+      "value": "**Power of two**: We can also examine patterns of repeated collaboration over time with what are presumably grad students."
+    },
+    {
+      "type": "markdown",
+      "value": "**Full Career Timeline (1999-2023)**: The complete picture reveals an increase in collaboration growth over time, which is expected. To my eye, it also feels like younger collaborators came in different waves, with 2015-2016 showing a first period and 2020 showing another one. But not all researchers are like that. It varies dramatically by domain, and even within a domain. Some researchers collaborate extensively outside of their home institutions."
+    }
+  ]
+}
