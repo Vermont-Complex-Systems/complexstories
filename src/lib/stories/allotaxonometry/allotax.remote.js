@@ -1,11 +1,11 @@
-import { prerender, query } from '$app/server';
+import { query } from '$app/server';
 import * as v from 'valibot';
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
 const API_BASE_URL = env.STORYWRANGLER_API_BASE || 'http://localhost:8000';
 
-export const getAdapter = prerender(async () => {
+export const getAdapter = query(async () => {
 	const url = `${API_BASE_URL}/registry/babynames/ngrams/adapter`;
 	const response = await fetch(url);
 	if (!response.ok) {

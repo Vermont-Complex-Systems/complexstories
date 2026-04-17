@@ -7,10 +7,11 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 const membersCSV = readFileSync('src/lib/data/members.csv', 'utf-8');
 const memberIds = membersCSV.split('\n').slice(1).filter(line => line.trim()).map(line => line.split(',')[0]);
 
+
 const storiesCSV = readFileSync('src/lib/data/stories.csv', 'utf-8');
-const storiesIds = storiesCSV.split('\n').slice(1).filter(line => line.trim())
-	.filter(line => !line.split(',')[5]) // skip stories with externalUrl
-	.map(line => line.split(',')[0]);
+const storiesIds = storiesCSV.split('\n').slice(1).filter(line => line.trim()).map(line => line.split(','))
+	.filter(cols => !cols[5] && cols[7] !== 'true') // skip external URLs and dynamic stories
+	.map(cols => cols[0]);
 
 const blogsCSV = readFileSync('src/lib/data/blog.csv', 'utf-8');
 const blogSlugs = blogsCSV.split('\n').slice(1).filter(line => line.trim()).map(line => line.split(',')[0]);
