@@ -1,18 +1,21 @@
-import { prerender } from '$app/server';
+import { query } from '$app/server';
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
+import * as v from 'valibot';
 
-const API_BASE_URL = env.API_BASE || 'http://localhost:3001';
+const API_BASE_URL = env.STORYWRANGLER_API_BASE || 'http://localhost:8000';
 
-async function fetchMetrics({ start_year, end_year, fields, metric_types, group_by = 'field' }) {
-	const params = new URLSearchParams({
-		start_year: start_year.toString(),
-		end_year: end_year.toString(),
-		group_by
-	});
+async function fetchMetrics({ group_by, start_year, end_year, field, metric_type, dataset, limit, exclude_nulls, top_n }) {
+	const params = new URLSearchParams({ group_by });
 
-	if (fields?.length) fields.forEach((f) => params.append('fields', f));
-	if (metric_types?.length) metric_types.forEach((m) => params.append('metric_types', m));
+	if (dataset) params.set('dataset', dataset);
+	if (start_year != null) params.set('start_year', start_year.toString());
+	if (end_year != null) params.set('end_year', end_year.toString());
+	if (limit != null) params.set('limit', limit.toString());
+	if (exclude_nulls != null) params.set('exclude_nulls', exclude_nulls.toString());
+	if (top_n != null) params.set('top_n', top_n.toString());
+	if (field) params.set('field', Array.isArray(field) ? field.join(',') : field);
+	if (metric_type) params.set('metric_type', Array.isArray(metric_type) ? metric_type.join(',') : metric_type);
 
 	const url = `${API_BASE_URL}/scisciDB/metrics?${params}`;
 	console.log('[fetchMetrics] GET', url);
@@ -27,37 +30,25 @@ async function fetchMetrics({ start_year, end_year, fields, metric_types, group_
 }
 
 // Field aggregation with multiple metrics (for FosBarChart)
-export const getAllFieldsAgg = prerender(async () => {
+export const getAllFieldsAgg = query(async () => {
 	const data = await fetchMetrics({
+		group_by: 'field,metric_type',
 		start_year: 1900,
 		end_year: 2025,
-		metric_types: ['total', 'has_abstract', 'has_fulltext']
-	});
-
-	const fieldMetrics = {};
-	data.forEach((row) => {
-		if (!fieldMetrics[row.field]) fieldMetrics[row.field] = {};
-		if (!fieldMetrics[row.field][row.metric_type]) fieldMetrics[row.field][row.metric_type] = 0;
-		fieldMetrics[row.field][row.metric_type] += row.count;
-	});
-
-	const result = [];
-	Object.entries(fieldMetrics).forEach(([field, metrics]) => {
-		Object.entries(metrics).forEach(([metric_type, count]) => {
-			result.push({ field, metric_type, count });
-		});
+		metric_type: ['total', 'has_abstract', 'has_fulltext'],
+		limit: 5000
 	});
 
 	const fieldTotals = {};
-	result.forEach((row) => {
+	data.forEach((row) => {
 		if (row.metric_type === 'total') fieldTotals[row.field] = row.count;
 	});
 
-	return result.sort((a, b) => (fieldTotals[b.field] || 0) - (fieldTotals[a.field] || 0));
+	return data.sort((a, b) => (fieldTotals[b.field] || 0) - (fieldTotals[a.field] || 0));
 });
 
 // STEM fields over time (for Streamgraph)
-export const getFieldsStem = prerender(async () => {
+export const getFieldsStem = query(async () => {
 	const stemFields = [
 		'Computer Science', 'Medicine', 'Physics', 'Chemistry',
 		'Biology', 'Mathematics', 'Materials Science', 'Engineering',
@@ -65,10 +56,12 @@ export const getFieldsStem = prerender(async () => {
 	];
 
 	const data = await fetchMetrics({
+		group_by: 'field,year,metric_type',
 		start_year: 2000,
 		end_year: 2024,
-		fields: stemFields,
-		metric_types: ['total', 'has_abstract', 'has_fulltext']
+		field: stemFields,
+		metric_type: ['total', 'has_abstract', 'has_fulltext'],
+		limit: 5000
 	});
 
 	return data.map((row) => ({
@@ -79,8 +72,32 @@ export const getFieldsStem = prerender(async () => {
 	}));
 });
 
+// Primary subfields/topics over time for a given field (for Streamgraph)
+export const getSubfieldsByField = query(
+	v.object({ field: v.string(), top_n: v.number(), metric_type: v.string(), dimension: v.string() }),
+	async ({ field, top_n, metric_type, dimension }) => {
+		const data = await fetchMetrics({
+			group_by: `${dimension},year`,
+			dataset: 'field-topic-metrics',
+			start_year: 1960,
+			end_year: 2024,
+			field,
+			metric_type,
+			exclude_nulls: true,
+			top_n,
+			limit: 5000
+		});
+
+		return data.map((row) => ({
+			year: row.year,
+			field: row[dimension],
+			count: row.count,
+		}));
+	}
+);
+
 // Social Science fields over time (for Streamgraph)
-export const getFieldsSocSci = prerender(async () => {
+export const getFieldsSocSci = query(async () => {
 	const socSciFields = [
 		'Psychology', 'Sociology', 'Economics', 'Political Science',
 		'Education', 'Business', 'Law', 'History', 'Philosophy',
@@ -88,10 +105,12 @@ export const getFieldsSocSci = prerender(async () => {
 	];
 
 	const data = await fetchMetrics({
+		group_by: 'field,year,metric_type',
 		start_year: 2000,
 		end_year: 2024,
-		fields: socSciFields,
-		metric_types: ['total', 'has_abstract', 'has_fulltext']
+		field: socSciFields,
+		metric_type: ['total', 'has_abstract', 'has_fulltext'],
+		limit: 5000
 	});
 
 	return data.map((row) => ({

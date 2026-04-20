@@ -3,7 +3,7 @@ import * as v from 'valibot';
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
-const API_BASE_URL = env.API_BASE || 'http://localhost:3001';
+const API_BASE_URL = env.STORYWRANGLER_API_BASE || 'http://localhost:8000';
 
 export const loadPaperData = query(
     v.object({

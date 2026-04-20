@@ -16,6 +16,15 @@
 				exploded.push({ ...prof, name: prof.payroll_name, department: null });
 			}
 		});
+		exploded.sort((a, b) => {
+			if (a.has_research_group !== b.has_research_group) {
+				return (b.has_research_group || 0) - (a.has_research_group || 0);
+			}
+			if (a.perceived_as_male !== b.perceived_as_male) {
+				return (a.perceived_as_male || 0) - (b.perceived_as_male || 0);
+			}
+			return (a.oa_uid || '').localeCompare(b.oa_uid || '');
+		});
 		return exploded;
 	}
 

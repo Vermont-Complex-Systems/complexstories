@@ -3,7 +3,7 @@
   let { 
     value = $bindable(),
     options = [],
-    minWidth = 200
+    minWidth = 220
   } = $props();
 
 </script>

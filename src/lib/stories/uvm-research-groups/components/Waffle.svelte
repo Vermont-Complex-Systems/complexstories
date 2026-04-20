@@ -2,7 +2,7 @@
 	import PersonIcon from './PersonIcon.svelte';
 	import { innerWidth } from 'svelte/reactivity/window';
 
-	let { data = [], rows = 5, cellSize = 50, highlightName = null, highlightCategory = null, title = null } = $props();
+	let { data = [], rows = 5, cellSize = 50, highlightName = null, highlightCategory = null, title = null, showLegend = false } = $props();
 
 	let hoveredPerson = $state(null);
 	let mousePos = $state({ x: 0, y: 0 });
@@ -49,8 +49,35 @@
 		{/each}
 	</svg>
 
+	{#if showLegend}
+		<div class="legend">
+			<span class="legend-item">
+				<svg width="12" height="12" viewBox="0 0 24 24"><polygon points="12,2 22,22 2,22" fill="#666"/></svg>
+				Male
+			</span>
+			<span class="legend-item">
+				<svg width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#666"/></svg>
+				Female
+			</span>
+			<span class="legend-item">
+				<span class="legend-swatch" style="background: #ffd100;"></span>
+				Has research group
+			</span>
+			<span class="legend-item">
+				<span class="legend-swatch" style="background: #257355;"></span>
+				No research group
+			</span>
+			{#if highlightCategory === 'no_oa_uid'}
+				<span class="legend-item">
+					<span class="legend-swatch" style="background: #CCCCCC;"></span>
+					No OpenAlex ID
+				</span>
+			{/if}
+		</div>
+	{/if}
+
 	{#if hoveredPerson}
-		<div 
+		<div
 			class="tooltip"
 			style:left="{mousePos.x + 10}px"
 			style:top="{mousePos.y - 10}px"
@@ -74,6 +101,7 @@
 	.waffle {
 		position: relative;
 		display: inline-block;
+		margin-bottom: 1.5rem;
 	}
 
 	h4 {
@@ -81,6 +109,28 @@
 		font-size: 14px;
 		font-weight: bold;
 		color: #666;
+	}
+
+	.legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+		font-size: 12px;
+		color: #555;
+	}
+
+	.legend-item {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	.legend-swatch {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		border-radius: 2px;
 	}
 
 	.tooltip {

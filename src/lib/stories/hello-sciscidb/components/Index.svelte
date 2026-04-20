@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
-	import { getAllFieldsAgg, getFieldsStem, getFieldsSocSci } from '../data.remote.js';
+	import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
+	import { getAllFieldsAgg, getFieldsStem, getFieldsSocSci, getSubfieldsByField } from '../data.remote.js';
 
 	import Select from './Select.svelte';
 	import Streamgraph from './Streamgraph.svelte';
@@ -15,12 +15,26 @@
 	let selectedOffset = $state('wiggle');
 	let clicked = $state();
 
+	let selectedField = $state('Computer Science');
+	let selectedTopN = $state(5);
+	let selectedDimension = $state('primary_subfield');
+	let startYear = $state(1960);
+
+	const subfieldQuery = createQuery(() => ({
+		queryKey: ['subfields', selectedField, selectedTopN, selectedParse, selectedDimension],
+		queryFn: () => getSubfieldsByField({ field: selectedField, top_n: selectedTopN, metric_type: selectedParse, dimension: selectedDimension }),
+		placeholderData: keepPreviousData,
+	}));
+
 	const fieldsAgg = await getAllFieldsAgg();
 	const fieldsStem = await getFieldsStem();
 	const fieldsSocSci = await getFieldsSocSci();
 
 	let stemFiltered = $derived(fieldsStem.filter((d) => d.metric === selectedParse));
 	let socSciFiltered = $derived(fieldsSocSci.filter((d) => d.metric === selectedParse));
+
+	const fieldOptions = [...new Set(fieldsAgg.filter(d => d.metric_type === 'total').map(d => d.field))];
+
 </script>
 
 
@@ -28,7 +42,7 @@
 	<div class="dashboard">
 		<Header />
 
-		<p>We introduce useful snapshots of databases that are hosted at the University of Vermont, namely <a href="https://api.semanticscholar.org/api-docs/datasets">Semantic Scholar</a>, ... (more to come, <a href="https://docs.openalex.org/download-all-data/openalex-snapshot">OpenAlex</a> is next). Here we provide visualizations that we found missing from current APIs and have been helpful to a number of projects at the <a href="https://github.com/Vermont-Complex-Systems/">Vermont Complex Systems Institute</a>.</p>
+		<p>We introduce useful snapshots of databases that are hosted at the University of Vermont, namely <a href="https://api.semanticscholar.org/api-docs/datasets">Semantic Scholar</a> and <a href="https://docs.openalex.org/download-all-data/openalex-snapshot">OpenAlex</a>. Here we provide visualizations that we found missing from current APIs and have been helpful to a number of projects at the <a href="https://github.com/Vermont-Complex-Systems/">Vermont Complex Systems Institute</a>.</p>
 
 		<InsightBox type="warning">
 			<strong>TODO:</strong> Add TOC in the right margin when on desktop, but collapsible from the top on mobile
@@ -95,15 +109,35 @@
 
 		<p>One last thing to note is that by looking at the relative number of papers, we can see that STEM++ has around 3 times more papers than the Social Sciences++ category. It is not nothing, but any kind of analysis making claims about the whole of science based on the Semantic Scholar dataset should control for that fact. And this is also for papers with available FOS, which means the papers at least have an abstract. We might expect that STEM++ is even more represented when analyzing the S2ORC data.</p>
 
-		<h3>Time series venues (Very WIP)</h3>
+		<h3>OpenAlex meets Semantic Scholar</h3>
 
-		<p>For a given project, we wanted to know about the evolution of data sharing practices. We decided to sample the data by venue, as journal policies with respect to methods matter. Here we look at a time series by "top" venues, here simply defined by the venues' h5-index found on Google Scholar (we also use Google Scholar's subcategories of journals to classify papers). We use bullet charts to indicate how many available papers have been parsed out of all available papers in that venue.</p>
+		<p>OpenAlex and Semantic Scholar has different strenghts; OpenAlex metadata is richer, while Semantic Scholar has richer text-driven categories and data. We took the inner-join of papers on DOIs between both database, enriching semantic scholar papers with some OpenAlex categories like topics and subfields. In doing so, we can ask the following question; say that we are interested in papers with topic X, how many of them do we have the full parsed text. It is useful to know in cases where we want to use the s2orc parsed text, but with specific subsets.</p>
 
-		<InsightBox type="warning">
-			<strong>TODO:</strong> Add aggregated bar chart by subcategories of venues (see google scholar for the subcategories).
-		</InsightBox>
+		<p>We can drill down into the primary subfields or topics within each Semantic Scholar's fields of study:</p>
 
-		<p>You can explore the coverage of any specific field below:</p>
+		<div class="select-container">
+			<Select bind:value={selectedField} options={fieldOptions} />
+			<Select bind:value={selectedDimension} options={['primary_subfield', 'primary_topic']} />
+			<label>Top {selectedTopN} <input type="range" min="3" max="20" bind:value={selectedTopN} /></label>
+		</div>
+
+		{#if subfieldQuery.isLoading}
+			<p>Loading subfield data...</p>
+		{:else if subfieldQuery.isError}
+			<p>Error loading subfield data: {subfieldQuery.error.message}</p>
+		{:else if subfieldQuery.isSuccess}
+			<div class="chart-container">
+				<Streamgraph data={subfieldQuery.data.filter(d => d.year >= startYear)} offset={selectedOffset} {clicked} />
+			</div>
+		{/if}
+
+		<div class="select-container">
+			<Select bind:value={selectedOffset} options={['wiggle', 'normalize', 'none']} />
+			<Select bind:value={selectedParse} options={['total', 'has_abstract', 'has_fulltext']} />
+			<label>From {startYear} <input type="range" min="1960" max="2024" bind:value={startYear} /></label>
+		</div>
+
+
 	</div>
 </section>
 

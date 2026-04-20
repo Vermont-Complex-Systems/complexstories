@@ -213,9 +213,9 @@
 
 <style>
   .chart-wrapper {
-    --chart-grid-color: var(--color-border);
-    --chart-text-color: var(--color-secondary-gray);
-    --chart-tooltip-bg: var(--color-bg);
+    --chart-grid-color: var(--vcsi-border);
+    --chart-text-color: var(--vcsi-gray-600);
+    --chart-tooltip-bg: var(--vcsi-bg);
     width: 100%;
   }
 
@@ -225,22 +225,21 @@
     position: relative;
     overflow: hidden;
   }
-  
+
   .plot-container svg {
     transform-origin: center center;
   }
 
-  /* SVG element styling using design tokens */
   .chart-wrapper :global(.chart-label) {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold);
-    font-family: var(--sans);
+    font-size: var(--vcsi-font-size-small);
+    font-weight: var(--vcsi-font-weight-bold);
+    font-family: var(--vcsi-font-sans);
     fill: var(--chart-text-color);
   }
 
   .chart-wrapper :global(.year-label) {
-    font-size: var(--font-size-xsmall);
-    font-family: var(--mono);
+    font-size: var(--vcsi-font-size-xs);
+    font-family: var(--vcsi-font-mono);
     fill: var(--chart-text-color);
   }
 
@@ -255,7 +254,7 @@
   }
 
   .chart-wrapper :global(.data-point:focus) {
-    outline: 2px solid var(--color-focus, #3b82f6);
+    outline: 2px solid #3b82f6;
     outline-offset: 2px;
   }
 </style>

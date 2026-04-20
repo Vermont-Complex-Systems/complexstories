@@ -4,8 +4,7 @@
   This file stays the same across all phases:
     Phase 1 (static):  load function uses prerender()  → built at compile time
     Phase 2 (dynamic): load function uses query()      → runs on the server
-    Phase 3 (mutations): add form()/command() alongside, this file unchanged
-
+    
   The load function (+page.ts) provides the component, slug, story, and copyData.
 -->
 <script>

@@ -2,7 +2,7 @@ import { prerender } from '$app/server';
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
-const API_BASE_URL = env.API_BASE || 'http://localhost:3001';
+const API_BASE_URL = env.STORYWRANGLER_API_BASE || 'http://localhost:8000';
 
 export const loadDoddsPaperData = prerender(async () => {
 	const response = await fetch(
@@ -30,7 +30,7 @@ export const loadDoddsCoauthorData = prerender(async () => {
 
 export const loadUvmProfsData = prerender(async () => {
 	const response = await fetch(
-		`${API_BASE_URL}/datasets/academic-research-groups?skip=0&payroll_year=2023&format=json`
+		`${API_BASE_URL}/open-academic-analytics/academic-research-groups?payroll_year=2023`
 	);
 	if (!response.ok) error(404, 'Not found');
 	return await response.json();

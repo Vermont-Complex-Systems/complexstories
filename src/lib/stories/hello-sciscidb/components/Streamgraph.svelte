@@ -18,12 +18,17 @@
         easing: cubicOut,
         interpolate: (a, b) => {
             return (t) => {
-                if (!a.length) return b;
                 if (!b.length) return a;
+                if (!a.length) {
+                    return b.map(item => ({
+                        ...item,
+                        count: item.count * t
+                    }));
+                }
 
                 return b.map((item, i) => ({
                     ...item,
-                    count: a[i] ? a[i].count + (item.count - a[i].count) * t : item.count
+                    count: a[i] ? a[i].count + (item.count - a[i].count) * t : item.count * t
                 }));
             };
         }
@@ -46,13 +51,14 @@
 <Plot 
     x={{ grid: offset === 'normalize' ? false : true}} 
     y={{
-        axis: offset === 'none' ? 'left' : false,
-        grid: offset === 'none' ? true : false
-        }} 
-    marginLeft={offset === 'none' ? 40 : 15}
+        axis: offset === 'wiggle' ? false : 'left',
+        grid: offset !== 'wiggle',
+        tickFormat: offset === 'normalize' ? (d) => `${Math.round(d * 100)}%` : undefined,
+        }}
+    marginLeft={offset === 'wiggle' ? 15 : 45}
     marginRight={15} 
     color={{legend: true, scheme: "paired"}}
-    caption="Color sorting by sum of papers, or ordered series by their total value. The biggest sum is at the bottom."
+    caption="Color sorting by sum of papers, or ordered series by their total value. The biggest sum is at the bottom. Tip: if bands overlap, try reducing the timespan with the year slider. Also, if you want to extend beyond 12 categories, use the tooltip to disambiguate the labels."
     >
         <AreaY
             data={currentData}
@@ -62,6 +68,7 @@
             fill="field"
             stroke="white"
             strokeOpacity=0.1
+            title="field"
             stack={{
                 order: 'sum',
                 offset: offset,

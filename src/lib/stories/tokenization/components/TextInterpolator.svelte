@@ -1,13 +1,11 @@
 <script>
   import { interpolateNumber } from 'd3-interpolate';
   import { extractTextElementsFromSVG	 } from "../utils/svgExtract";
-import svg1String from '../assets/sentence-diagram-1.svg?raw';
-import svg2String from '../assets/sentence-diagram-2.svg?raw';
-import svg3String from '../assets/sentence-diagram-3.svg?raw';
-import links from '../assets/only-links.svg?raw';
-import boxes from '../assets/only-boxes.svg?raw';
-// import d3
-import { select } from 'd3-selection';
+  import svg1String from '../assets/sentence-diagram-1.svg?raw';
+  import svg2String from '../assets/sentence-diagram-2.svg?raw';
+  import svg3String from '../assets/sentence-diagram-3.svg?raw';
+  import links from '../assets/only-links.svg?raw';
+  import boxes from '../assets/only-boxes.svg?raw';
 
 	const svg1Texts = extractTextElementsFromSVG(svg1String);
 	const svg2Texts = extractTextElementsFromSVG(svg2String);

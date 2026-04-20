@@ -4,6 +4,9 @@ import { defineConfig } from 'vite';
 import dsv from "@rollup/plugin-dsv";
 
 export default defineConfig({
+	ssr: {
+		noExternal: ['@tanstack/svelte-query']
+	},
 	server: {
 		fs: {
 			allow: [

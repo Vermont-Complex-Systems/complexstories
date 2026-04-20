@@ -61,18 +61,17 @@
     right: 0rem;
     top: 2rem;
     background: var(--vcsi-bg);
-    border: 1px solid #ddd;
+    border: 1px solid var(--vcsi-border);
     border-radius: 8px;
     padding: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-size: 11px;
+    font-family: var(--vcsi-font-sans);
     z-index: 100;
     backdrop-filter: blur(10px);
     width: 8rem;
-    
-    /* Transition properties */
     opacity: 0;
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition: opacity var(--vcsi-transition-slow), transform var(--vcsi-transition-slow);
     pointer-events: none;
   }
 
@@ -89,18 +88,18 @@
   }
 
   .legend-title {
-    font-weight: bold;
-    font-size: 12px;
-    color: var(--vcsi-bg);
+    font-weight: var(--vcsi-font-weight-bold);
+    font-size: 11px;
+    color: var(--vcsi-fg);
     margin-bottom: 4px;
     text-align: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--vcsi-border);
     padding-bottom: 4px;
   }
 
   .legend-items {
     display: flex;
-    color: var(--vcsi-bg);
+    color: var(--vcsi-fg);
     flex-direction: column;
     gap: 6px;
   }
@@ -119,15 +118,14 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 1px solid black;
+    border: 1px solid var(--vcsi-fg);
     flex-shrink: 0;
-    transition: background-color 0.4s ease;
+    transition: background-color var(--vcsi-transition-base);
   }
-
 
   .legend-item span {
     font-size: 10px;
-    color: var(--vcsi-bg);
+    color: var(--vcsi-fg);
     line-height: 1.2;
   }
 
@@ -138,7 +136,6 @@
     }
   }
 
-  /* Responsive adjustments */
   @media (max-width: 768px) {
     .legend {
       position: fixed;
@@ -146,7 +143,6 @@
       right: 20px;
       left: auto;
       transform: translateX(0);
-      font-size: 10px;
       padding: 8px;
       width: auto;
     }

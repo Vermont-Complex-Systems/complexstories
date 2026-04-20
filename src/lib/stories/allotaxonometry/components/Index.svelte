@@ -15,7 +15,7 @@
     import DownloadSection from './sidebar/DownloadSection.svelte';
     import DataInfo from './sidebar/DataInfo.svelte';
 
-    import { getTopBabyNames, getAdapter } from '../allotax.remote';
+    import { getTopBabyNames, getAdapter } from '../allotax.remote.js';
 
     import boys1968 from '../data/boys-1968.json';
     import boys1895 from '../data/boys-1895.json';
@@ -65,6 +65,7 @@
     // Adapter Data & Date Range Logic
     // ============================================================================
     let adapterData = $state([]);
+    getAdapter().then(d => adapterData = d).catch(err => console.error('Failed to load adapter:', err));
     const dateRange = $derived.by(() => {
         if (!adapterData.length) return { min: 1880, max: 2023 };
         const locationData = adapterData.find(l => l.entity_id === location);
@@ -100,7 +101,7 @@
         limit !== committedLimit
     );
 
-    let reactiveEnabled = false;
+    let reactiveEnabled = $state(false);
     $effect(() => {
         location; sex;
         if (!reactiveEnabled) return;
@@ -133,7 +134,8 @@
         return sliced.map(d => ({ ...d, probs: d.counts / total, totalunique: sliced.length }));
     }
 
-    async function fetchBabyNames() {
+    // Reactive data loading — re-fetches whenever committed params change
+    $effect(() => {
         if (hasUploadedFiles) {
             const d1 = applyLimit(uploadedSys1, committedLimit);
             const d2 = applyLimit(uploadedSys2, committedLimit);
@@ -144,44 +146,39 @@
             return;
         }
 
+        const d = dates;
+        const d2 = dates2;
+        const loc = committedLocation;
+        const s = committedSex;
+        const lim = committedLimit;
+
         isLoading = true;
-        try {
-            const ngrams = await getTopBabyNames({
-                dates,
-                dates2,
-                locations: committedLocation,
-                sex: committedSex,
-                limit: committedLimit
+        const result = getTopBabyNames({ dates: d, dates2: d2, locations: loc, sex: s, limit: lim });
+
+        untrack(() => {
+            result.then(ngrams => {
+                const keys = Object.keys(ngrams);
+                sys1 = ngrams[d] || ngrams[keys[0]];
+                sys2 = ngrams[d2] || ngrams[keys[1]];
+
+                const genderLabel = s === 'M' ? 'Boys' : 'Girls';
+                title = [
+                    `${genderLabel} ${committedPeriod1Start}-${committedPeriod1End}`,
+                    `${genderLabel} ${committedPeriod2Start}-${committedPeriod2End}`
+                ];
+                allotax.updateData(sys1, sys2, title);
+                isLoading = false;
+            }).catch(err => {
+                console.error('Failed to fetch baby names:', err);
+                sys1 = boys1895;
+                sys2 = boys1968;
+                allotax.updateData(boys1895, boys1968, title);
+                isLoading = false;
             });
+        });
+    });
 
-            const keys = Object.keys(ngrams);
-            sys1 = ngrams[dates] || ngrams[keys[0]];
-            sys2 = ngrams[dates2] || ngrams[keys[1]];
-
-            const genderLabel = committedSex === 'M' ? 'Boys' : 'Girls';
-            title = [
-                `${genderLabel} ${committedPeriod1Start}-${committedPeriod1End}`,
-                `${genderLabel} ${committedPeriod2Start}-${committedPeriod2End}`
-            ];
-            allotax.updateData(sys1, sys2, title);
-        } catch (err) {
-            console.error('Failed to fetch baby names:', err);
-            sys1 = boys1895;
-            sys2 = boys1968;
-            allotax.updateData(boys1895, boys1968, title);
-        } finally {
-            isLoading = false;
-        }
-    }
-
-    onMount(async () => {
-        try {
-            adapterData = await getAdapter();
-        } catch (err) {
-            console.error('Failed to load adapter:', err);
-        }
-
-        fetchBabyNames();
+    onMount(() => {
         reactiveEnabled = true;
     });
 
@@ -191,8 +188,6 @@
         committedLocation = location;
         committedSex = sex;
         committedLimit = limit;
-
-        fetchBabyNames();
     }
 
     // ============================================================================

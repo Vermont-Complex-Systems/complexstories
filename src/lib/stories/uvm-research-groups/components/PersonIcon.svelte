@@ -43,17 +43,14 @@
 	width={iconSize}
 	height={iconSize}
 	viewBox="0 0 24 24"
-	fill={isFemale && hasOpenAlexId ? color : 'none'}
-	stroke={color}
-	stroke-width={isFemale && hasOpenAlexId ? "1" : "2.5"}
-	stroke-linecap="round"
-	stroke-linejoin="round"
+	fill={color}
 	style="cursor: pointer; {shouldGlow && hasOpenAlexId ? 'filter: drop-shadow(0 0 8px currentColor);' : ''}"
 	role="button"
 	tabindex="0"
 >
-	<circle cx="12" cy="5" r={isFemale ? "2" : "1"}/>
-	<path d="m9 20 3-6 3 6"/>
-	<path d="m6 8 6 2 6-2"/>
-	<path d="M12 10v4"/>
+	{#if isFemale}
+		<circle cx="12" cy="12" r="8"/>
+	{:else}
+		<polygon points="12,2 22,22 2,22"/>
+	{/if}
 </svg>

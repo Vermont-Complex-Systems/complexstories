@@ -39,5 +39,5 @@
 		We first take a look at the {data.length} UVM faculty (as of 2023, based on
 		<a href="https://www.uvm.edu/d10-files/documents/2024-12/2024-2025-Base-Pay.pdf">payroll</a>):
 	</p>
-	<WaffleChart {data} cellSize={25} highlightCategory="no_oa_uid" />
+	<WaffleChart {data} cellSize={25} highlightCategory="no_oa_uid" showLegend />
 {/if}

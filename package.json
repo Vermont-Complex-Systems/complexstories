@@ -25,6 +25,7 @@
     "@rollup/plugin-dsv": "^3.0.5",
     "@sveltecraft/p5-svelte": "^0.0.1",
     "@sveltejs/adapter-node": "^5.5.4",
+    "@tanstack/svelte-query": "^6.1.18",
     "@the-vcsi/scrolly-kit": "^0.0.9",
     "allotaxonometer-ui": "^0.2.2",
     "bits-ui": "^2.17.3",
