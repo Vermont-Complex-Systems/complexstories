@@ -17,6 +17,6 @@
   {keywords}
   {image}
   {author}
-  baseUrl="https://vermontcomplexsystems.org"
-  siteName="VCSI"
+  baseUrl="https://complexstories.uvm.edu/"
+  siteName="Complex Stories"
 />
