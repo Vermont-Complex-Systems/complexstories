@@ -25,6 +25,12 @@
 		</div>
 	</section>
 
+	<section>
+		<p>Here is some text to act as a transition between sections.</p>
+		<p>We can explain some things about the story.</p>
+		<p>And introduce the sankey diagram.</p>
+	</section>
+
 	<section class="fullscreen-layout">
 		<div class="sticky-panel">
 			<SankeyDiagram {scrollyIndex} />
