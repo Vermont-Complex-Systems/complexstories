@@ -1,0 +1,43 @@
+{
+	"title": "Opening the Black Box of Elite Peer Review",
+	"subtitle": "Editorial and peer review dynamics at elite general science journals",
+	"authors": [
+		{
+			"name": "Sam Zhang",
+			"url": ""
+		}
+	],
+	"date": "Apr 22, 2026",
+	"boxSteps": [
+		{
+			"type": "markdown",
+			"value": "The peer review process at elite journals is often called a **black box** — papers go in, decisions come out, but what happens inside is largely hidden from view."
+		},
+		{
+			"type": "markdown",
+			"value": "Thanks to an unprecedented dataset from the American Association for the Advancement of Science, we can open the box — and trace what happens to every paper submitted to *Science* between 2010 and 2019."
+		},
+		{
+			"type": "markdown",
+			"value": "Inside are **68,047 papers**. Each square represents one paper. By the time they go through the review process, **only 6% are accepted to the journal**."
+		}
+	],
+	"steps": [
+		{
+			"type": "markdown",
+			"value": "**68,047 papers** were submitted to *Science* between 2010 and 2019. Each square represents a paper flowing through the review pipeline."
+		},
+		{
+			"type": "markdown",
+			"value": "Every submission first enters **BORE** — a brief editorial review. About 30% (20,755) are rejected here without further review."
+		},
+		{
+			"type": "markdown",
+			"value": "Papers that clear BORE may be sent to **peer review**. Only 1 in 4 BORE-approved papers (11,845) reaches this stage — the rest are rejected by editors."
+		},
+		{
+			"type": "markdown",
+			"value": "Of papers reaching peer review, **4,181 are accepted** — just 6% of all submissions. The other 7,664 are rejected after review."
+		}
+	]
+}

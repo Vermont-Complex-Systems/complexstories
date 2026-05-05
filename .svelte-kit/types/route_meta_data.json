@@ -1,0 +1,32 @@
+{
+	"/(app)": [
+		"src/routes/+layout.ts",
+		"src/routes/+layout.ts"
+	],
+	"/": [
+		"src/routes/+layout.ts"
+	],
+	"/(app)/about": [
+		"src/routes/+layout.ts"
+	],
+	"/(app)/about/[name]": [
+		"src/routes/+layout.ts"
+	],
+	"/(app)/blog": [
+		"src/routes/+layout.ts"
+	],
+	"/blog/[slug]": [
+		"src/routes/+layout.ts"
+	],
+	"/(app)/work-with-us": [
+		"src/routes/+layout.ts"
+	],
+	"/[slug=dynamic]": [
+		"src/routes/[slug=dynamic]/+page.ts",
+		"src/routes/+layout.ts"
+	],
+	"/[slug]": [
+		"src/routes/[slug]/+page.ts",
+		"src/routes/+layout.ts"
+	]
+}
