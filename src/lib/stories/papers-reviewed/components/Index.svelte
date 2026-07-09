@@ -18,10 +18,30 @@
 	.lab-credit {
 		text-align: center;
 		margin: 0rem auto;
-		display: flex;
-		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		margin-bottom: 2rem;
+	}
+
+	.authors {
+		padding-right: 2rem;
+		border-right: 1px solid #ccc;
+		font-style: italic;
+		margin-bottom: 0.5rem
+	}
+
+	@media (max-width: 768px) {
+		.lab-credit {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.authors {
+			padding-right: 0;
+			border-right: none;
+			border-bottom: 1px solid #ccc;
+			padding-bottom: 1rem;
+		}
 	}
 
 	.story h1 {
@@ -38,16 +58,41 @@
 		text-align:center;
 		margin-bottom: 1rem;
 	}
+
+	.lab img {
+		display: block;
+		margin: 0 auto;
+	}
+
+	.full-width-image {
+		--vcsi-bleed-padding-inline: 20px;
+		height: auto;
+		margin-block: 2rem;
+	}
+
+	@media (max-width: 768px) {
+		.full-width-image {
+			--vcsi-bleed-padding-inline: 10px;
+		}
+	}
 </style>
 
 <article class="story">
 	<h1>{data.title}</h1>
 	<p class="subtitle">{data.subtitle}</p>
 	<div class="lab-credit">
+	<div class="authors">
+		<span>By:</span>
+		{#each data.authors as author, index}
+			<a href={author.url} target="_blank" rel="noopener noreferrer">{author.name}</a>{index < data.authors.length - 1 ? ', ' : ''}
+		{/each}
+	</div>
+	<div class="lab">
 		<p>A project by:</p>
 		<a href="https://scienceandhumanitylab.github.io/" target="_blank" rel="noopener noreferrer">
 		<img src={sciHumlogo} width="80" alt="Science and Humanity Lab Logo" />
 		</a>
+		</div>
 	</div>
 
 	<section>
@@ -87,7 +132,11 @@
 		<p>
 			This dataset provides the community an unprecedented opportunity to glimpse into the inner workings of peer review, and to quantify the correlates of outcome disparities. The team found higher acceptance rates among larger teams whose corresponding authors worked in the US, Canada, or Europe, and those at prestigious institutions, as well as a small gender disparity (Fig. 1). However, these results are not causal, and there can be unmeasured attributes that explain these disparities.
 		</p>
-		<img src={fig1Image} alt="Figure 1: Acceptance rates by author gender, team size, and region" />
+	</section>
+
+	<img class="full-bleed full-width-image" src={fig1Image} alt="Figure 1: Acceptance rates by author gender, team size, and region" />
+
+	<section>
 		<p>
 			Randomized controlled experiments at the journals, such as through double-blinding, can help measure the causal effect of bias compared to other unmeasured correlates such as the manuscript’s novelty or quality. The release of this data by the AAAS serves as a welcome example for the scientific community, and the collaboration with academic institutions provides a template for how other academic journals can demonstrate their public commitment to transparency.
 		</p>
