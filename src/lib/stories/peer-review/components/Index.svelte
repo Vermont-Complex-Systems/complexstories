@@ -3,8 +3,8 @@
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
 	import BlackBox from './BlackBox.svelte';
 	import SankeyDiagram from './SankeyDiagram.svelte';
-	import fig1Image from '$lib/stories/papers-reviewed/data/Fig1Y.png';
-	import sciHumlogo from '$lib/stories/papers-reviewed/data/sci-hum-lab-logo.png';
+	import fig1Image from '$lib/stories/peer-review/data/Fig1Y.png';
+	import sciHumlogo from '$lib/stories/peer-review/data/sci-hum-lab-logo.png';
 
 	let { story: _story, data } = $props();
 
