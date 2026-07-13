@@ -52,3 +52,30 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: "Baskerville";
+	src: url("/assets/fonts/baskerville/Baskervville-Italic.ttf") format("TrueType");
+	font-weight: 400;
+	font-style: italic;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Baskerville";
+	src: url("/assets/fonts/baskerville/Baskervville-SemiBoldItalic.ttf") format("TrueType");
+	font-weight: 600;
+	font-style: italic;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Baskerville";
+	src: url("/assets/fonts/baskerville/Baskervville-BoldItalic.ttf") format("TrueType");
+	font-weight: 700;
+	font-style: italic;
+	font-stretch: normal;
+	font-display: swap;
+}
+
