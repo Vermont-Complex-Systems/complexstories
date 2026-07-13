@@ -30,12 +30,14 @@ export interface Story {
   externalUrl: string;
   tags: string[];
   level: string;
+  ishidden: boolean;
 }
 
 const stories: Story[] = (storiesData as any[]).map((d) => ({
   ...d,
   month: formatMonth(d.date),
-  tags: parseTags(d.tags, true)
+  tags: parseTags(d.tags, true),
+  ishidden: d.ishidden === 'true'
 }));
 
 // Glob for copy data - eager since it's small JSON
@@ -48,6 +50,7 @@ const copyModules = import.meta.glob<{ default: Record<string, unknown> }>(
 // Query for getting all stories (sorted newest first)
 export const getStories = prerender(async () => {
   return stories
+    .filter(d => !d.ishidden)
     .toSorted((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 });
 
