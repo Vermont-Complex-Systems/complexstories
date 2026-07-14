@@ -21,103 +21,6 @@
 	<img src={sciHumlogo} width="80" alt="Science and Humanity Lab Logo" />
 </a>
 
-<style>
-	#lab-credit {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		z-index: 100;
-		transition: transform 0.2s ease;
-	}
-
-	#lab-credit:hover {
-		transform: scale(1.05);
-	}
-
-	#lab-credit img {
-		display: block;
-		height: 4.5rem;
-		width: auto;
-	}
-
-	.paper-credit {
-		max-width: 550px; margin: 0 auto; font-size: 0.9rem; color: #555;
-		border-top: 1px solid #ccc;
-		padding-top: 2rem;
-	}
-
-	.authors {
-		padding-right: 2rem;
-		border-right: 1px solid #ccc;
-		margin-bottom: 0.5rem
-	}
-
-	@media (max-width: 768px) {
-		.lab-credit {
-			flex-direction: column;
-			gap: 1rem;
-		}
-
-		.authors {
-			padding-right: 0;
-			border-right: none;
-			border-bottom: 1px solid #ccc;
-			padding-bottom: 1rem;
-		}
-	}
-
-	.story h1 {
-		max-width: 1000px;
-		margin: 0 auto;
-		text-align:center;
-		margin-bottom: 0.5rem;
-	}
-
-	.subtitle {
-		max-width: 700px;
-		font-size: 1.5rem;
-		margin: 0 auto;
-		text-align:center;
-		margin-bottom: 1rem;
-	}
-
-	.lab img {
-		display: block;
-		margin: 0 auto;
-	}
-
-	.full-width-image {
-		--vcsi-bleed-padding-inline: 20px;
-		height: auto;
-		margin-block: 2rem;
-	}
-
-	.fig1-split {
-		display: none;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.fig1-split img {
-		width: 100%;
-		height: auto;
-	}
-
-	@media (max-width: 768px) {
-		.full-width-image {
-			--vcsi-bleed-padding-inline: 10px;
-		}
-
-		.fig1-single {
-			display: none;
-		}
-
-		.fig1-split {
-			display: flex;
-		}
-	}
-</style>
-
 <article class="story">
 	<h1>Five years of submissions to <span style="font-style: italic;">Science</span> and <span style="font-style: italic;">Science Advances</span>: A look behind-the-scenes</h1>
 	<p class="subtitle">What happens when a paper is submitted to <span style="font-style: italic;">Science</span>?</p>
@@ -191,3 +94,85 @@
 </article>
 
 <Footer />
+
+<style>
+	#lab-credit {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		z-index: 100;
+		transition: transform 0.2s ease;
+	}
+
+	#lab-credit:hover {
+		transform: scale(1.05);
+	}
+
+	#lab-credit img {
+		display: block;
+		height: 4.5rem;
+		width: auto;
+	}
+
+	.paper-credit {
+		max-width: 550px; margin: 0 auto; font-size: 0.9rem; color: var(--vcsi-muted);
+		border-top: 1px solid var(--vcsi-border);
+		padding-top: 2rem;
+		padding-inline: var(--vcsi-space-md);
+	}
+
+	.authors {
+			margin-bottom: 0.5rem;
+		}
+
+
+	.story h1 {
+		max-width: 1000px;
+		margin: 0 auto;
+		text-align:center;
+		margin-bottom: 0.5rem;
+	}
+
+	.subtitle {
+		max-width: 700px;
+		font-size: 1.5rem;
+		margin: 0 auto;
+		text-align:center;
+		margin-bottom: 1rem;
+	}
+
+
+	.full-width-image {
+		--vcsi-bleed-padding-inline: 20px;
+		height: auto;
+		margin-block: 2rem;
+	}
+
+	.fig1-split {
+		display: none;
+		flex-direction: column;
+		gap: 0;
+		background: #fff;
+		padding-block: 1.5rem;
+	}
+
+	.fig1-split img {
+		width: 100%;
+		height: auto;
+	}
+
+	@media (max-width: 768px) {
+		.full-width-image {
+			--vcsi-bleed-padding-inline: 10px;
+		}
+
+		.fig1-single {
+			display: none;
+		}
+
+		.fig1-split {
+			display: flex;
+			--vcsi-bleed-padding-inline: 1.5rem;
+		}
+	}
+</style>
