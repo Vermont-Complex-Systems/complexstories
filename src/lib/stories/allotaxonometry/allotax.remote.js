@@ -32,7 +32,7 @@ export const getTopBabyNames = query(
 			limit: String(limit)
 		});
 
-		const url = `${API_BASE_URL}/babynames/ngrams?${params.toString()}`;
+		const url = `${API_BASE_URL}/babynames/top-ngrams?${params.toString()}`;
 		const response = await fetch(url);
 		if (!response.ok) {
 			const errorText = await response.text();
