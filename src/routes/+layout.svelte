@@ -8,6 +8,10 @@
 	let { children } = $props();
 </script>
 
+<svelte:head>
+        <script async defer src="https://cloud.umami.is/script.js" data-website-id="9748947b-5af8-4053-b1a5-8e74f48eb7e2"></script>
+</svelte:head>
+
 <ModeWatcher defaultMode="system" />
 
 <QueryClientProvider client={queryClient}>

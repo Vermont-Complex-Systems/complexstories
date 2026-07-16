@@ -43,7 +43,7 @@
 	</section>
 
 	<section>
-		<p>The newly released AAAS data allows the scientific community to quantify the editorial dynamics of submissions to<span style="font-style: italic;">Science</span> (and <span style="font-style: italic;">Science Advances</span>) over a five year period. Most submissions are rejected, and there are multiple stages where rejection can occur. A successful submission must clear several hurdles by multiple sets of evaluators.</p>
+		<p>The newly released AAAS data allows the scientific community to quantify the editorial dynamics of submissions to <span style="font-style: italic;">Science</span> (and <span style="font-style: italic;">Science Advances</span>) over a five year period. Most submissions are rejected, and there are multiple stages where rejection can occur. A successful submission must clear several hurdles by multiple sets of evaluators.</p>
 		<p>First, the editor rejects certain unsuitable submissions immediately. The submissions not immediately rejected are typically routed to a small group of several hundred external experts, called the Board of Reviewing Editors (BoRE), who quickly evaluate the manuscript and provide a numeric score and suggested reviewers. BoRE feedback and scores is not made available to authors, but it is present in the new dataset.</p>
 		<p>Based on BoRE feedback, the editor rejects another set of submissions. The remaining manuscripts are forwarded to peer reviewers. The editor makes the decision whether to proceed to subsequent rounds of review, acceptance, or rejection, based on the comments from the peer reviewers.</p>
 	</section>

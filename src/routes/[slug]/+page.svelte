@@ -12,6 +12,7 @@
 <script>
   import { page } from '$app/state';
   import { getStory } from '$lib/story.remote.js';
+  import ScrollDepthTracker from '$lib/components/ScrollDepthTracker.svelte';
 
   // Component and slug come from the load function in +page.ts
   let { data } = $props();
@@ -22,3 +23,4 @@
 </script>
 
 <StoryComponent {story} data={copyData} />
+<ScrollDepthTracker story={page.params.slug} />

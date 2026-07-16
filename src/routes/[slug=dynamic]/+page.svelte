@@ -8,6 +8,8 @@
   The load function (+page.ts) provides the component, slug, story, and copyData.
 -->
 <script>
+  import ScrollDepthTracker from '$lib/components/ScrollDepthTracker.svelte';
+
   // Component, slug, story, and copyData all come from the load function in +page.ts
   let { data } = $props();
   const StoryComponent = $derived(data.component);
@@ -16,3 +18,4 @@
 </script>
 
 <StoryComponent {story} data={copyData} />
+<ScrollDepthTracker story={data.slug} />
