@@ -153,7 +153,7 @@
         const lim = committedLimit;
 
         isLoading = true;
-        const result = getTopBabyNames({ dates: d, dates2: d2, locations: loc, sex: s, limit: lim });
+        const result = getTopBabyNames({ dates: d, dates2: d2, entity: loc, sex: s, limit: lim });
 
         untrack(() => {
             result.then(ngrams => {
