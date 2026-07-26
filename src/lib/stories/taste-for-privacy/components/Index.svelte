@@ -6,7 +6,7 @@
 
 	import Footer from '$lib/components/Footer.svelte';
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
-	import thumbnail from '$lib/assets/thumbnails/taste-for-privacy.png';
+	import thumbnail from '$lib/assets/thumbnails/taste-for-privacy.jpg';
 
 	import { audio } from '../state.svelte.ts';
 	import TrustEvo from './TrustEvo.svelte';
