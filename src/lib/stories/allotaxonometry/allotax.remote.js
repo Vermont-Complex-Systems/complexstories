@@ -25,6 +25,8 @@ export const getTopBabyNames = query(
 	}),
 	async ({ dates, dates2, entity = 'wikidata:Q30', sex = 'M', limit = 10_000 }) => {
 		const params = new URLSearchParams({
+			domain: 'babynames',
+			dataset: 'ngrams',
 			dates,
 			dates2,
 			entity,
@@ -32,7 +34,7 @@ export const getTopBabyNames = query(
 			limit: String(limit)
 		});
 
-		const url = `${API_BASE_URL}/babynames/top-ngrams?${params.toString()}`;
+		const url = `${API_BASE_URL}/storywrangler/top-ngrams?${params.toString()}`;
 		const response = await fetch(url);
 		if (!response.ok) {
 			const errorText = await response.text();

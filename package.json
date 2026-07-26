@@ -23,6 +23,7 @@
     "vite": "^7.2.6"
   },
   "dependencies": {
+    "@internationalized/date": "^3.8.1",
     "@lucide/svelte": "^0.562.0",
     "@rollup/plugin-dsv": "^3.0.5",
     "@sveltecraft/p5-svelte": "^0.0.1",

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "storywrangler-sveltekit": {
+      "source": "Vermont-Complex-Systems/storywrangler",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/storywrangler-sveltekit/SKILL.md",
+      "computedHash": "4deffb8256f1056bd6f95c819f4b011cf9bcab19b5b9b8050edff52327a49587"
+    }
+  }
+}

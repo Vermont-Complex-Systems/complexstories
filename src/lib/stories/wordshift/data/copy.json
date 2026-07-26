@@ -1,0 +1,9 @@
+{
+	"title": "Word Shift",
+	"introduction": [
+		{
+			"type": "markdown",
+			"value": "Which words drove the change in average sentiment between two slices of a text corpus? Pick a platform — **Wikipedia**, **Bluesky**, **Twitter**, or **Reddit** — then two systems to compare."
+		}
+	]
+}
