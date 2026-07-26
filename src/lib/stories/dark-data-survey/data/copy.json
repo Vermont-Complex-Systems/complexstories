@@ -1,0 +1,128 @@
+{
+	"title": "A Taste for Privacy",
+	"subtitle": "When do people give up their privacy?",
+	"authors": [
+		{ "name": "Jonathan St-Onge", "url": "https://vermontcomplexsystems.org/who-we-are/jso" },
+		{ "name": "Juniper Lovato", "url": "https://juniperlovato.com/" },
+		{ "name": "Ben Cooley", "url": "https://benjamincooley.com/" }
+	],
+	"date": "Aug 15, 2025",
+	"paperUrl": "https://dl.acm.org/doi/10.1145/3805689.3812311",
+	"intro": [
+		{
+			"type": "markdown",
+			"value": "Spoiler: Privacy depends on who you are and the context."
+		},
+		{
+			"type": "markdown",
+			"value": "People willingness to share data varies dramatically across institutions and relationships."
+		},
+		{
+			"type": "markdown",
+			"value": "In this survey, we asked 712 college students about their relative trust in different institutions. In this story, we look at a snapshot of a much longer survey that is ongoing, examining 2,912 responses over seven survey periods during 2023 and 2024."
+		},
+		{
+			"type": "markdown",
+			"value": "Let's start with a simple question: how do young people these days set up their privacy settings on social media?"
+		},
+		{
+			"type": "component",
+			"value": "WaffleChart"
+		},
+		{
+			"type": "html",
+			"value": "<p>We can see that most college students today set their accounts to private, followed by mixed, then public. Overall, <strong>heavier users tend to have less private settings</strong><sup class=\"footnote\"><a href=\"https://dl.acm.org/doi/10.1145/3805689.3812311\" target=\"_blank\" rel=\"noreferrer\" data-tooltip=\"To see the methods underlying our hypotheses, see our paper.\" aria-label=\"To see the methods underlying our hypotheses, see our paper\">1</a></sup>.</p>"
+		},
+		{
+			"type": "markdown",
+			"value": "This gives us a first glimpse, but: is social media a good proxy for their broader “taste for privacy”?"
+		}
+	],
+	"ScrolylSectionTitle": "Zooming Out",
+	"steps": [
+		{
+			"type": "markdown",
+			"value": "To investigate that question, we asked a series of questions about how comfortable each respondent is with sharing personally identifiable information (PII) data with a number of institutions, broadly understood. What if the comfort of sharing data with a particular institution depends on the perceived distance from oneself, which we call _privacy construal_?"
+		},
+		{
+			"type": "markdown",
+			"value": "For instance, here's the circle of trust for all our respondents regarding how they feel about sharing PII with social media platforms. The orange grouping represents broader categories, such as institutions handling sensitive data. When notes play slowly, it means the group trusts the organization they are sharing data with. Faster notes signal more suspicion."
+		},
+		{
+			"type": "markdown",
+			"value": "One interesting pattern we found is the relationship between the number of platforms users engage with and their comfort level in sharing PII with social media platforms. In general, we found that single-platform users are a bit less trusting of institutions than average."
+		},
+		{
+			"type": "markdown",
+			"value": "Conversely, the more platforms people use, the more comfortable they are sharing PII with those companies. When using four social media platforms, young people tend to trust those companies with their PII more than the police or even their neighbors!"
+		},
+		{
+			"type": "markdown",
+			"value": "Alright, let's go back to the average view."
+		},
+		{
+			"type": "markdown",
+			"value": "In our survey, we first compared how responses varied by demographic groups. For instance, we were interested in the relationship between the medical institution and gender. Here's how Women feel about sharing data with medical professionals."
+		},
+		{
+			"type": "markdown",
+			"value": "And here's how Men feel about sharing data with medical professionals. Recall that when circles are closer to the center, it means the given group is more comfortable."
+		},
+		{
+			"type": "markdown",
+			"value": "Let's return to the overall average as our anchor."
+		},
+		{
+			"type": "markdown",
+			"value": "Now let's look at how different gender groups feel about sharing data with the police. Here's how Men feel about sharing data with police."
+		},
+		{
+			"type": "markdown",
+			"value": "And here's how Non-binary individuals feel about sharing data with police."
+		},
+		{
+			"type": "markdown",
+			"value": "Back to the overall average. We have one last part of the story to tell."
+		},
+		{
+			"type": "markdown",
+			"value": "Let's explore how adverse childhood experiences (ACE scores) affect trust. Starting with an ACE score of 0.0—no adverse experiences. Notice how relatives are highly trusted for sharing data."
+		},
+		{
+			"type": "markdown",
+			"value": "At an ACE score of 1.25, we begin to see subtle shifts in trust patterns."
+		},
+		{
+			"type": "markdown",
+			"value": "By an ACE score of 2.25, the changes become more pronounced. The circle of trust is starting to reshape."
+		},
+		{
+			"type": "markdown",
+			"value": "At an ACE score of 4.25, trust in relatives has notably declined compared to the baseline."
+		},
+		{
+			"type": "markdown",
+			"value": "At the highest ACE scores (5.25+), the circle of trust has significantly shifted. Relatives become one of the least trusted groups for sharing data."
+		},
+		{
+			"type": "markdown",
+			"value": "Ultimately, the visualization makes clear that there is a large gap in trust between oneself and others—something that must be seen and understood by individuals and institutions collecting information about others. Any discussion of youth privacy must account for context and identity."
+		}
+	],
+	"conclusion": [
+		{
+			"type": "markdown",
+			"value": "Social media settings give us one angle, but comfort across contexts shows us a richer picture: privacy is relational and institutional."
+		},
+		{
+			"type": "markdown",
+			"value": "Demographic differences reveal that the “taste for privacy” is not evenly distributed."
+		},
+		{
+			"type": "markdown",
+			"value": "Privacy depends on who you are and the context."
+		}
+	]
+}
+
+

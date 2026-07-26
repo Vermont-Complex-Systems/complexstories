@@ -5,3 +5,4 @@ build/
 node_modules/
 package-lock.json
 .svelte-kit/*
+src/lib/stories/dark-data-survey/data/dfall.csv
