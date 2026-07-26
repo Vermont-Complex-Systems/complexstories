@@ -46,7 +46,7 @@
 		},
 		{
 			"type": "markdown",
-			"value": "For instance, here's the circle of trust for all our respondents regarding how they feel about sharing PII with social media platforms. The orange grouping represents broader categories, such as institutions handling sensitive data. When notes play slowly, it means the group trusts the organization they are sharing data with. Faster notes signal more suspicion."
+			"value": "Here's the circle of trust for all our respondents, with social media platforms highlighted. Each arc is one institution; the closer to the center, the more comfortable students are sharing their PII with it. Colors group institutions by relationship type — close personal, professional, civic, commercial, and weak social ties. When notes play slowly, it means the group is comfortable sharing. Faster notes signal more hesitation."
 		},
 		{
 			"type": "markdown",
