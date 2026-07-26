@@ -1,8 +1,14 @@
 <script>
-    import * as Tone from 'tone';
     import { onDestroy } from 'svelte';
     import softPianoUrl from '../data/sounds/soft-piano.wav';
     import { audio } from '../state.svelte.ts';
+
+    // Tone.js touches WebAudio APIs at module evaluation, which throws in
+    // browsers with WebAudio disabled — so it is dynamically imported on the
+    // first enable-audio click instead of statically (keeping the ~2MB lib
+    // out of the story's critical path).
+    let Tone = null;
+    let latestAssignments = [];
 
     // Tempo bounds when all groups are playing together.
     const ALL_MIN_TEMPO_BPM = 2;
@@ -162,7 +168,9 @@
     };
 
     // Reconcile existing synth/loop players with latest grouped assignments.
+    // No-op until the reader enables audio and Tone has loaded.
     const syncPlayers = (assignments) => {
+        if (!Tone) return;
         // Remove players for categories no longer present in the data.
         const activeCategories = new Set(assignments.map((entry) => entry.category));
         for (const [category, entry] of playerRegistry.entries()) {
@@ -215,15 +223,29 @@
 
     // Initialize/resume WebAudio and start all loops.
     const startAudio = async () => {
+        if (!Tone) {
+            try {
+                Tone = await import('tone');
+            } catch (err) {
+                console.warn('Sonification unavailable (WebAudio not supported here):', err);
+                return;
+            }
+        }
+
         if (!isReady) {
             await Tone.start();
-            await Tone.loaded();
             isReady = true;
         } else {
             await Tone.getContext().resume();
         }
 
         audio.enabled = true;
+
+        // First enable: players don't exist yet — create them from the latest
+        // data, then wait for the sampler buffers before unmuting.
+        syncPlayers(latestAssignments);
+        await Tone.loaded();
+
         Tone.Destination.mute = false;
         Tone.Transport.start();
 
@@ -235,6 +257,7 @@
     // Pause transport and silence output without disposing players.
     const stopAudio = async () => {
         audio.enabled = false;
+        if (!Tone) return;
         Tone.Destination.mute = true;
         Tone.Transport.pause();
     };
@@ -254,6 +277,7 @@
     $effect(() => {
         const grouped = groupByCategory(data);
         const assignments = grouped;
+        latestAssignments = assignments;
         syncPlayers(assignments);
 
         // Signature lets us detect meaningful data changes and re-phase loops.

@@ -138,7 +138,7 @@
                 <ACESSlider bind:value={acesValue} />
             </div>
         {/if}
-        
+
         <!-- Trust Distribution Chart in bottom right - only during main scrolly story, NOT in dashboard -->
         {#if !isDashboard}
             <div class="chart-overlay"

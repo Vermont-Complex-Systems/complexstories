@@ -5,34 +5,32 @@
  */
 
 export const institutionColorMap = {
-    // Green: Intimate/close relationships
-    'TP_Friend': '#10b981',
-    'TP_Relative': '#059669',
-    'TP_Neighbor': '#22c55e',
-    'TP_Acquaintance': '#34d399',
+    // Green: Close personal
+    'TP_Friend': '#10B981',
+    'TP_Relative': '#059669',
 
-    // Blue: Professional peers
-    'TP_Co_worker': '#06b6d4',
+    // Violet: Professional and formal
+    'TP_Medical': '#C084FC',
+    'TP_Researcher': '#A855F7',
+    'TP_Employer': '#9333EA',
+    'TP_School': '#7C3AED',
+    'TP_Financial': '#6D28D9',
 
-    // Purple: Semi-institutional (Educational, Employer, Researcher, Non-Profits)
-    'TP_School': '#a855f7',
-    'TP_Employer': '#7c3aed',
-    'TP_Researcher': '#9333ea',
-    'TP_NonProf': '#8b5cf6',
+    // Blue: Civic
+    'TP_NonProf': '#38BDF8',
+    'TP_Gov': '#0EA5E9',
+    'TP_Police': '#0284C7',
 
-    // Orange/Red: Institutions handling sensitive data
-    'TP_Platform': '#ea580c',
-    'TP_Gov': '#ef4444',
-    'TP_Police': '#dc2626',
-    'TP_Financial': '#f97316',
-    'TP_Medical': '#f87171',
+    // Amber: Commercial
+    'TP_Company_cust': '#F59E0B',
+    'TP_Platform': '#F97316',
+    'TP_Company_notcust': '#D97706',
 
-    // Amber: Commercial entities
-    'TP_Company_cust': '#f59e0b',
-    'TP_Company_notcust': '#d97706',
-
-    // Gray: Strangers/unknown
-    'TP_Stranger': '#6b7280'
+    // Gray: Weak social ties
+    'TP_Co_worker': '#9CA3AF',
+    'TP_Neighbor': '#6B7280',
+    'TP_Acquaintance': '#4B5563',
+    'TP_Stranger': '#374151'
 };
 
 

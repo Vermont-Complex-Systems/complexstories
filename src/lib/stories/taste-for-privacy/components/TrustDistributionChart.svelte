@@ -18,7 +18,7 @@
                 Trust_Category: item.Trust_Category,
                 Average_Trust: Number(item.Average_Trust)
             }))
-            .toSorted((a, b) => a.Average_Trust - b.Average_Trust)
+            .sort((a, b) => a.Average_Trust - b.Average_Trust)
     );
 
     // Institution to icon mapping - updated for new data format

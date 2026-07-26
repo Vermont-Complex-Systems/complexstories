@@ -6,7 +6,7 @@
 		{ "name": "Juniper Lovato", "url": "https://juniperlovato.com/" },
 		{ "name": "Ben Cooley", "url": "https://benjamincooley.com/" }
 	],
-	"date": "Aug 15, 2025",
+	"date": "June 25, 2025",
 	"paperUrl": "https://dl.acm.org/doi/10.1145/3805689.3812311",
 	"intro": [
 		{
@@ -19,7 +19,7 @@
 		},
 		{
 			"type": "markdown",
-			"value": "In this survey, we asked 712 college students about their relative trust in different institutions. In this story, we look at a snapshot of a much longer survey that is ongoing, examining 2,912 responses over seven survey periods during 2023 and 2024."
+			"value": "In this survey, we asked 782 college students about their relative trust in different institutions. In this story, we look at a snapshot of a much longer survey that is ongoing, examining 2,912 responses over seven survey periods during 2023 and 2024."
 		},
 		{
 			"type": "markdown",
@@ -30,8 +30,8 @@
 			"value": "WaffleChart"
 		},
 		{
-			"type": "html",
-			"value": "<p>We can see that most college students today set their accounts to private, followed by mixed, then public. Overall, <strong>heavier users tend to have less private settings</strong>."
+			"type": "markdown",
+			"value": "We can see that most college students today set their accounts to private, followed by mixed, then public. Overall, **heavier users tend to have less private settings**."
 		},
 		{
 			"type": "markdown",
@@ -42,11 +42,11 @@
 	"steps": [
 		{
 			"type": "markdown",
-			"value": "To investigate that question, we asked a series of questions about how comfortable each respondent is with sharing personally identifiable information (PII) data with a number of institutions, broadly understood. What if the comfort of sharing data with a particular institution depends on the perceived distance from oneself, which we call _privacy construal_?"
+			"value": "To investigate that question, we asked a series of questions about how comfortable each respondent is with sharing personally identifiable information (PII) data with a number of institutions, broadly understood. Privacy researchers have long argued that people manage a boundary around themselves, granting different kinds of access to different relationships. What if comfort sharing data tracks that _social distance_ — closest at friends, furthest at strangers?"
 		},
 		{
 			"type": "markdown",
-			"value": "For instance, here's the circle of trust for all our respondents regarding how they feel about sharing PII with social media platforms. The orange grouping represents broader categories, such as institutions handling sensitive data. When notes play slowly, it means the group trusts the organization they are sharing data with. Faster notes signal more suspicion."
+			"value": "Here's the circle of trust for all our respondents, with social media platforms highlighted. Each arc is one institution; the closer to the center, the more comfortable students are sharing their PII with it. Colors group institutions by relationship type — close personal, professional, civic, commercial, and weak social ties. When notes play slowly, it means the group is comfortable sharing. Faster notes signal more hesitation."
 		},
 		{
 			"type": "markdown",
@@ -86,7 +86,7 @@
 		},
 		{
 			"type": "markdown",
-			"value": "Let's explore how adverse childhood experiences (ACE scores) affect trust. Starting with an ACE score of 0.0—no adverse experiences. Notice how relatives are highly trusted for sharing data."
+			"value": "Let's explore how adverse childhood experiences (ACE scores) relate to trust. Starting with participants who have ACE score of 0.0—no adverse experiences. Notice how relatives are highly trusted for sharing data."
 		},
 		{
 			"type": "markdown",
@@ -102,11 +102,11 @@
 		},
 		{
 			"type": "markdown",
-			"value": "At the highest ACE scores (5.25+), the circle of trust has significantly shifted. Relatives become one of the least trusted groups for sharing data."
+			"value": "At the highest ACE scores (5.25+), the circle of trust has significantly shifted. The gap between relatives and other close relationships narrows noticeably."
 		},
 		{
 			"type": "markdown",
-			"value": "Ultimately, the visualization makes clear that there is a large gap in trust between oneself and others—something that must be seen and understood by individuals and institutions collecting information about others. Any discussion of youth privacy must account for context and identity."
+			"value": "Ultimately, the visualization shows how far apart institutions sit within a single person's circle of trust — friends near the center, strangers and unfamiliar companies out at the edge. The same student isn't simply “private” or “public.” Their comfort shifts with who is asking. Any discussion of youth privacy must account for context and identity."
 		}
 	],
 	"conclusion": [

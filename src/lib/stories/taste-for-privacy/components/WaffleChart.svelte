@@ -1,51 +1,127 @@
 <script>
-    import { Plot, WaffleX, groupY } from 'svelteplot';
-    import settings from '../data/privacy_settings_aggregated.csv';
+	import settings from '../data/privacy_settings_aggregated.csv';
 
-    const SETTINGS = ['private', 'mixed', 'public'];
+	// Hand-rolled waffle (no svelteplot — its WaffleX produced NaN geometry
+	// with this data and crashed hydration). Four 10×10 grids, one per
+	// platform-count bin, each normalized to 100 squares (1 square = 1%).
+	const SETTINGS = ['private', 'mixed', 'public'];
+	const COLORS = { private: '#69b578', mixed: '#f2cc60', public: '#e5737d' };
 
-    // Bin platform counts (0, 1, 2, 3+) and normalize each bin to 100 squares,
-    // so rows are directly comparable despite very different group sizes.
-    const byBin = {};
-    for (const d of settings) {
-        // String() so the y scale is inferred as band (vite's dsv plugin
-        // coerces platform_count to a number)
-        const bin = +d.platform_count >= 3 ? '3+' : String(d.platform_count);
-        byBin[bin] ??= { private: 0, mixed: 0, public: 0 };
-        byBin[bin][d.privacy_setting] += +d.respondents;
-    }
+	const BIN_ORDER = ['0 platforms', '1 platform', '2 platforms', '3+ platforms'];
+	const byBin = {};
+	for (const d of settings) {
+		const n = +d.platform_count;
+		const bin = n >= 3 ? '3+ platforms' : `${n} platform${n === 1 ? '' : 's'}`;
+		byBin[bin] ??= { private: 0, mixed: 0, public: 0 };
+		byBin[bin][d.privacy_setting] += +d.respondents;
+	}
 
-    // Largest-remainder rounding (integer percentages summing to exactly 100),
-    // expanded to one row per percentage point for the groupY count transform.
-    const units = Object.entries(byBin).flatMap(([bin, counts]) => {
-        const total = SETTINGS.reduce((sum, s) => sum + counts[s], 0);
-        const exact = SETTINGS.map((s) => (counts[s] / total) * 100);
-        const pct = exact.map(Math.floor);
-        const leftover = 100 - pct.reduce((a, b) => a + b, 0);
-        [...exact.keys()]
-            .sort((a, b) => (exact[b] - pct[b]) - (exact[a] - pct[a]))
-            .slice(0, leftover)
-            .forEach((i) => pct[i]++);
-        return SETTINGS.flatMap((s, i) =>
-            Array.from({ length: pct[i] }, () => ({ platforms: bin, setting: s }))
-        );
-    });
+	// Largest-remainder rounding: integer percentages summing to exactly 100
+	function toPercents(counts) {
+		const total = SETTINGS.reduce((sum, s) => sum + counts[s], 0);
+		const exact = SETTINGS.map((s) => (counts[s] / total) * 100);
+		const pct = exact.map(Math.floor);
+		const leftover = 100 - pct.reduce((a, b) => a + b, 0);
+		[...exact.keys()]
+			.sort((a, b) => (exact[b] - pct[b]) - (exact[a] - pct[a]))
+			.slice(0, leftover)
+			.forEach((i) => pct[i]++);
+		return pct;
+	}
+
+	// One flat array of 100 cell colors per bin, filled in SETTINGS order
+	const bins = BIN_ORDER.map((label) => {
+		const pct = toPercents(byBin[label]);
+		const cells = SETTINGS.flatMap((s, i) => Array(pct[i]).fill(COLORS[s]));
+		return { label, pct, cells };
+	});
+
+	const COLS = 10;
+	const CELL = 16;
+	const GAP = 2;
+	const SIDE = COLS * CELL - GAP;
 </script>
 
-<Plot
-    height={320}
-    x={{ grid: true, label: '% of respondents (1 square = 1%)' }}
-    y={{ label: 'Platforms used', type: 'band' }}
-    color={{ legend: true, domain: SETTINGS }}>
-    <WaffleX
-        gap={2}
-        borderRadius={2}
-        {...groupY(
-            {
-                data: units,
-                y: 'platforms',
-                fill: 'setting'
-            },
-            { x: 'count' }
-        )} />
-</Plot>
+<div class="waffle-chart">
+	<div class="grids">
+		{#each bins as bin}
+			<figure>
+				<svg viewBox="0 0 {SIDE} {SIDE}" width={SIDE} height={SIDE} style="max-width: 100%; height: auto;">
+					{#each bin.cells as color, i}
+						<rect
+							x={(i % COLS) * CELL}
+							y={(COLS - 1 - Math.floor(i / COLS)) * CELL}
+							width={CELL - GAP}
+							height={CELL - GAP}
+							rx="2"
+							fill={color}
+						/>
+					{/each}
+				</svg>
+				<figcaption>{bin.label}<br /><span class="pct">{bin.pct[0]}% private</span></figcaption>
+			</figure>
+		{/each}
+	</div>
+	<div class="legend">
+		{#each SETTINGS as s}
+			<span class="legend-item"><span class="swatch" style="background: {COLORS[s]};"></span>{s}</span>
+		{/each}
+		<span class="note">1 square = 1% of respondents in that group</span>
+	</div>
+</div>
+
+<style>
+	.waffle-chart {
+		margin: 2rem 0;
+	}
+
+	.grids {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--vcsi-space-lg);
+		justify-content: center;
+	}
+
+	figure {
+		margin: 0;
+		text-align: center;
+	}
+
+	figcaption {
+		margin-top: var(--vcsi-space-sm);
+		font-family: var(--vcsi-font-sans);
+		font-size: var(--vcsi-font-size-xs);
+	}
+
+	.pct {
+		color: var(--vcsi-muted);
+	}
+
+	.legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--vcsi-space-md);
+		justify-content: center;
+		align-items: center;
+		margin-top: var(--vcsi-space-md);
+		font-family: var(--vcsi-font-sans);
+		font-size: var(--vcsi-font-size-xs);
+	}
+
+	.legend-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.swatch {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		border-radius: 2px;
+	}
+
+	.note {
+		color: var(--vcsi-muted);
+	}
+</style>

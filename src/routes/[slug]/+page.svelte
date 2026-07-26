@@ -6,21 +6,19 @@
     Phase 2 (dynamic): getStory uses query()      → runs on the server
     Phase 3 (mutations): add form()/command() alongside, this file unchanged
 
-  The load function (+page.ts) provides the component and slug.
-  The remote function (story.remote.ts) provides the data.
+  The load function (+page.ts) provides the component, slug, story, and copyData.
+  Data is fetched in the load function, NOT via top-level await here: an async
+  page component hydrates out of sync with its SSR output (hydration_mismatch),
+  forcing a client re-render of every story.
 -->
 <script>
-  import { page } from '$app/state';
-  import { getStory } from '$lib/story.remote.js';
   import ScrollDepthTracker from '$lib/components/ScrollDepthTracker.svelte';
 
-  // Component and slug come from the load function in +page.ts
   let { data } = $props();
   const StoryComponent = $derived(data.component);
-
-  // Data comes from the remote function — the bit that swaps between phases
-  const { story, copyData } = await getStory(page.params.slug);
+  const story = $derived(data.story);
+  const copyData = $derived(data.copyData);
 </script>
 
 <StoryComponent {story} data={copyData} />
-<ScrollDepthTracker story={page.params.slug} />
+<ScrollDepthTracker story={data.slug} />

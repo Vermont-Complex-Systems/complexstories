@@ -1,7 +1,6 @@
 <script>
 	import { innerWidth, innerHeight } from 'svelte/reactivity/window';
 	import { fade } from 'svelte/transition';
-	import { resolve } from '$app/paths';
 	import { ArrowDown, FileText, Volume2, VolumeOff } from '@lucide/svelte';
 	import { ScrollyContent, RenderContent } from '@the-vcsi/scrolly-kit';
 
@@ -31,8 +30,6 @@
 	// The fullscreen layout owns the space; the chart fills the sticky panel
 	let panelWidth = $state(0);
 	let panelHeight = $state(0);
-
-	let isMobile = $derived((innerWidth.current ?? 1024) <= 768);
 
 	// Section visibility drives the corner image + distribution-chart overlay fade
 	let conclusionSection = $state();
@@ -138,14 +135,14 @@
 		<RenderContent items={data.conclusion} />
 	</section>
 
-	{#if !isMobile}
-		<section id="dashboard" bind:this={dashboardSection}>
-			<Dashboard
-				data={taste_for_privacy_raw}
-				width={innerWidth.current ?? 0}
-				height={Math.round((innerHeight.current ?? 800) * 0.62)} />
-		</section>
-	{/if}
+	<!-- Hidden on mobile via CSS, not {#if}: window-size conditionals in markup
+	     diverge from SSR (which assumes desktop) and crash hydration. -->
+	<section id="dashboard" bind:this={dashboardSection}>
+		<Dashboard
+			data={taste_for_privacy_raw}
+			width={innerWidth.current ?? 0}
+			height={Math.round((innerHeight.current ?? 800) * 0.62)} />
+	</section>
 </article>
 
 <button
@@ -163,13 +160,11 @@
 	{/if}
 </button>
 
-{#if !isMobile}
-	<div class="corner-image" class:hidden={conclusionVisible || dashboardVisible}>
-		<a href='https://www.compethicslab.org/'>
-			<img src={thumbnail} alt="Dark data visualization" />
-		</a>
-	</div>
-{/if}
+<div class="corner-image" class:hidden={conclusionVisible || dashboardVisible}>
+	<a href="https://www.compethicslab.org/">
+		<img src={thumbnail} alt="Dark data visualization" />
+	</a>
+</div>
 
 <Footer theme="dark" />
 
@@ -212,7 +207,7 @@
 		margin: -1rem auto 2rem auto;
 	}
 
-	.article-meta .author :global(a) {
+	.article-meta .author a {
 		color: var(--vcsi-gray-300);
 		font-weight: var(--vcsi-font-weight-medium);
 	}
@@ -279,48 +274,6 @@
 
 	.enable-audio:hover {
 		border-color: #6b7080;
-	}
-
-	/* -----------------------------
-	   Footnote with hover/focus tooltip (rendered by RenderContent,
-	   hence :global). On touch the link itself opens the paper.
-	----------------------------- */
-	#intro :global(sup.footnote a) {
-		position: relative;
-		text-decoration: none;
-		font-weight: var(--vcsi-font-weight-semibold);
-		padding: 0 0.15em;
-	}
-
-	#intro :global(sup.footnote a::after) {
-		content: attr(data-tooltip);
-		position: absolute;
-		bottom: 1.8em;
-		left: 50%;
-		transform: translateX(-50%);
-		width: max-content;
-		max-width: 260px;
-		white-space: normal;
-		background: #1d1f26;
-		color: #f7f3ea;
-		border: 1px solid #3c3f4c;
-		border-radius: var(--vcsi-radius-md);
-		padding: 0.5rem 0.75rem;
-		font-family: var(--vcsi-font-sans);
-		font-size: var(--vcsi-font-size-xs);
-		line-height: 1.4;
-		text-align: left;
-		opacity: 0;
-		visibility: hidden;
-		transition: opacity var(--vcsi-transition-base);
-		pointer-events: none;
-		z-index: 20;
-	}
-
-	#intro :global(sup.footnote a:hover::after),
-	#intro :global(sup.footnote a:focus-visible::after) {
-		opacity: 1;
-		visibility: visible;
 	}
 
 	/* -----------------------------
@@ -441,6 +394,11 @@
 			right: 1rem;
 			width: 2.5rem;
 			height: 2.5rem;
+		}
+
+		#dashboard,
+		.corner-image {
+			display: none;
 		}
 	}
 </style>
