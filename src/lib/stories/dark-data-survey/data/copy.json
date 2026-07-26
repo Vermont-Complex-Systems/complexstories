@@ -42,7 +42,7 @@
 	"steps": [
 		{
 			"type": "markdown",
-			"value": "To investigate that question, we asked a series of questions about how comfortable each respondent is with sharing personally identifiable information (PII) data with a number of institutions, broadly understood. What if the comfort of sharing data with a particular institution depends on the perceived distance from oneself, which we call _privacy construal_?"
+			"value": "To investigate that question, we asked a series of questions about how comfortable each respondent is with sharing personally identifiable information (PII) data with a number of institutions, broadly understood. Privacy researchers have long argued that people manage a boundary around themselves, granting different kinds of access to different relationships. What if comfort sharing data tracks that _social distance_ — closest at friends, furthest at strangers?"
 		},
 		{
 			"type": "markdown",
@@ -106,7 +106,7 @@
 		},
 		{
 			"type": "markdown",
-			"value": "Ultimately, the visualization makes clear that there is a large gap in trust between oneself and others—something that must be seen and understood by individuals and institutions collecting information about others. Any discussion of youth privacy must account for context and identity."
+			"value": "Ultimately, the visualization shows how far apart institutions sit within a single person's circle of trust — friends near the center, strangers and unfamiliar companies out at the edge. The same student isn't simply "private" or "public." Their comfort shifts with who is asking. Any discussion of youth privacy must account for context and identity."
 		}
 	],
 	"conclusion": [
