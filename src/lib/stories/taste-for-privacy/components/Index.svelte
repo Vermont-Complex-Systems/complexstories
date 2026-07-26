@@ -6,7 +6,7 @@
 
 	import Footer from '$lib/components/Footer.svelte';
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
-	import thumbnail from '$lib/assets/thumbnails/taste-for-privacy.jpg';
+	import labLogo from '$lib/assets/images/Logo_CompEthicsLab_black.webp';
 
 	import { audio } from '../state.svelte.ts';
 	import TrustEvo from './TrustEvo.svelte';
@@ -161,8 +161,8 @@
 </button>
 
 <div class="corner-image" class:hidden={conclusionVisible || dashboardVisible}>
-	<a href="https://www.compethicslab.org/">
-		<img src={thumbnail} alt="Dark data visualization" />
+	<a href="https://www.compethicslab.org/" target="_blank" rel="noreferrer" aria-label="Computational Ethics Lab @ UVM">
+		<img src={labLogo} alt="Computational Ethics Lab @ UVM logo" />
 	</a>
 </div>
 
@@ -356,7 +356,7 @@
 		position: fixed;
 		bottom: 2rem;
 		left: 2rem;
-		max-width: 14rem;
+		max-width: 9rem;
 		z-index: 10;
 		opacity: 1;
 		transition: opacity 0.6s ease;
