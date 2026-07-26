@@ -37,23 +37,24 @@
     // - ACES_0.0 … ACES_5.25+ (ACES_Compound exists in data but not used in storytelling)
     const stepConfig = $derived.by(() => {
         switch (scrollyIndex) {
-            // missing cases default to Dem_Gender_Woman baseline
-            case 1:  return { category: 'Dem_Gender_Woman', highlight: 'TP_Platform', aces: null };
-            case 2:  return { category: 'Dem_Gender_Woman', highlight: 'TP_Platform', aces: null };
-            case 3:  return { category: 'Dem_Gender_Man',   highlight: 'TP_Platform', aces: null };
-            case 4:  return { category: 'Dem_Gender_Woman', highlight: '',            aces: null };
+            // Platform slices come from platform_trust_aggregated.csv (Timepoint 1);
+            // missing cases default to the Overall baseline
+            case 1:  return { category: 'Overall',          highlight: 'TP_Platform', aces: null };
+            case 2:  return { category: 'Platforms_1',      highlight: 'TP_Platform', aces: null };
+            case 3:  return { category: 'Platforms_4',      highlight: 'TP_Platform', aces: null };
+            case 4:  return { category: 'Overall',          highlight: '',            aces: null };
             case 5:  return { category: 'Dem_Gender_Woman', highlight: 'TP_Medical',  aces: null };
             case 6:  return { category: 'Dem_Gender_Man',   highlight: 'TP_Medical',  aces: null };
-            case 7:  return { category: 'Dem_Gender_Woman', highlight: '',            aces: null };
+            case 7:  return { category: 'Overall',          highlight: '',            aces: null };
             case 8:  return { category: 'Dem_Gender_Man',   highlight: 'TP_Police',   aces: null };
             case 9:  return { category: 'Dem_Gender_Other', highlight: 'TP_Police',   aces: null };
-            case 10: return { category: 'Dem_Gender_Woman', highlight: '',            aces: null };
+            case 10: return { category: 'Overall',          highlight: '',            aces: null };
             case 11: return { category: 'ACES_0.0',   highlight: 'TP_Relative', aces: 0.0 };
             case 12: return { category: 'ACES_1.25',  highlight: 'TP_Relative', aces: 1.25 };
             case 13: return { category: 'ACES_2.25',  highlight: 'TP_Relative', aces: 2.25 };
             case 14: return { category: 'ACES_4.25',  highlight: 'TP_Relative', aces: 4.25 };
             case 15: return { category: 'ACES_5.25+', highlight: 'TP_Relative', aces: 5.25 };
-            default: return { category: 'Dem_Gender_Woman', highlight: '',            aces: null };
+            default: return { category: 'Overall',          highlight: '',            aces: null };
         }
     });
 

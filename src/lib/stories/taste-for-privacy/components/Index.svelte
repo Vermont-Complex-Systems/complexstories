@@ -7,7 +7,7 @@
 
 	import Footer from '$lib/components/Footer.svelte';
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
-	import thumbnail from '$lib/assets/thumbnails/dark-data-survey.png';
+	import thumbnail from '$lib/assets/thumbnails/taste-for-privacy.png';
 
 	import { audio } from '../state.svelte.ts';
 	import TrustEvo from './TrustEvo.svelte';
@@ -15,6 +15,10 @@
 	import WaffleChart from './WaffleChart.svelte';
 
 	import taste_for_privacy_raw from '../data/taste_for_privacy_aggregated.csv';
+	import platform_trust from '../data/platform_trust_aggregated.csv';
+
+	// Scrolly data: gender/ACES slices + Overall/platform-count slices (same format)
+	const trustData = [...taste_for_privacy_raw, ...platform_trust];
 
 	let { story: _story, data } = $props();
 
@@ -116,7 +120,7 @@
 	<section class="fullscreen-layout">
 		<div class="sticky-panel" bind:clientWidth={panelWidth} bind:clientHeight={panelHeight}>
 			<TrustEvo
-				data={taste_for_privacy_raw}
+				data={trustData}
 				{scrollyIndex}
 				width={panelWidth}
 				height={panelHeight}

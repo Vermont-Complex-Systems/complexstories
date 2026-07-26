@@ -9,45 +9,17 @@
 
     let { filteredData, colorScale, highlightCircle = "", onInstitutionClick = undefined, isDashboard = false } = $props();
 
-    // Create a stable Map of institution objects
-    const institutionMap = new Map();
-
-    // Track sorted list in state - this array reference stays stable
-    let distributionData = $state([]);
-
-    // Initialize or update when filteredData changes
-    $effect(() => {
-        if (!filteredData || filteredData.length === 0) {
-            distributionData = [];
-            return;
-        }
-
-        // Defer to next frame so flip can measure current positions first
-        requestAnimationFrame(() => {
-            // Update or create institution objects in the map
-            filteredData.forEach(item => {
-                if (!institutionMap.has(item.Trust_Category)) {
-                    institutionMap.set(item.Trust_Category, {
-                        Trust_Category: item.Trust_Category,
-                        Average_Trust: Number(item.Average_Trust)
-                    });
-                } else {
-                    // Update distance on existing object
-                    institutionMap.get(item.Trust_Category).distance = Number(item.Average_Trust);
-                }
-            });
-
-            // Get objects from map and sort them - reuse existing objects
-            const items = Array.from(institutionMap.values())
-                .filter(item => filteredData.some(fd => fd.Trust_Category === item.Trust_Category));
-
-            // Sort in place using the same object references
-            items.sort((a, b) => a.Average_Trust - b.Average_Trust);
-
-            // Update state array (triggers reactivity while keeping object refs)
-            distributionData = items;
-        });
-    });
+    // Sorted view of the current demographic slice. The keyed {#each} +
+    // animate:flip only needs stable KEYS (Trust_Category) to animate
+    // reorders — object identity doesn't matter, so derive fresh objects.
+    const distributionData = $derived(
+        (filteredData ?? [])
+            .map((item) => ({
+                Trust_Category: item.Trust_Category,
+                Average_Trust: Number(item.Average_Trust)
+            }))
+            .toSorted((a, b) => a.Average_Trust - b.Average_Trust)
+    );
 
     // Institution to icon mapping - updated for new data format
     const institutionIcons = {

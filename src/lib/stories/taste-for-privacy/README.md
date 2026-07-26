@@ -1,4 +1,4 @@
-# Dark Data Survey - "A Taste for Privacy"
+# A Taste for Privacy
 
 An interactive data story exploring how privacy preferences vary across demographics and institutional contexts, based on survey data from University of Vermont undergraduate students.
 
@@ -29,7 +29,7 @@ This is the **static** version of the story, migrated from the `dark-data-sonify
 ## File Structure
 
 ```
-dark-data-survey/
+taste-for-privacy/
 ├── README.md
 ├── components/
 │   ├── Index.svelte                  # Main story component (scrolly-kit layouts)
@@ -43,7 +43,9 @@ dark-data-survey/
 │   ├── copy.json                     # Story content and scrolly steps
 │   ├── taste_for_privacy_aggregated.csv  # Gender/ACES aggregates (scrolly + dashboard)
 │   ├── privacy_settings_aggregated.csv   # Privacy setting × platform count (waffle chart)
+│   ├── platform_trust_aggregated.csv # Overall + platform-count trust slices, T1 (scrolly steps 1–4)
 │   ├── process_privacy_settings.py   # Loader: dfall.csv → privacy_settings_aggregated.csv
+│   ├── process_platform_trust.py     # Loader: dfall.csv → platform_trust_aggregated.csv
 │   ├── dfall.csv                     # ⚠ RAW survey responses — gitignored, never commit
 │   └── sounds/soft-piano.wav         # Sampler source for the sonification
 ├── state.svelte.ts                   # Shared audio enable/toggle state
