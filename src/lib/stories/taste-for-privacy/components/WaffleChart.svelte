@@ -68,6 +68,10 @@
 		{/each}
 		<span class="note">1 square = 1% of respondents in that group</span>
 	</div>
+	<p class="clarify">
+		“0 platforms” (92 respondents) means using none of the listed platforms — Twitter, Instagram,
+		Facebook, TikTok, or other — while still having social media profiles with settings to report.
+	</p>
 </div>
 
 <style>
@@ -122,6 +126,15 @@
 	}
 
 	.note {
+		color: var(--vcsi-muted);
+	}
+
+	.clarify {
+		margin: var(--vcsi-space-sm) auto 0 auto;
+		max-width: 34rem;
+		text-align: center;
+		font-family: var(--vcsi-font-sans);
+		font-size: var(--vcsi-font-size-xs);
 		color: var(--vcsi-muted);
 	}
 </style>
