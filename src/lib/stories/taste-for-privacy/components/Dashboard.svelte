@@ -36,13 +36,13 @@
                 return [
                     { value: 'Dem_Gender_Woman', label: 'Women' },
                     { value: 'Dem_Gender_Man', label: 'Men' },
-                    { value: 'Dem_Gender_Other', label: 'Other' }
+                    { value: 'Dem_Gender_Other', label: 'Non-binary' }
                 ];
             default:
                 return [
                     { value: 'Dem_Gender_Woman', label: 'Women' },
                     { value: 'Dem_Gender_Man', label: 'Men' },
-                    { value: 'Dem_Gender_Other', label: 'Other' }
+                    { value: 'Dem_Gender_Other', label: 'Non-binary' }
                 ];
         }
     });
