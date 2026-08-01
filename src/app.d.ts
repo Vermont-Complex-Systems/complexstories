@@ -19,7 +19,12 @@ declare global {
 
 // prevent typescript error when importing csv with plugin-dsv
 declare module '*.csv' {
-  const data: any[]; 
+  const data: any[];
+  export default data;
+}
+
+declare module '*.tsv' {
+  const data: any[];
   export default data;
 }}
 

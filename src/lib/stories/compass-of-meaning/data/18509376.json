@@ -1,0 +1,215 @@
+{
+  "access": {
+    "embargo": {
+      "active": false,
+      "reason": null
+    },
+    "files": "public",
+    "record": "public",
+    "status": "open"
+  },
+  "created": "2026-02-06T17:43:48.952451+00:00",
+  "custom_fields": {},
+  "deletion_status": {
+    "is_deleted": false,
+    "status": "P"
+  },
+  "files": {
+    "count": 1,
+    "enabled": true,
+    "entries": {
+      "ousiometry_GPADS.txt": {
+        "access": {
+          "hidden": false
+        },
+        "checksum": "md5:08560834f11c1ed9f7a697108477f103",
+        "ext": "txt",
+        "id": "0debaf2c-84b4-4464-a896-5790a592bc2b",
+        "key": "ousiometry_GPADS.txt",
+        "links": {
+          "content": "https://zenodo.org/api/records/18509376/files/ousiometry_GPADS.txt/content",
+          "self": "https://zenodo.org/api/records/18509376/files/ousiometry_GPADS.txt"
+        },
+        "metadata": {},
+        "mimetype": "text/plain",
+        "size": 1124404,
+        "storage_class": "L"
+      }
+    },
+    "order": [],
+    "total_bytes": 1124404
+  },
+  "id": "18509376",
+  "is_draft": false,
+  "is_published": true,
+  "links": {
+    "access": "https://zenodo.org/api/records/18509376/access",
+    "access_grants": "https://zenodo.org/api/records/18509376/access/grants",
+    "access_links": "https://zenodo.org/api/records/18509376/access/links",
+    "access_request": "https://zenodo.org/api/records/18509376/access/request",
+    "access_users": "https://zenodo.org/api/records/18509376/access/users",
+    "archive": "https://zenodo.org/api/records/18509376/files-archive",
+    "archive_media": "https://zenodo.org/api/records/18509376/media-files-archive",
+    "communities": "https://zenodo.org/api/records/18509376/communities",
+    "communities-suggestions": "https://zenodo.org/api/records/18509376/communities-suggestions",
+    "doi": "https://doi.org/10.5281/zenodo.18509376",
+    "draft": "https://zenodo.org/api/records/18509376/draft",
+    "file_modification": "https://zenodo.org/api/records/18509376/file-modification",
+    "files": "https://zenodo.org/api/records/18509376/files",
+    "latest": "https://zenodo.org/api/records/18509376/versions/latest",
+    "latest_html": "https://zenodo.org/records/18509376/latest",
+    "media_files": "https://zenodo.org/api/records/18509376/media-files",
+    "parent": "https://zenodo.org/api/records/15784610",
+    "parent_doi": "https://doi.org/10.5281/zenodo.15784610",
+    "parent_doi_html": "https://zenodo.org/doi/10.5281/zenodo.15784610",
+    "parent_html": "https://zenodo.org/records/15784610",
+    "preview_html": "https://zenodo.org/records/18509376?preview=1",
+    "quota_increase": "https://zenodo.org/api/records/18509376/quota-increase",
+    "request_deletion": "https://zenodo.org/api/records/18509376/request-deletion",
+    "requests": "https://zenodo.org/api/records/18509376/requests",
+    "reserve_doi": "https://zenodo.org/api/records/18509376/draft/pids/doi",
+    "self": "https://zenodo.org/api/records/18509376",
+    "self_doi": "https://doi.org/10.5281/zenodo.18509376",
+    "self_doi_html": "https://zenodo.org/doi/10.5281/zenodo.18509376",
+    "self_html": "https://zenodo.org/records/18509376",
+    "self_iiif_manifest": "https://zenodo.org/api/iiif/record:18509376/manifest",
+    "self_iiif_sequence": "https://zenodo.org/api/iiif/record:18509376/sequence/default",
+    "versions": "https://zenodo.org/api/records/18509376/versions"
+  },
+  "media_files": {
+    "count": 0,
+    "enabled": false,
+    "entries": {},
+    "order": [],
+    "total_bytes": 0
+  },
+  "metadata": {
+    "creators": [
+      {
+        "affiliations": [
+          {
+            "id": "0155zta11",
+            "identifiers": [
+              {
+                "identifier": "0155zta11",
+                "scheme": "ror"
+              },
+              {
+                "identifier": "grid.59062.38",
+                "scheme": "grid"
+              },
+              {
+                "identifier": "0000 0004 1936 7689",
+                "scheme": "isni"
+              }
+            ],
+            "name": "University of Vermont"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Dodds",
+          "given_name": "Peter Sheridan",
+          "identifiers": [
+            {
+              "identifier": "0000-0003-1973-8614",
+              "scheme": "orcid"
+            }
+          ],
+          "name": "Dodds, Peter Sheridan",
+          "type": "personal"
+        },
+        "role": {
+          "id": "researcher",
+          "title": {
+            "de": "WissenschaftlerIn",
+            "en": "Researcher"
+          }
+        }
+      }
+    ],
+    "description": "<p>Dataset produced by paper \"Ousiometrics: The essence of meaning aligns with a power&ndash;danger&ndash;structure framework instead of valence&ndash;arousal&ndash;dominance\" by Dodds et al.</p>\n<p>Scores for words in a three dimensional space of essential meaning.</p>\n<p>Tab-separated columns are:</p>\n<p>1. &nbsp;n-gram (mostly individual words)</p>\n<p>2. Goodness (vs Badness)</p>\n<p>3. Power (vs Weakness)</p>\n<p>4. Aggression (vs Gentleness)</p>\n<p>5. Danger (vs Safety)</p>\n<p>6. Structure (high is unstructured, low is structure)</p>\n<p>&nbsp;</p>\n<p>The GPAD circumplex lies in the first two dimensions.</p>\n<p>Structure is the third dimension.</p>\n<p>Two minimal orthogonal frameworks are:&nbsp;</p>\n<p>Goodness-Aggression-Structure (GAS)</p>\n<p>Power-Danger-Structure (PDS)<br><br>Power-Danger-Structure aligns with real word usage (tokens), and aligns an array of other systems.</p>\n<p>&nbsp;</p>\n<p>Primary plane is spanned by GA or PD frameworks.</p>\n<p>&nbsp;</p>\n<p>Connection:</p>\n<p>Power = 1/sqrt(2) ( Goodness + Aggression)</p>\n<p>Danger = 1/sqrt(2) (-Goodness + Aggression) = 1/sqrt(2)(Badness + Aggression)</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>",
+    "publication_date": "2026-02-06",
+    "publisher": "Zenodo",
+    "resource_type": {
+      "id": "dataset",
+      "title": {
+        "de": "Datensatz",
+        "en": "Dataset"
+      }
+    },
+    "rights": [
+      {
+        "description": {
+          "en": "The Creative Commons Attribution license allows re-distribution and re-use of a licensed work on the condition that the creator is appropriately credited."
+        },
+        "icon": "cc-by-icon",
+        "id": "cc-by-4.0",
+        "props": {
+          "scheme": "spdx",
+          "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+        },
+        "title": {
+          "en": "Creative Commons Attribution 4.0 International"
+        }
+      }
+    ],
+    "title": "Essential meaning word scores for ousiometric framework of Goodness-Power-Aggression-Danger-Structure (GPADS)"
+  },
+  "parent": {
+    "access": {
+      "owned_by": {
+        "user": "1280599"
+      },
+      "settings": {
+        "accept_conditions_text": null,
+        "allow_guest_requests": false,
+        "allow_user_requests": false,
+        "secret_link_expiration": 0
+      }
+    },
+    "communities": {},
+    "id": "15784610",
+    "pids": {
+      "doi": {
+        "client": "datacite",
+        "identifier": "10.5281/zenodo.15784610",
+        "provider": "datacite"
+      }
+    }
+  },
+  "pids": {
+    "doi": {
+      "client": "datacite",
+      "identifier": "10.5281/zenodo.18509376",
+      "provider": "datacite"
+    },
+    "oai": {
+      "identifier": "oai:zenodo.org:18509376",
+      "provider": "oai"
+    }
+  },
+  "revision_id": 6,
+  "stats": {
+    "all_versions": {
+      "data_volume": 50598180.0,
+      "downloads": 45,
+      "unique_downloads": 43,
+      "unique_views": 203,
+      "views": 215
+    },
+    "this_version": {
+      "data_volume": 30358908.0,
+      "downloads": 27,
+      "unique_downloads": 26,
+      "unique_views": 154,
+      "views": 158
+    }
+  },
+  "status": "published",
+  "swh": {},
+  "updated": "2026-02-06T18:49:14.102415+00:00",
+  "versions": {
+    "index": 2,
+    "is_latest": true
+  }
+}

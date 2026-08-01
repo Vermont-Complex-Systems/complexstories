@@ -1,0 +1,55 @@
+{
+	"title": "Compass of Essential Meaning",
+	"subtitle": "Twenty thousand words, placed by goodness, power and danger",
+	"authors": [
+		{
+			"name": "Jonathan St-Onge",
+			"url": "https://jstonge.vercel.app/"
+		}
+	],
+	"date": "Jul 30, 2026",
+	"intro": [
+		{
+			"type": "markdown",
+			"value": "_Draft intro._ **Ousiometry** asks what the essential dimensions of meaning are. Building on the old valence–arousal–dominance idea, it scores every word along five axes — **goodness, power, aggression, danger, structure** — and finds that a few of them carry most of the signal. Here are ~20,000 words from the [GPADS lexicon](https://doi.org/10.5281/zenodo.18509376) plotted along the three primary axes."
+		}
+	],
+	"steps": [
+		{
+			"type": "markdown",
+			"value": "The whole galaxy — ~20,000 words placed by **goodness** (x), **power** (y) and **danger** (z), coloured from red (bad) to blue (good). Drag to rotate.",
+			"view": "3d"
+		},
+		{
+			"type": "markdown",
+			"value": "Project straight onto the **Goodness × Power** plane: the split between pleasant and unpleasant words, high and low agency.",
+			"view": "good-power"
+		},
+		{
+			"type": "markdown",
+			"value": "Now the **Danger × Power** plane — the corner where dangerous, high-power words gather.",
+			"view": "power-danger"
+		},
+		{
+			"type": "markdown",
+			"value": "And the **Goodness × Danger** plane, before we lift back into the full 3D cloud.",
+			"view": "good-danger"
+		},
+		{
+			"type": "markdown",
+			"value": "In the older **valence–arousal–dominance** language, goodness is _valence_ and power is _dominance_ — here as an ordinary 2D scatter of **Dominance × Valence**.",
+			"view": "dominance-valence"
+		},
+		{
+			"type": "markdown",
+			"value": "Back to the full galaxy in three dimensions.",
+			"view": "3d"
+		}
+	],
+	"conclusion": [
+		{
+			"type": "markdown",
+			"value": "_Draft conclusion._ Word scores from the ousiometric GPADS lexicon (Dodds), [DOI 10.5281/zenodo.18509376](https://doi.org/10.5281/zenodo.18509376)."
+		}
+	]
+}
