@@ -1,0 +1,31 @@
+# Gallery manifest for book_gallery.py
+# file, label, start_regex, chapter_regex
+#
+# Regexes VERIFIED against the actual Gutenberg plain-text files (all CRLF):
+#   odyssey        TOC lists " BOOK I." indented+dotted; real headings bare
+#                  "BOOK I" at column 0 -> anchored start regex
+#   anna_karenina  TOC has " PART ONE" (indented); real "PART ONE" at col 0.
+#                  Chapter numbers restart each part (duplicate labels OK)
+#   pride_prejudice real Chapter I heading lives inside an illustration block
+#                  ("...Chapter I.]"); later chapters are "CHAPTER II." style,
+#                  so the chapter regex finds 60 of 61 boundaries (I missing)
+#   dracula        TOC is "CHAPTER I. Jonathan Harker's Journal" (dotted, with
+#                  title); real headings are bare "CHAPTER I" -> anchored bare
+#   frankenstein   no TOC; opens with "Letter 1", chapters "Chapter 1"
+#   les_miserables TOC entries are indented; real "BOOK FIRST" / "CHAPTER I—…"
+#                  at col 0. Chapter numerals restart per book (duplicates OK)
+#
+# Sources (Plain Text UTF-8, gutenberg.org/cache/epub/<id>/pg<id>.txt):
+#   odyssey.txt          #1727  (Butler)
+#   anna_karenina.txt    #1399  (Garnett)
+#   pride_prejudice.txt  #1342
+#   dracula.txt          #345
+#   frankenstein.txt     #84    (1831 edition)
+#   les_miserables.txt   #135   (Hapgood) — replication panel vs paper Fig. 9
+file,label,start_regex,chapter_regex
+odyssey.txt,The Odyssey,(?m)^BOOK I\r?$,^BOOK ([IVXLC]+)\.?\s*$
+anna_karenina.txt,Anna Karenina,(?m)^PART ONE\r?$,^Chapter (\d+)\s*$
+pride_prejudice.txt,Pride and Prejudice,Chapter I\.\],^CHAPTER ([IVXLC]+)\.\s*$
+dracula.txt,Dracula,(?m)^CHAPTER I\r?$,^CHAPTER ([IVXLC]+)\s*$
+frankenstein.txt,Frankenstein,(?m)^Letter 1\r?$,^Chapter (\d+)\s*$
+les_miserables.txt,Les Miserables,(?m)^BOOK FIRST,^CHAPTER ([IVXLC]+)
