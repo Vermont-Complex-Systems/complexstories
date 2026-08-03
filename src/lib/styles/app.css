@@ -35,6 +35,18 @@ body {
     line-height: 1.5;
 }
 
+/* scrolly-kit's .full-bleed / .fullscreen-layout use width:100vw, which INCLUDES
+   the vertical scrollbar and so overflow the visible viewport by its width — a
+   permanent ~15px horizontal scrollbar on any story that bleeds (compass,
+   peer-review, tokenization). Clip (not hidden) trims that overhang without
+   turning <html> into a scroll container, so the scrolly sticky panels keep
+   sticking to the viewport.
+   The proper fix lives upstream in scrolly-kit's reset.css (shipped in 0.2.3);
+   this local guard can be removed once we're on scrolly-kit >= 0.2.3. */
+html {
+    overflow-x: clip;
+}
+
 a {
     color: var(--vcsi-fg);
     text-decoration: underline;

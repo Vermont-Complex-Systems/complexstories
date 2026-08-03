@@ -1,55 +1,137 @@
 {
 	"title": "Compass of Essential Meaning",
-	"subtitle": "Twenty thousand words, placed by goodness, power and danger",
+	"subtitle": "Does essential meaning meaningfully span some kind of space?",
 	"authors": [
 		{
 			"name": "Jonathan St-Onge",
-			"url": "https://jstonge.vercel.app/"
+			"url": "https://vermontcomplexsystems.org/who-we-are/jso/"
+		},
+		{
+			"name": "Peter Sheridan Dodds",
+			"url": "https://pdodds.w3.uvm.edu/"
 		}
 	],
-	"date": "Jul 30, 2026",
+	"date": "Aug 1, 2026",
 	"intro": [
 		{
 			"type": "markdown",
-			"value": "_Draft intro._ **Ousiometry** asks what the essential dimensions of meaning are. Building on the old valence–arousal–dominance idea, it scores every word along five axes — **goodness, power, aggression, danger, structure** — and finds that a few of them carry most of the signal. Here are ~20,000 words from the [GPADS lexicon](https://doi.org/10.5281/zenodo.18509376) plotted along the three primary axes."
+			"value": "Score a word on a single axis — negative to positive — and you have the number behind every sentiment meter on the internet. This story is about what that one number keeps missing, and about the two axes that twenty thousand English words (see appendix for methods) say are really there. Scroll to fly from psychology's old map of meaning to the one the data itself prefers."
 		}
 	],
 	"steps": [
 		{
 			"type": "markdown",
-			"value": "The whole galaxy — ~20,000 words placed by **goodness** (x), **power** (y) and **danger** (z), coloured from red (bad) to blue (good). Drag to rotate.",
-			"view": "3d"
+			"value": "Score these on one axis, negative to positive: *storm*. *wolf*. *surgery*. *conquer*. None fits. Storm isn't bad — it's **dangerous**. Conquer isn't good — it's **powerful**. One number keeps failing the same way: it can't tell danger from mere badness, or power from mere pleasantness.",
+			"view": "vad",
+			"ellipse": false
 		},
 		{
 			"type": "markdown",
-			"value": "Project straight onto the **Goodness × Power** plane: the split between pleasant and unpleasant words, high and low agency.",
-			"view": "good-power"
+			"value": "That number descends from a map of meaning drawn in the 1950s from a few dozen words, whose axis names became the survey questions for every study since — **valence** (negative ↔ positive) across, **dominance** (submissive ↔ dominant) up. Nobody re-drew it. Here it is at twenty thousand words; hover to read one. And note the dashed ellipse, the data's own spread: it sits **off the axes**.",
+			"view": "vad"
 		},
 		{
 			"type": "markdown",
-			"value": "Now the **Danger × Power** plane — the corner where dangerous, high-power words gather.",
-			"view": "power-danger"
+			"value": "But that map is the *survey's* frame, not the data's. The words never move — only the camera turns — and as we land in the cloud's own plane, the compass rim fades in around the data: **goodness × aggression**. The turn has a name: it is **𝐔** in 𝐀 = 𝐔𝚺𝐕ᵀ, the *singular value decomposition*.",
+			"view": "gas"
 		},
 		{
 			"type": "markdown",
-			"value": "And the **Goodness × Danger** plane, before we lift back into the full 3D cloud.",
-			"view": "good-danger"
+			"value": "One last quarter-turn, this time inside the plane, renames the compass: **power × danger**. The decomposition prefers the frame we just left; rotating on still splits the plane's variance evenly, but it lets power and danger drift into a faint correlation (*r* ≈ −0.22) that goodness and aggression don't have.",
+			"view": "pds"
 		},
 		{
 			"type": "markdown",
-			"value": "In the older **valence–arousal–dominance** language, goodness is _valence_ and power is _dominance_ — here as an ordinary 2D scatter of **Dominance × Valence**.",
-			"view": "dominance-valence"
+			"value": "Tilt out of the plane and the compass fades — it lives only in the disc. Against **power**, the third axis **structure** stays a flat band. The three bars in the corner are the cloud's three widths; the red one is the axis now standing upright.",
+			"view": "power-structure"
 		},
 		{
 			"type": "markdown",
-			"value": "Back to the full galaxy in three dimensions.",
-			"view": "3d"
+			"value": "Against **danger** too: a thin sliver, ~9% of the variation. Meaning is essentially two-dimensional — a disc seen edge-on.",
+			"view": "danger-structure"
+		},
+		{
+			"type": "markdown",
+			"value": "Back face-on, one last change: melt the dots into **bins** using gold where words pile up. This is the **ousiogram**, a two-dimensional histogram for two essential quantities of a complex system’s component entities. the words are all still there, **each counted once**; hover to find one.",
+			"view": "ousiogram"
+		}
+	],
+	"interludeTitle": "Putting the compass to work",
+	"interlude": [
+		{
+			"type": "markdown",
+			"value": "The map is drawn: two axes carry the essence of meaning, and the third is a sliver. But a compass is for **navigating**. Point it at a story — slide a window through a book, average what the lens sees — and a plot becomes a voyage."
+		}
+	],
+	"odysseySteps": [
+		{
+			"type": "markdown",
+			"value": "Slide a 10,000-word window through Butler's **Odyssey** and average what the lens sees: the whole epic fits in a **tiny cove near the middle of the map** — thousands of words at a time wash toward neutral, and yet the shape of the story survives. Dive in. As the wake advances, **the words the lens is reading surface beside it** — the Odyssey at a glance. The minimap keeps the full map in the corner; the log-book tracks **danger, book by book** (its grey base is the lens's coverage, ~29% of Butler's tokens).",
+			"view": "odyssey-dive"
+		},
+		{
+			"type": "markdown",
+			"value": "The wake is coloured by reading time, **blue at the opening**. Books I–IV: Telemachus tours the friendly courts of Pylos and Sparta, and the wake holds in the calmest water of the entire epic.",
+			"view": "odyssey-telemachy"
+		},
+		{
+			"type": "markdown",
+			"value": "Then Odysseus takes over the telling: **Polyphemus (Book IX)**, the dead, **Scylla and Charybdis (XII)**. The wake swings toward danger — yet never crosses into the dangerous half of the map. These are monsters *remembered*, told at a feast.",
+			"view": "odyssey-wanderings"
+		},
+		{
+			"type": "markdown",
+			"value": "Home at last (**XIII**), the bow strung (**XXI**) — and the wake surges to the poem's most dangerous water: **Book XXII, the slaughter of the suitors**. The instrument finds the massacre on its own; check the spike against the log-book.",
+			"view": "odyssey-slaughter"
+		},
+		{
+			"type": "markdown",
+			"value": "And then it settles: recognition, reunion, peace. The epic ends **calmer than it began** — an odyssey you can read straight off the compass of essential meaning.",
+			"view": "odyssey-home"
+		},
+		{
+			"type": "markdown",
+			"value": "Remember the one-number score from the start? Both of these rate equally *negative*: a message written from the **dangerous-weak** corner — despair — and one from **dangerous-powerful** — a threat. Every system reading text through one axis merges them. Whether two axes would triage better is an open question: the test is cheap, and nobody has run it.",
+			"view": "pds"
+		}
+	],
+	"galleryTitle": "Some classics, retold",
+	"gallery": [
+		{
+			"type": "markdown",
+			"value": "One trace could be a lucky book. Six make the argument: **every story is a voyage in the same plane**. Same lens, same 10,000-word window, same scale, ordered calmest to most dangerous. Austen's *Pride and Prejudice* **never leaves harbor** (its most dangerous stretch is calmer than other books' averages). *Frankenstein*, not *Dracula*, sails closest to the rocks. Hugo's *Les Misérables* swings widest — from the bishop's parlour to the barricades. Lens coverage is steady across all six (28–32% of tokens), translations included."
+		}
+	],
+	"safetyTitle": "The safety bias",
+	"safety": [
+		{
+			"type": "markdown",
+			"value": "The six books above are also a **corpus**: about 420,000 words the lens can see. Return to the ousiogram, and instead of counting each word once, count it **as often as these books actually use it**. Flip the toggle: the gold mass slides below the line. Real language leans hard toward *safe* — writers reach for danger-words rarely, a **safety bias** hiding under the well-known positivity of language, visible only once the compass has a danger axis to see it with."
+		},
+		{
+			"type": "markdown",
+			"value": "Six novels are a thin reed, and could be a quirk of literary fiction. But the ousiometrics paper finds the same skew across **seven corpora** — Twitter, talk radio, Wikipedia, the *New York Times*, written and spoken, from the 1810s to today. What you can flip above is that finding in the one slice we can compute ourselves."
+		},
+		{
+			"type": "markdown",
+			"value": "In usage mode the colour is square-root scaled, which *amplifies* the very skew this section claims — a handful of very common words would otherwise blow out the scale. The medians tell it without the colour trick: the typical written word sits at **−0.16 danger by use**, against **−0.04 counting each word once**."
+		}
+	],
+	"exploreTitle": "Explore",
+	"explore": [
+		{
+			"type": "markdown",
+			"value": "The instrument is yours now, open on the full map. Pick any of the six books to dive into its story: press **▶** to read at your own pace and watch the words surface along the wake, click a strip to jump anywhere in the telling, and check the spikes against the scenes you remember."
 		}
 	],
 	"conclusion": [
 		{
 			"type": "markdown",
-			"value": "_Draft conclusion._ Word scores from the ousiometric GPADS lexicon (Dodds), [DOI 10.5281/zenodo.18509376](https://doi.org/10.5281/zenodo.18509376)."
+			"value": "The old map was drawn by asking people the axis names. The next one shouldn't be. We're preparing a short survey of plain word-pair judgments — *storm: safe or dangerous? conquer: weak or powerful?* — scored by best-worst comparison, with **no axis names attached**, because telling people what you're measuring is the mistake this whole essay is about. _(Survey link to come.)_"
+		},
+		{
+			"type": "markdown",
+			"value": "**Sources.** The word scores begin as human judgments: the NRC Valence–Arousal–Dominance lexicon — [reliable ratings of valence, arousal, and dominance for 20,000 English words](https://doi.org/10.18653/v1/P18-1017) (Mohammad, 2018). Ousiometry rotates that survey frame into the essential-meaning axes used here — goodness, power, aggression, danger, structure — published as the [GPADS lexicon](https://doi.org/10.5281/zenodo.18509376) (Dodds). The six books are public-domain plain-text editions from [Project Gutenberg](https://www.gutenberg.org/); each trace reads the *translator's* vocabulary, so the Odyssey here is Butler's, not Homer's."
 		}
 	]
 }

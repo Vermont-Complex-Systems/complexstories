@@ -1,0 +1,737 @@
+label,chapter,t
+The Odyssey,I,0.00000
+The Odyssey,II,0.03390
+The Odyssey,III,0.06850
+The Odyssey,IV,0.10719
+The Odyssey,V,0.17343
+The Odyssey,VI,0.21185
+The Odyssey,VII,0.24014
+The Odyssey,VIII,0.26773
+The Odyssey,IX,0.31374
+The Odyssey,X,0.36150
+The Odyssey,XI,0.40826
+The Odyssey,XII,0.45775
+The Odyssey,XIII,0.49555
+The Odyssey,XIV,0.53007
+The Odyssey,XV,0.57431
+The Odyssey,XVI,0.61880
+The Odyssey,XVII,0.65617
+The Odyssey,XVIII,0.70430
+The Odyssey,XIX,0.73848
+The Odyssey,XX,0.78790
+The Odyssey,XXI,0.81942
+The Odyssey,XXII,0.85437
+The Odyssey,XXIII,0.89182
+The Odyssey,XXIV,0.92220
+Anna Karenina,1,0.00001
+Anna Karenina,2,0.00277
+Anna Karenina,3,0.00630
+Anna Karenina,4,0.01112
+Anna Karenina,5,0.01655
+Anna Karenina,6,0.02547
+Anna Karenina,7,0.02877
+Anna Karenina,8,0.03101
+Anna Karenina,9,0.03359
+Anna Karenina,10,0.04062
+Anna Karenina,11,0.04764
+Anna Karenina,12,0.05201
+Anna Karenina,13,0.05688
+Anna Karenina,14,0.05947
+Anna Karenina,15,0.06634
+Anna Karenina,16,0.06886
+Anna Karenina,17,0.07101
+Anna Karenina,18,0.07421
+Anna Karenina,19,0.07970
+Anna Karenina,20,0.08623
+Anna Karenina,21,0.08995
+Anna Karenina,22,0.09239
+Anna Karenina,23,0.09743
+Anna Karenina,24,0.10213
+Anna Karenina,25,0.10677
+Anna Karenina,26,0.11182
+Anna Karenina,27,0.11573
+Anna Karenina,28,0.11834
+Anna Karenina,29,0.12139
+Anna Karenina,30,0.12512
+Anna Karenina,31,0.12827
+Anna Karenina,32,0.13223
+Anna Karenina,33,0.13467
+Anna Karenina,34,0.13863
+Anna Karenina,1,0.14309
+Anna Karenina,2,0.14696
+Anna Karenina,3,0.15112
+Anna Karenina,4,0.15484
+Anna Karenina,5,0.15847
+Anna Karenina,6,0.16238
+Anna Karenina,7,0.16761
+Anna Karenina,8,0.17315
+Anna Karenina,9,0.17764
+Anna Karenina,10,0.18181
+Anna Karenina,11,0.18253
+Anna Karenina,12,0.18475
+Anna Karenina,13,0.18818
+Anna Karenina,14,0.19573
+Anna Karenina,15,0.20051
+Anna Karenina,16,0.20417
+Anna Karenina,17,0.20883
+Anna Karenina,18,0.21360
+Anna Karenina,19,0.21572
+Anna Karenina,20,0.21924
+Anna Karenina,21,0.22216
+Anna Karenina,22,0.22771
+Anna Karenina,23,0.23323
+Anna Karenina,24,0.23628
+Anna Karenina,25,0.24278
+Anna Karenina,26,0.24866
+Anna Karenina,27,0.25406
+Anna Karenina,28,0.25687
+Anna Karenina,29,0.26113
+Anna Karenina,30,0.26528
+Anna Karenina,31,0.26904
+Anna Karenina,32,0.27188
+Anna Karenina,33,0.27685
+Anna Karenina,34,0.28163
+Anna Karenina,35,0.28757
+Anna Karenina,1,0.29290
+Anna Karenina,2,0.29700
+Anna Karenina,3,0.30010
+Anna Karenina,4,0.30649
+Anna Karenina,5,0.31216
+Anna Karenina,6,0.31796
+Anna Karenina,7,0.32146
+Anna Karenina,8,0.32585
+Anna Karenina,9,0.33094
+Anna Karenina,10,0.33410
+Anna Karenina,11,0.33852
+Anna Karenina,12,0.34189
+Anna Karenina,13,0.34632
+Anna Karenina,14,0.35359
+Anna Karenina,15,0.35849
+Anna Karenina,16,0.36460
+Anna Karenina,17,0.36868
+Anna Karenina,18,0.37409
+Anna Karenina,19,0.37849
+Anna Karenina,20,0.38215
+Anna Karenina,21,0.38584
+Anna Karenina,22,0.39251
+Anna Karenina,23,0.39833
+Anna Karenina,24,0.40252
+Anna Karenina,25,0.40697
+Anna Karenina,26,0.41062
+Anna Karenina,27,0.41600
+Anna Karenina,28,0.42265
+Anna Karenina,29,0.42786
+Anna Karenina,30,0.43317
+Anna Karenina,31,0.43724
+Anna Karenina,32,0.44176
+Anna Karenina,1,0.44510
+Anna Karenina,2,0.44799
+Anna Karenina,3,0.45049
+Anna Karenina,4,0.45634
+Anna Karenina,5,0.46013
+Anna Karenina,6,0.46560
+Anna Karenina,7,0.46953
+Anna Karenina,8,0.47401
+Anna Karenina,9,0.47827
+Anna Karenina,10,0.48488
+Anna Karenina,11,0.48905
+Anna Karenina,12,0.49092
+Anna Karenina,13,0.49569
+Anna Karenina,14,0.49972
+Anna Karenina,15,0.50433
+Anna Karenina,16,0.50827
+Anna Karenina,17,0.51201
+Anna Karenina,18,0.52002
+Anna Karenina,19,0.52453
+Anna Karenina,20,0.53097
+Anna Karenina,21,0.53311
+Anna Karenina,22,0.53649
+Anna Karenina,23,0.54192
+Anna Karenina,1,0.54528
+Anna Karenina,2,0.55252
+Anna Karenina,3,0.55798
+Anna Karenina,4,0.56104
+Anna Karenina,5,0.56743
+Anna Karenina,6,0.57015
+Anna Karenina,7,0.57220
+Anna Karenina,8,0.57777
+Anna Karenina,9,0.58150
+Anna Karenina,10,0.58491
+Anna Karenina,11,0.58785
+Anna Karenina,12,0.59351
+Anna Karenina,13,0.59569
+Anna Karenina,14,0.59873
+Anna Karenina,15,0.60379
+Anna Karenina,16,0.60818
+Anna Karenina,17,0.61161
+Anna Karenina,18,0.61663
+Anna Karenina,19,0.62046
+Anna Karenina,20,0.62438
+Anna Karenina,21,0.63253
+Anna Karenina,22,0.63672
+Anna Karenina,23,0.64113
+Anna Karenina,24,0.64419
+Anna Karenina,25,0.64889
+Anna Karenina,26,0.65186
+Anna Karenina,27,0.65506
+Anna Karenina,28,0.66001
+Anna Karenina,29,0.66409
+Anna Karenina,30,0.66974
+Anna Karenina,31,0.67339
+Anna Karenina,32,0.67794
+Anna Karenina,33,0.68081
+Anna Karenina,1,0.68860
+Anna Karenina,2,0.69149
+Anna Karenina,3,0.69700
+Anna Karenina,4,0.70096
+Anna Karenina,5,0.70427
+Anna Karenina,6,0.70698
+Anna Karenina,7,0.71180
+Anna Karenina,8,0.71731
+Anna Karenina,9,0.72160
+Anna Karenina,10,0.72566
+Anna Karenina,11,0.73116
+Anna Karenina,12,0.73813
+Anna Karenina,13,0.74299
+Anna Karenina,14,0.74506
+Anna Karenina,15,0.74937
+Anna Karenina,16,0.75401
+Anna Karenina,17,0.75957
+Anna Karenina,18,0.76434
+Anna Karenina,19,0.76848
+Anna Karenina,20,0.77356
+Anna Karenina,21,0.77892
+Anna Karenina,22,0.78378
+Anna Karenina,23,0.79181
+Anna Karenina,24,0.79668
+Anna Karenina,25,0.80091
+Anna Karenina,26,0.80419
+Anna Karenina,27,0.80884
+Anna Karenina,28,0.81132
+Anna Karenina,29,0.81611
+Anna Karenina,30,0.82070
+Anna Karenina,31,0.82590
+Anna Karenina,32,0.82955
+Anna Karenina,1,0.83393
+Anna Karenina,2,0.83795
+Anna Karenina,3,0.84259
+Anna Karenina,4,0.84753
+Anna Karenina,5,0.85121
+Anna Karenina,6,0.85353
+Anna Karenina,7,0.85575
+Anna Karenina,8,0.85949
+Anna Karenina,9,0.86272
+Anna Karenina,10,0.86605
+Anna Karenina,11,0.87130
+Anna Karenina,12,0.87424
+Anna Karenina,13,0.87772
+Anna Karenina,14,0.88153
+Anna Karenina,15,0.88782
+Anna Karenina,16,0.89088
+Anna Karenina,17,0.89367
+Anna Karenina,18,0.89831
+Anna Karenina,19,0.90139
+Anna Karenina,20,0.90436
+Anna Karenina,21,0.90915
+Anna Karenina,22,0.91458
+Anna Karenina,23,0.91719
+Anna Karenina,24,0.92099
+Anna Karenina,25,0.92575
+Anna Karenina,26,0.93122
+Anna Karenina,27,0.93591
+Anna Karenina,28,0.93897
+Anna Karenina,29,0.94323
+Anna Karenina,30,0.94612
+Anna Karenina,31,0.94985
+Anna Karenina,1,0.95493
+Anna Karenina,2,0.95893
+Anna Karenina,3,0.96228
+Anna Karenina,4,0.96482
+Anna Karenina,5,0.96721
+Anna Karenina,6,0.96962
+Anna Karenina,7,0.97240
+Anna Karenina,8,0.97478
+Anna Karenina,9,0.97720
+Anna Karenina,10,0.97941
+Anna Karenina,11,0.98295
+Anna Karenina,12,0.98623
+Anna Karenina,13,0.99034
+Anna Karenina,14,0.99343
+Anna Karenina,15,0.99836
+Anna Karenina,16,1.00247
+Anna Karenina,17,1.00608
+Anna Karenina,18,1.00851
+Anna Karenina,19,1.01167
+Pride and Prejudice,II,0.00754
+Pride and Prejudice,III,0.01445
+Pride and Prejudice,IV,0.02911
+Pride and Prejudice,V,0.03820
+Pride and Prejudice,VI,0.04645
+Pride and Prejudice,VII,0.06658
+Pride and Prejudice,VIII,0.08367
+Pride and Prejudice,IX,0.10020
+Pride and Prejudice,X,0.11495
+Pride and Prejudice,XI,0.13395
+Pride and Prejudice,XII,0.14757
+Pride and Prejudice,XV,0.17739
+Pride and Prejudice,XVI,0.19181
+Pride and Prejudice,XVII,0.22062
+Pride and Prejudice,XVIII,0.23151
+Pride and Prejudice,XIX,0.27575
+Pride and Prejudice,XX,0.29204
+Pride and Prejudice,XXI,0.30613
+Pride and Prejudice,XXII,0.32327
+Pride and Prejudice,XXIII,0.33823
+Pride and Prejudice,XXIV,0.35204
+Pride and Prejudice,XXV,0.36848
+Pride and Prejudice,XXVI,0.38158
+Pride and Prejudice,XXVII,0.40147
+Pride and Prejudice,XXVIII,0.41222
+Pride and Prejudice,XXIX,0.42481
+Pride and Prejudice,XXX,0.44512
+Pride and Prejudice,XXXI,0.45580
+Pride and Prejudice,XXXII,0.46905
+Pride and Prejudice,XXXIII,0.48191
+Pride and Prejudice,XXXIV,0.49773
+Pride and Prejudice,XXXV,0.51566
+Pride and Prejudice,XXXVI,0.54119
+Pride and Prejudice,XXXVII,0.55836
+Pride and Prejudice,XXXVIII,0.57015
+Pride and Prejudice,XXXIX,0.57916
+Pride and Prejudice,XL,0.59306
+Pride and Prejudice,XLI,0.60756
+Pride and Prejudice,XLII,0.62698
+Pride and Prejudice,XLIII,0.64260
+Pride and Prejudice,XLIV,0.68389
+Pride and Prejudice,XLV,0.70394
+Pride and Prejudice,XLVII,0.74450
+Pride and Prejudice,XLVIII,0.77928
+Pride and Prejudice,XLIX,0.79861
+Pride and Prejudice,L,0.81792
+Pride and Prejudice,LI,0.83675
+Pride and Prejudice,LII,0.85447
+Pride and Prejudice,LIII,0.88033
+Pride and Prejudice,LIV,0.90540
+Pride and Prejudice,LV,0.91914
+Pride and Prejudice,LVI,0.93897
+Pride and Prejudice,LVII,0.96233
+Pride and Prejudice,LVIII,0.97650
+Pride and Prejudice,LIX,0.99733
+Pride and Prejudice,LX,1.01845
+Pride and Prejudice,LXI,1.03199
+Dracula,I,0.00000
+Dracula,II,0.03654
+Dracula,III,0.07171
+Dracula,IV,0.10843
+Dracula,V,0.14621
+Dracula,VI,0.16894
+Dracula,VII,0.20558
+Dracula,VIII,0.24197
+Dracula,IX,0.28247
+Dracula,X,0.32062
+Dracula,XI,0.35871
+Dracula,XII,0.39158
+Dracula,XIII,0.43831
+Dracula,XIV,0.48049
+Dracula,XV,0.52166
+Dracula,XVI,0.55893
+Dracula,XVII,0.58819
+Dracula,XVIII,0.62394
+Dracula,XIX,0.66825
+Dracula,XX,0.70467
+Dracula,XXI,0.74256
+Dracula,XXII,0.78215
+Dracula,XXIII,0.81713
+Dracula,XXIV,0.85347
+Dracula,XXV,0.89391
+Dracula,XXVI,0.93404
+Dracula,XXVII,0.97994
+Frankenstein,1,0.07927
+Frankenstein,2,0.10454
+Frankenstein,3,0.13609
+Frankenstein,4,0.17436
+Frankenstein,5,0.21063
+Frankenstein,6,0.24435
+Frankenstein,7,0.28323
+Frankenstein,8,0.33416
+Frankenstein,9,0.37841
+Frankenstein,10,0.41006
+Frankenstein,11,0.44381
+Frankenstein,12,0.48539
+Frankenstein,13,0.51501
+Frankenstein,14,0.54408
+Frankenstein,15,0.57060
+Frankenstein,16,0.61371
+Frankenstein,17,0.65947
+Frankenstein,18,0.68690
+Frankenstein,19,0.72758
+Frankenstein,20,0.76494
+Frankenstein,21,0.81531
+Frankenstein,22,0.86878
+Frankenstein,23,0.91763
+Frankenstein,24,0.95474
+Les Miserables,I,0.00001
+Les Miserables,II,0.00189
+Les Miserables,III,0.00553
+Les Miserables,IV,0.00691
+Les Miserables,V,0.01215
+Les Miserables,VI,0.01401
+Les Miserables,VII,0.01793
+Les Miserables,VIII,0.02021
+Les Miserables,IX,0.02283
+Les Miserables,X,0.02547
+Les Miserables,XI,0.03383
+Les Miserables,XII,0.03682
+Les Miserables,XIII,0.03883
+Les Miserables,XIV,0.04160
+Les Miserables,I,0.04327
+Les Miserables,II,0.05106
+Les Miserables,III,0.05364
+Les Miserables,IV,0.05734
+Les Miserables,V,0.05975
+Les Miserables,VI,0.06070
+Les Miserables,VII,0.06451
+Les Miserables,VIII,0.06978
+Les Miserables,IX,0.07115
+Les Miserables,X,0.07196
+Les Miserables,XI,0.07398
+Les Miserables,XII,0.07653
+Les Miserables,XIII,0.07856
+Les Miserables,I,0.08454
+Les Miserables,II,0.08857
+Les Miserables,III,0.09138
+Les Miserables,IV,0.09398
+Les Miserables,V,0.09557
+Les Miserables,VI,0.09738
+Les Miserables,VII,0.09832
+Les Miserables,VIII,0.10208
+Les Miserables,IX,0.10350
+Les Miserables,I,0.10517
+Les Miserables,II,0.11116
+Les Miserables,III,0.11260
+Les Miserables,I,0.11448
+Les Miserables,II,0.11546
+Les Miserables,III,0.11795
+Les Miserables,IV,0.12006
+Les Miserables,V,0.12160
+Les Miserables,VI,0.12534
+Les Miserables,VII,0.12713
+Les Miserables,VIII,0.12791
+Les Miserables,IX,0.12984
+Les Miserables,X,0.13155
+Les Miserables,XI,0.13490
+Les Miserables,XII,0.13544
+Les Miserables,XIII,0.13714
+Les Miserables,I,0.14396
+Les Miserables,II,0.14620
+Les Miserables,I,0.15203
+Les Miserables,II,0.15401
+Les Miserables,III,0.15695
+Les Miserables,IV,0.17082
+Les Miserables,V,0.17299
+Les Miserables,VI,0.18031
+Les Miserables,VII,0.18480
+Les Miserables,VIII,0.18775
+Les Miserables,IX,0.19003
+Les Miserables,X,0.19480
+Les Miserables,XI,0.19981
+Les Miserables,I,0.20273
+Les Miserables,II,0.20439
+Les Miserables,III,0.20704
+Les Miserables,IV,0.20952
+Les Miserables,V,0.21211
+Les Miserables,I,0.21586
+Les Miserables,II,0.21704
+Les Miserables,III,0.22183
+Les Miserables,IV,0.22357
+Les Miserables,V,0.22490
+Les Miserables,VI,0.22689
+Les Miserables,VII,0.22873
+Les Miserables,VIII,0.23263
+Les Miserables,IX,0.23426
+Les Miserables,X,0.23671
+Les Miserables,XI,0.23987
+Les Miserables,XII,0.24082
+Les Miserables,XIII,0.24186
+Les Miserables,XIV,0.24346
+Les Miserables,XV,0.24424
+Les Miserables,XVI,0.24578
+Les Miserables,XVII,0.24901
+Les Miserables,XVIII,0.25018
+Les Miserables,XIX,0.25194
+Les Miserables,I,0.25622
+Les Miserables,II,0.25817
+Les Miserables,III,0.26143
+Les Miserables,I,0.26709
+Les Miserables,II,0.26946
+Les Miserables,III,0.27302
+Les Miserables,IV,0.27449
+Les Miserables,V,0.27542
+Les Miserables,VI,0.27924
+Les Miserables,VII,0.28268
+Les Miserables,VIII,0.28415
+Les Miserables,IX,0.29549
+Les Miserables,X,0.30062
+Les Miserables,XI,0.30386
+Les Miserables,I,0.30479
+Les Miserables,II,0.30902
+Les Miserables,III,0.31000
+Les Miserables,IV,0.31276
+Les Miserables,V,0.31418
+Les Miserables,I,0.31654
+Les Miserables,II,0.31908
+Les Miserables,III,0.32013
+Les Miserables,IV,0.32223
+Les Miserables,V,0.32396
+Les Miserables,VI,0.32644
+Les Miserables,VII,0.32803
+Les Miserables,VIII,0.32931
+Les Miserables,IX,0.33053
+Les Miserables,X,0.33287
+Les Miserables,I,0.33902
+Les Miserables,II,0.34153
+Les Miserables,III,0.34613
+Les Miserables,IV,0.34718
+Les Miserables,V,0.34940
+Les Miserables,VI,0.35308
+Les Miserables,VII,0.35473
+Les Miserables,VIII,0.35614
+Les Miserables,IX,0.35727
+Les Miserables,X,0.35857
+Les Miserables,XI,0.35964
+Les Miserables,I,0.36082
+Les Miserables,II,0.36115
+Les Miserables,III,0.36308
+Les Miserables,IV,0.36459
+Les Miserables,V,0.36551
+Les Miserables,VI,0.36628
+Les Miserables,VII,0.36768
+Les Miserables,VIII,0.36812
+Les Miserables,I,0.36948
+Les Miserables,II,0.37476
+Les Miserables,III,0.37621
+Les Miserables,IV,0.38211
+Les Miserables,V,0.38580
+Les Miserables,VI,0.38952
+Les Miserables,VII,0.39055
+Les Miserables,VIII,0.39514
+Les Miserables,IX,0.39711
+Les Miserables,I,0.40189
+Les Miserables,II,0.40235
+Les Miserables,III,0.40324
+Les Miserables,IV,0.40398
+Les Miserables,V,0.40445
+Les Miserables,VI,0.40591
+Les Miserables,VII,0.40725
+Les Miserables,VIII,0.40858
+Les Miserables,IX,0.40962
+Les Miserables,X,0.41015
+Les Miserables,XI,0.41211
+Les Miserables,XII,0.41361
+Les Miserables,XIII,0.41425
+Les Miserables,I,0.41586
+Les Miserables,II,0.41711
+Les Miserables,III,0.41787
+Les Miserables,IV,0.41849
+Les Miserables,V,0.41909
+Les Miserables,VI,0.41990
+Les Miserables,VII,0.42126
+Les Miserables,VIII,0.42165
+Les Miserables,I,0.42313
+Les Miserables,II,0.42535
+Les Miserables,III,0.43004
+Les Miserables,IV,0.43531
+Les Miserables,V,0.43756
+Les Miserables,VI,0.43872
+Les Miserables,VII,0.44326
+Les Miserables,VIII,0.44627
+Les Miserables,I,0.44975
+Les Miserables,II,0.45917
+Les Miserables,III,0.46140
+Les Miserables,IV,0.46266
+Les Miserables,V,0.46773
+Les Miserables,VI,0.47028
+Les Miserables,I,0.47186
+Les Miserables,II,0.47341
+Les Miserables,III,0.47566
+Les Miserables,IV,0.47911
+Les Miserables,V,0.48218
+Les Miserables,VI,0.48373
+Les Miserables,I,0.48678
+Les Miserables,II,0.48898
+Les Miserables,III,0.49055
+Les Miserables,IV,0.49132
+Les Miserables,V,0.49334
+Les Miserables,VI,0.49414
+Les Miserables,VII,0.49594
+Les Miserables,VIII,0.49719
+Les Miserables,IX,0.49838
+Les Miserables,I,0.49978
+Les Miserables,II,0.50133
+Les Miserables,III,0.50238
+Les Miserables,IV,0.50405
+Les Miserables,I,0.50572
+Les Miserables,II,0.50698
+Les Miserables,III,0.50814
+Les Miserables,IV,0.51082
+Les Miserables,V,0.51539
+Les Miserables,VI,0.51703
+Les Miserables,VII,0.51982
+Les Miserables,VIII,0.52203
+Les Miserables,IX,0.52344
+Les Miserables,X,0.52588
+Les Miserables,XI,0.52815
+Les Miserables,XII,0.52982
+Les Miserables,XIII,0.53287
+Les Miserables,XIV,0.53464
+Les Miserables,XV,0.53680
+Les Miserables,XVI,0.53830
+Les Miserables,XVII,0.54048
+Les Miserables,XVIII,0.54308
+Les Miserables,XIX,0.54401
+Les Miserables,XX,0.54693
+Les Miserables,XXI,0.56360
+Les Miserables,XXII,0.56584
+Les Miserables,I,0.56698
+Les Miserables,II,0.57080
+Les Miserables,III,0.57293
+Les Miserables,IV,0.57785
+Les Miserables,V,0.58250
+Les Miserables,VI,0.58972
+Les Miserables,I,0.59226
+Les Miserables,II,0.59621
+Les Miserables,III,0.59937
+Les Miserables,IV,0.60201
+Les Miserables,I,0.60491
+Les Miserables,II,0.60813
+Les Miserables,III,0.60982
+Les Miserables,IV,0.61234
+Les Miserables,V,0.61570
+Les Miserables,VI,0.61884
+Les Miserables,VII,0.62114
+Les Miserables,VIII,0.62476
+Les Miserables,I,0.63175
+Les Miserables,II,0.63332
+Les Miserables,I,0.63887
+Les Miserables,II,0.63997
+Les Miserables,III,0.64223
+Les Miserables,IV,0.64417
+Les Miserables,V,0.64649
+Les Miserables,VI,0.64814
+Les Miserables,I,0.65047
+Les Miserables,II,0.65283
+Les Miserables,III,0.66703
+Les Miserables,I,0.67578
+Les Miserables,II,0.68073
+Les Miserables,III,0.68656
+Les Miserables,IV,0.68948
+Les Miserables,I,0.69226
+Les Miserables,II,0.69610
+Les Miserables,III,0.69754
+Les Miserables,IV,0.69963
+Les Miserables,V,0.70404
+Les Miserables,VI,0.70450
+Les Miserables,VII,0.70827
+Les Miserables,I,0.71656
+Les Miserables,II,0.71770
+Les Miserables,III,0.71938
+Les Miserables,I,0.72195
+Les Miserables,II,0.72424
+Les Miserables,III,0.72838
+Les Miserables,IV,0.73214
+Les Miserables,V,0.73565
+Les Miserables,I,0.73750
+Les Miserables,II,0.73909
+Les Miserables,III,0.74124
+Les Miserables,IV,0.74228
+Les Miserables,V,0.74333
+Les Miserables,VI,0.74425
+Les Miserables,I,0.74513
+Les Miserables,II,0.74870
+Les Miserables,III,0.75503
+Les Miserables,IV,0.75711
+Les Miserables,V,0.75951
+Les Miserables,VI,0.76082
+Les Miserables,VII,0.76231
+Les Miserables,VIII,0.76460
+Les Miserables,I,0.76753
+Les Miserables,II,0.76949
+Les Miserables,III,0.77133
+Les Miserables,I,0.77563
+Les Miserables,II,0.77731
+Les Miserables,III,0.77910
+Les Miserables,IV,0.77982
+Les Miserables,V,0.78148
+Les Miserables,VI,0.78266
+Les Miserables,VII,0.78524
+Les Miserables,I,0.78765
+Les Miserables,II,0.79376
+Les Miserables,III,0.79629
+Les Miserables,IV,0.79732
+Les Miserables,I,0.80021
+Les Miserables,II,0.80529
+Les Miserables,III,0.80790
+Les Miserables,IV,0.80902
+Les Miserables,V,0.81332
+Les Miserables,VI,0.81613
+Les Miserables,VII,0.81740
+Les Miserables,VIII,0.82015
+Les Miserables,IX,0.82200
+Les Miserables,X,0.82306
+Les Miserables,XI,0.82572
+Les Miserables,XII,0.82648
+Les Miserables,XIII,0.82858
+Les Miserables,XIV,0.82986
+Les Miserables,XV,0.83122
+Les Miserables,XVI,0.83314
+Les Miserables,XVII,0.83897
+Les Miserables,XVIII,0.84003
+Les Miserables,XIX,0.84238
+Les Miserables,XX,0.84394
+Les Miserables,XXI,0.85021
+Les Miserables,XXII,0.85316
+Les Miserables,XXIII,0.85560
+Les Miserables,XXIV,0.85774
+Les Miserables,I,0.85965
+Les Miserables,II,0.86233
+Les Miserables,III,0.86460
+Les Miserables,IV,0.86658
+Les Miserables,V,0.86904
+Les Miserables,VI,0.86991
+Les Miserables,I,0.87321
+Les Miserables,II,0.87773
+Les Miserables,III,0.87921
+Les Miserables,IV,0.88223
+Les Miserables,V,0.88478
+Les Miserables,VI,0.88820
+Les Miserables,VII,0.88968
+Les Miserables,VIII,0.89132
+Les Miserables,IX,0.89454
+Les Miserables,X,0.89733
+Les Miserables,XI,0.89848
+Les Miserables,XII,0.89962
+Les Miserables,I,0.90376
+Les Miserables,I,0.91236
+Les Miserables,II,0.91463
+Les Miserables,III,0.91791
+Les Miserables,IV,0.91998
+Les Miserables,V,0.92343
+Les Miserables,VI,0.92426
+Les Miserables,VII,0.93003
+Les Miserables,VIII,0.93162
+Les Miserables,I,0.93446
+Les Miserables,II,0.94022
+Les Miserables,III,0.94673
+Les Miserables,IV,0.94839
+Les Miserables,I,0.95149
+Les Miserables,II,0.96382
+Les Miserables,I,0.96963
+Les Miserables,II,0.97255
+Les Miserables,III,0.97431
+Les Miserables,IV,0.97724
+Les Miserables,I,0.97849
+Les Miserables,II,0.98000
+Les Miserables,III,0.98112
+Les Miserables,IV,0.98314
+Les Miserables,V,0.99564
+Les Miserables,VI,1.00258
