@@ -5,3 +5,6 @@ build/
 node_modules/
 package-lock.json
 .svelte-kit/*
+src/lib/stories/taste-for-privacy/data/dfall.csv
+src/lib/stories/compass-of-meaning/data/klara_and_the_sun*
+src/lib/stories/compass-of-meaning/data/*txt

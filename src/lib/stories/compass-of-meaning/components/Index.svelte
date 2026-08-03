@@ -289,9 +289,6 @@
 		font-size: 1.02rem;
 		line-height: 1.64;
 		letter-spacing: 0.008em;
-		text-align: justify;
-		text-align-last: left;
-		hyphens: auto;
 		border: 1px solid rgba(90, 72, 42, 0.16);
 		/* faint sepia darkening at top and bottom edges, like a scan */
 		background-image:
