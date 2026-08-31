@@ -2,11 +2,13 @@
   import StoryGrid from '$lib/components/StoryGrid.svelte';
   import FilterBar from '$lib/components/FilterBar.svelte';
   import { ChevronDown } from '@lucide/svelte';
-  import { getStories } from '$lib/story.remote';
 
   const initMax = 12;
 
-  const stories = $derived(await getStories());
+  // Provided by the (app)/+page.ts load function — fetching there instead of
+  // `await getStories()` here keeps this component synchronous (async
+  // components hydrate out of sync with SSR → hydration_mismatch).
+  let { stories } = $props();
 
   let maxStories = $state(initMax);
   let activeFilter = $state(undefined);
