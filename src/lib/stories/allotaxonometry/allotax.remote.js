@@ -13,7 +13,7 @@ export const getAdapter = prerender(async () => {
 		error(500, `Failed to fetch adapter: ${response.status} - ${errorText}`);
 	}
 	return await response.json();
-});
+}, { dynamic: true });
 
 export const getTopBabyNames = query(
 	v.object({

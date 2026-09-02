@@ -1,9 +1,7 @@
 import { query } from '$app/server';
 import * as v from 'valibot';
 import { error } from '@sveltejs/kit';
-import { env } from '$env/dynamic/private';
-
-const API_BASE_URL = env.STORYWRANGLER_API_BASE || 'http://localhost:8000';
+import { API_BASE_URL, fetchStorywrangler } from '$lib/server/storywrangler.js';
 
 export const loadPaperData = query(
     v.object({
@@ -11,9 +9,10 @@ export const loadPaperData = query(
         filterBigPapers: v.boolean()
      }),
     async ({authorName, filterBigPapers}) => {
-    const response = await fetch(`${API_BASE_URL}/open-academic-analytics/papers/${authorName}?filter_big_papers=${filterBigPapers}`);
-    if (!response.ok) error(404, 'Not found');
-    const papers = await response.json();
+    const papers = await fetchStorywrangler(
+        `/open-academic-analytics/papers/${authorName}?filter_big_papers=${filterBigPapers}`,
+        `the publication history for ${authorName}`
+    );
     const processedPapers = papers.map(paper => ({
           ...paper,
           pub_date: new Date(paper.publication_date).toISOString().split('T')[0]
@@ -27,11 +26,10 @@ export const loadCoauthorData = query(
 		filterBigPapers: v.boolean()
 	}),
 	async ({ authorName, filterBigPapers }) => {
-		const response = await fetch(
-			`${API_BASE_URL}/open-academic-analytics/coauthors/${authorName}?filter_big_papers=${filterBigPapers}`
+		const coauthors = await fetchStorywrangler(
+			`/open-academic-analytics/coauthors/${authorName}?filter_big_papers=${filterBigPapers}`,
+			`the coauthor network for ${authorName}`
 		);
-		if (!response.ok) error(404, 'Not found');
-		const coauthors = await response.json();
 		return coauthors.map((coauthor) => ({
 			...coauthor,
 			pub_date: new Date(coauthor.publication_date).toISOString().split('T')[0]
@@ -40,9 +38,7 @@ export const loadCoauthorData = query(
 );
 
 export const loadAvailableAuthors = query(async () => {
-	const response = await fetch(`${API_BASE_URL}/open-academic-analytics/authors`);
-	if (!response.ok) error(404, 'Not found');
-	return await response.json();
+	return await fetchStorywrangler('/open-academic-analytics/authors', 'the list of authors');
 });
 
 export const loadTrainingData = query(
@@ -50,6 +46,8 @@ export const loadTrainingData = query(
 		authorName: v.string()
 	}),
 	async ({ authorName }) => {
+		// Not using fetchStorywrangler here: a 404 (author or dataset missing)
+		// intentionally degrades to an empty chart instead of an error.
 		const response = await fetch(
 			`${API_BASE_URL}/open-academic-analytics/training/${encodeURIComponent(authorName)}`
 		);

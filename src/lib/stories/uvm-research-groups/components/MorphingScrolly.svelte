@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Scrolly, RenderContent, type ContentItem } from '@the-vcsi/scrolly-kit';
 	import Spinner from '$lib/components/helpers/Spinner.svelte';
+	import DataError from '$lib/components/helpers/DataError.svelte';
 	import { innerWidth } from 'svelte/reactivity/window';
 	import MorphingChart from './MorphingChart.svelte';
 	import { loadDoddsPaperData, loadDoddsCoauthorData } from '../data.remote.js';
@@ -8,13 +9,10 @@
 
 	const steps = copy.morphingSteps as ContentItem[];
 
-	let DoddsPaperData = $state(null);
-	let DoddsCoauthorData = $state(null);
-
-	Promise.all([loadDoddsPaperData(), loadDoddsCoauthorData()]).then(([p, c]) => {
-		DoddsPaperData = p;
-		DoddsCoauthorData = c;
-	});
+	// Called during SSR so the build can prerender the data when the
+	// backend is up; awaited in the markup inside a <svelte:boundary>.
+	const paperData = loadDoddsPaperData();
+	const coauthorData = loadDoddsCoauthorData();
 
 	let width = $state(innerWidth.current ?? 1200);
 	const height = 1800;
@@ -23,11 +21,23 @@
 
 <div class="scrolly-container">
 	<div class="scrolly-chart">
-		{#if DoddsPaperData && DoddsCoauthorData}
-			<MorphingChart {scrollyIndex} {DoddsCoauthorData} {DoddsPaperData} {width} {height} />
-		{:else}
-			<Spinner />
-		{/if}
+		<svelte:boundary>
+			{#snippet pending()}
+				<Spinner />
+			{/snippet}
+
+			{#snippet failed(error, reset)}
+				<DataError {error} retry={reset} />
+			{/snippet}
+
+			<MorphingChart
+				{scrollyIndex}
+				DoddsCoauthorData={await coauthorData}
+				DoddsPaperData={await paperData}
+				{width}
+				{height}
+			/>
+		</svelte:boundary>
 	</div>
 
 	<div class="scrolly-content">

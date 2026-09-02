@@ -3,6 +3,7 @@
     import { dashboardState, uiState } from '$stories/open-academic-analytics/state.svelte.ts';
     import { loadAvailableAuthors, loadPaperData, loadCoauthorData } from '$stories/open-academic-analytics/data.remote.js';
     import Spinner from '$lib/components/helpers/Spinner.svelte';
+    import DataError from '$lib/components/helpers/DataError.svelte';
     import Dashboard from './Dashboard.svelte';
     import Nav from './Nav.svelte';
     import Sidebar from './Sidebar.svelte';
@@ -11,23 +12,44 @@
     let paper = $state(null);
     let coauthor = $state(null);
     let isLoading = $state(true);
+    let loadError = $state(null);
+    let retryToken = $state(0);
 
     // One-time authors load
-    loadAvailableAuthors().then(result => { authors = result; });
+    function loadAuthors() {
+        loadAvailableAuthors()
+            .then(result => { authors = result; })
+            .catch((e) => { loadError = e instanceof Error ? e : new Error(String(e)); isLoading = false; });
+    }
+    loadAuthors();
+
+    function retry() {
+        isLoading = true;
+        loadError = null;
+        if (!authors) loadAuthors();
+        retryToken += 1;
+    }
 
     // Reactive data loading — handles both initial load and re-fetching
     $effect(() => {
+        retryToken; // re-run when the user retries after an error
         const author = dashboardState.selectedAuthor;
         const filter = dashboardState.filterBigPapers;
         const p = loadPaperData({ authorName: author, filterBigPapers: filter });
         const c = loadCoauthorData({ authorName: author, filterBigPapers: filter });
         // untrack the consumption to avoid tracking query internals
         untrack(() => {
-            Promise.all([p, c]).then(([pr, cr]) => {
-                paper = pr;
-                coauthor = cr;
-                isLoading = false;
-            });
+            Promise.all([p, c])
+                .then(([pr, cr]) => {
+                    paper = pr;
+                    coauthor = cr;
+                    isLoading = false;
+                    loadError = null;
+                })
+                .catch((e) => {
+                    loadError = e instanceof Error ? e : new Error(String(e));
+                    isLoading = false;
+                });
         });
     });
 
@@ -36,6 +58,10 @@
 {#if isLoading}
 <div class="loading-container">
     <Spinner />
+</div>
+{:else if loadError}
+<div class="loading-container">
+    <DataError error={loadError} {retry} />
 </div>
 {:else}
 <div class="dashboard-app">

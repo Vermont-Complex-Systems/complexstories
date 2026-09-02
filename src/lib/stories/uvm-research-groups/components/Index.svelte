@@ -4,6 +4,7 @@
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
 	import { innerWidth } from 'svelte/reactivity/window';
 	import Spinner from '$lib/components/helpers/Spinner.svelte';
+	import DataError from '$lib/components/helpers/DataError.svelte';
 	import Header from './Header.svelte';
 	import FacultyOverviewWaffle from './FacultyOverviewWaffle.svelte';
 	import CollegeWaffles from './CollegeWaffles.svelte';
@@ -15,7 +16,10 @@
 
 	const components = { FacultyOverviewWaffle, CollegeWaffles, MorphingScrolly };
 
-	const embeddingDataPromise = Promise.all([loadEmbeddingsData(), loadDoddsCoauthorData()]);
+	// Called during SSR so the build can prerender the data when the
+	// backend is up; awaited in the markup inside a <svelte:boundary>.
+	const embeddingsData = loadEmbeddingsData();
+	const coauthorData = loadDoddsCoauthorData();
 
 	let isMobile = $derived(innerWidth.current <= 768);
 </script>
@@ -44,13 +48,17 @@
 			</section>
 		{:else if item.type === 'component' && item.value === 'EmbeddingCharts'}
 			<div class="wide-chart">
-				{#await embeddingDataPromise}
-					<Spinner />
-				{:then [embeddingData, coauthorData]}
-					<EmbeddingCharts {embeddingData} {coauthorData} />
-				{:catch error}
-					<p>Error loading embeddings: {error.message}</p>
-				{/await}
+				<svelte:boundary>
+					{#snippet pending()}
+						<Spinner />
+					{/snippet}
+
+					{#snippet failed(error, reset)}
+						<DataError {error} retry={reset} />
+					{/snippet}
+
+					<EmbeddingCharts embeddingData={await embeddingsData} coauthorData={await coauthorData} />
+				</svelte:boundary>
 			</div>
 		{/if}
 	{/each}
