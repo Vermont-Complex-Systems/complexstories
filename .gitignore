@@ -8,3 +8,8 @@ package-lock.json
 src/lib/stories/taste-for-privacy/data/dfall.csv
 src/lib/stories/compass-of-meaning/data/klara_and_the_sun*
 src/lib/stories/compass-of-meaning/data/*txt
+
+# Commercially licensed webfonts (Commercial Type). Redistributing these,
+# including in a public git repo, breaches the license. Copy them in locally
+# from the lab's own license; they are not distributed with this repo.
+static/assets/fonts/atlas/
