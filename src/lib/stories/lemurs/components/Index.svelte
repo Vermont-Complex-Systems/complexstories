@@ -2,6 +2,13 @@
 	import { Footer, StoryHeader, ScrollyContent } from '@the-vcsi/scrolly-kit';
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
 	import UnitChart from './UnitChart.svelte';
+	import Stat from './Stat.svelte';
+	import SleepWindows from './SleepWindows/SleepWindows.svelte';
+	import sleepWindowRows from './SleepWindows/sleepWindows.data.js';
+	import SleepSignals from './SleepSignals/SleepSignals.svelte';
+	import sleepSignalData from './SleepSignals/sleepSignals.data.js';
+	import NatureLift from './NatureLift/NatureLift.svelte';
+	import natureLiftData from './NatureLift/natureLift.data.js';
 
 	let { story, data } = $props();
 
@@ -9,11 +16,70 @@
 	// scrolls in (and again when it scrolls out); step 0 is the neutral cohort.
 	let step = $state(undefined);
 
+	// The scrolling column: every step, with a section header slotted in before
+	// any step that opens a theme (`section` in copy.json). A header is its own
+	// scroll item but doesn't change the chart — it holds the previous step's
+	// visual, so every re-sort still lands on the step box that explains it.
+	let items = $derived.by(() => {
+		const out = [];
+		let n = 0;
+		(data.steps ?? []).forEach((s, i) => {
+			if (s.section) {
+				n += 1;
+				out.push({
+					kind: 'section',
+					label: s.section,
+					number: String(n).padStart(2, '0'),
+					theme: s.theme,
+					visual: data.steps[i - 1] ?? s
+				});
+			}
+			out.push({ ...s, visual: s });
+		});
+		return out;
+	});
+
 	// The visual reads the whole active step object (mode, theme, data, stat).
-	let active = $derived(data.steps?.[step ?? 0] ?? {});
+	let active = $derived(items[step ?? 0]?.visual ?? {});
 
 	let sources = $derived(Object.values(data.sources ?? {}));
+
+	// The sleep-windows chart sizes itself from its width, which leaves it short
+	// enough to disappear behind the step box on a phone. The layout owns the
+	// panel's height, so measure it and hand the chart what's left under the
+	// stat and legend. 0 before measurement (and on the server) = its own default.
+	let panelHeight = $state(0);
+	let panelWidth = $state(0);
+	let sleepWindowsHeight = $derived(panelHeight ? Math.max(360, panelHeight - 96) : null);
+
+	// SleepSignals and NatureLift lay themselves out from their own width, and
+	// below about 620px NatureLift stacks its four panels into one column over
+	// 1000px tall — taller than any sticky panel. So hand them a roomier design
+	// width than the panel really has and scale the result down to fit: they keep
+	// choosing their wide layout, and it lands inside the panel. A phone-width
+	// panel is left alone (scaling there would shrink the type past reading).
+	const DESIGN_WIDTH = 680;
+	let fitWidth = $derived(panelWidth >= 520 ? DESIGN_WIDTH : panelWidth || DESIGN_WIDTH);
+	let fitNaturalHeight = $state(0);
+	let viewportHeight = $state(0);
+
+	// Width sets the scale, but the chart also has to clear the viewport: on a
+	// phone NatureLift's four stacked panels run past the screen, and a cropped
+	// chart is worse than a small one. Scaling never changes the measured height
+	// (a transform doesn't touch layout), so this can't feed back on itself.
+	let fitScale = $derived.by(() => {
+		const byWidth = panelWidth ? panelWidth / fitWidth : 1;
+		const byHeight =
+			viewportHeight && fitNaturalHeight ? (viewportHeight - 48) / fitNaturalHeight : 1;
+		return Math.min(1, byWidth, byHeight);
+	});
+
+	// Scaling from the top-left keeps the arithmetic simple, so re-centre by hand
+	// whenever the height clamp leaves the drawn chart narrower than the panel.
+	let fitOffset = $derived(Math.max(0, (panelWidth - fitWidth * fitScale) / 2));
 </script>
+
+<svelte:window bind:innerHeight={viewportHeight} />
 
 <BackToHome />
 
@@ -26,31 +92,84 @@
 	/>
 
 	<section class="split-layout">
-		<div class="sticky-panel">
-			<UnitChart step={active} />
+		<div class="sticky-panel" bind:clientHeight={panelHeight} bind:clientWidth={panelWidth}>
+			{#if active.visual}
+				<!-- Some steps leave the dot field for a purpose-built chart. The step
+				     names the component and the view in copy.json; the controls stay
+				     hidden because the scroll position is what drives the view. -->
+				<figure class="panel-visual" style="--lem-hue: var(--lem-{active.theme});">
+					<Stat stat={active.stat} />
+					{#if active.visual.component === 'sleepWindows'}
+						<SleepWindows
+							data={sleepWindowRows}
+							sortBy="midpoint"
+							layout="radial"
+							height={sleepWindowsHeight}
+							showControls={false}
+							showStats={false}
+							showTable={false}
+							ariaLabel="Each participant's average sleep window over Thanksgiving week, drawn on a 24-hour clock face as one ring per student, sorted by sleep midpoint from the centre outward. The median midpoint falls at 5 AM."
+						/>
+					{:else}
+						<div class="fit" style="height: {Math.round(fitNaturalHeight * fitScale)}px">
+							<div
+								class="fit-inner"
+								bind:clientHeight={fitNaturalHeight}
+								style="width: {fitWidth}px; transform: translateX({fitOffset}px) scale({fitScale});"
+							>
+								{#if active.visual.component === 'sleepSignals'}
+									<SleepSignals
+										data={sleepSignalData}
+										view={active.visual.view}
+										arcs={active.visual.arcs}
+										showControls={false}
+									/>
+								{:else if active.visual.component === 'natureLift'}
+									<NatureLift
+										data={natureLiftData}
+										view={active.visual.view}
+										emphasis={active.visual.emphasis ?? null}
+										showWeekly={active.visual.weekly ?? true}
+										showControls={false}
+									/>
+								{/if}
+							</div>
+						</div>
+					{/if}
+				</figure>
+			{:else}
+				<UnitChart step={active} />
+			{/if}
 		</div>
 
-		<ScrollyContent steps={data.steps} bind:value={step}>
+		<ScrollyContent steps={items} bind:value={step}>
 			{#snippet contentRenderer(item)}
-				<div class="step-inner">
-					{#if item.kicker}<p class="kicker">{item.kicker}</p>{/if}
-					{#if item.title}<h2 class="s-title">{item.title}</h2>{/if}
-					{#if item.body}<p class="s-body">{item.body}</p>{/if}
-					{#if item.caveat}<p class="s-caveat">{item.caveat}</p>{/if}
-					{#if item.extras?.length}
-						<ul class="s-extras">
-							{#each item.extras as e, i (i)}<li>{e}</li>{/each}
-						</ul>
-					{/if}
-					{#if item.source && data.sources?.[item.source]}
-						{@const src = data.sources[item.source]}
-						<p class="s-source">
-							<span class="src-label">Source</span>
-							<span class="src-name">{src.short}</span>
-							<span class="src-journal">{src.journal}</span>
-						</p>
-					{/if}
-				</div>
+				{#if item.kind === 'section'}
+					<header class="section-head" style="--lem-hue: var(--lem-{item.theme});">
+						<span class="section-num">{item.number}</span>
+						<h2 class="section-title">{item.label}</h2>
+					</header>
+				{:else}
+					<div class="step-inner">
+						{#if item.kicker}<p class="kicker">{item.kicker}</p>{/if}
+						{#if item.title}<h2 class="s-title">{item.title}</h2>{/if}
+						{#if item.body}<p class="s-body">{item.body}</p>{/if}
+						{#if item.caveat}<p class="s-caveat">{item.caveat}</p>{/if}
+						{#if item.extras?.length}
+							<ul class="s-extras">
+								{#each item.extras as e, i (i)}<li>{e}</li>{/each}
+							</ul>
+						{/if}
+						{#if item.source && data.sources?.[item.source]}
+							{@const src = data.sources[item.source]}
+							<p class="s-source">
+								<span class="src-label">Source</span>
+								<span class="src-name">{src.short}</span>
+								<span class="src-journal">{src.journal}</span>
+							</p>
+						{/if}
+					</div>
+				{/if}
 			{/snippet}
 		</ScrollyContent>
 	</section>
@@ -93,8 +212,15 @@
 
 		--lem-sleep: #2a78d6;
 		--lem-sleep-tint: #8bb1e6;
+		/* Ends of the sleep-duration ramp (short night → long night). Wider than
+		   tint→hue so 6 h and 12 h stay apart; flipped in the dark block. */
+		--lem-sleep-ramp-lo: #86b6ef;
+		--lem-sleep-ramp-hi: #104281;
 		--lem-nature: #1baf7a;
 		--lem-nature-tint: #1baf7a;
+		/* Ends of the nature-exposure map ramp (least → most), flipped in dark. */
+		--lem-nature-ramp-lo: #e3f2ea;
+		--lem-nature-ramp-hi: #0f5b3a;
 		--lem-activity: #eb6834;
 		--lem-activity-tint: #eb6834;
 		--lem-anxiety: #4a3aa7;
@@ -123,8 +249,12 @@
 
 		--lem-sleep: #3987e5;
 		--lem-sleep-tint: #3a6ba6;
+		--lem-sleep-ramp-lo: #1c5cab;
+		--lem-sleep-ramp-hi: #cde2fb;
 		--lem-nature: #199e70;
 		--lem-nature-tint: #199e70;
+		--lem-nature-ramp-lo: #143028;
+		--lem-nature-ramp-hi: #6fd6a1;
 		--lem-activity: #d95926;
 		--lem-activity-tint: #d95926;
 		--lem-anxiety: #9085e9;
@@ -147,6 +277,140 @@
 
 	.step-inner {
 		text-align: left;
+	}
+
+	/* ---- Panels that aren't the dot field ---------------------------------
+	   Each of these components declares its own --xx-* tokens on its own root,
+	   so a value inherited from this wrapper would lose to them (the READMEs'
+	   parent-override examples don't take). Re-declare them on those elements
+	   instead, mapped onto the LEMURS palette so all three follow the story —
+	   dark override included — rather than their own built-in themes. */
+	.panel-visual {
+		margin: 0;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: var(--vcsi-space-md);
+	}
+
+	/* The scaled wrapper: the inner box keeps its full design width and is drawn
+	   smaller, so the outer box only needs the height that actually shows. No
+	   overflow rule — a transform paints nothing outside the scaled result, and
+	   clipping here would cut off the charts' own hover readouts. */
+	.fit {
+		width: 100%;
+	}
+
+	.fit-inner {
+		transform-origin: top left;
+	}
+
+	.panel-visual :global(.sw) {
+		--sw-surface: var(--lem-surface);
+		--sw-ink: var(--lem-ink);
+		--sw-ink2: var(--lem-ink2);
+		--sw-muted: var(--lem-muted);
+		--sw-grid: var(--lem-line-soft);
+		--sw-axis: var(--lem-line);
+		--sw-ring: var(--lem-line);
+		--sw-night: color-mix(in srgb, var(--lem-sleep) 8%, transparent);
+		--sw-lo: var(--lem-sleep-ramp-lo);
+		--sw-hi: var(--lem-sleep-ramp-hi);
+		--sw-mid: var(--lem-ink);
+		--sw-accent: var(--lem-activity);
+		--sw-font: var(--vcsi-font-sans);
+		--sw-mono: var(--vcsi-font-mono);
+	}
+
+	.panel-visual :global(.ss) {
+		--ss-surface: var(--lem-surface);
+		--ss-ink: var(--lem-ink);
+		--ss-ink2: var(--lem-ink2);
+		--ss-muted: var(--lem-muted);
+		--ss-grid: var(--lem-line-soft);
+		--ss-axis: var(--lem-line);
+		--ss-ring: var(--lem-line);
+		/* minute grid ramp and minute-profile bars, on the sleep hue */
+		--ss-lo: var(--lem-surface2);
+		--ss-hi: var(--lem-sleep-ramp-hi);
+		--ss-bar: var(--lem-sleep-tint);
+		--ss-bar-alarm: var(--lem-sleep);
+		/* the two heart-rate arcs: late trough is the finding, early is the foil */
+		--ss-s1: var(--lem-sleep);
+		--ss-s2: var(--lem-activity);
+		--ss-spread: var(--lem-muted);
+		--ss-accent: var(--lem-activity);
+		--ss-font: var(--vcsi-font-sans);
+		--ss-mono: var(--vcsi-font-mono);
+	}
+
+	.panel-visual :global(.nl) {
+		--nl-surface: var(--lem-surface);
+		--nl-ink: var(--lem-ink);
+		--nl-ink2: var(--lem-ink2);
+		--nl-muted: var(--lem-muted);
+		--nl-grid: var(--lem-line-soft);
+		--nl-axis: var(--lem-line);
+		--nl-ring: var(--lem-line);
+		--nl-trt: color-mix(in srgb, var(--lem-ink) 4%, transparent);
+		/* the four trial groups; nature is the story's own green */
+		--nl-control: var(--lem-sleep);
+		--nl-exercise: var(--lem-activity);
+		--nl-nature: var(--lem-nature);
+		--nl-therapy: var(--lem-anxiety);
+		--nl-avg: var(--lem-muted);
+		--nl-accent: var(--lem-activity);
+		--nl-map-lo: var(--lem-nature-ramp-lo);
+		--nl-map-hi: var(--lem-nature-ramp-hi);
+		--nl-font: var(--vcsi-font-sans);
+		--nl-mono: var(--vcsi-font-mono);
+	}
+
+	/* ---- Section headers (one before each theme) ------------------------- */
+	/* A header is its own scroll item. Shorten it, and on desktop drop its box so
+	   it reads as a chapter break rather than another step. On mobile the box
+	   stays: the header scrolls over the dot field and needs the backing. */
+	.split-layout :global(.step:has(.section-head)) {
+		min-height: 50vh;
+	}
+
+	@media (min-width: 769px) {
+		.split-layout :global(.step:has(.section-head)) {
+			--vcsi-story-step-bg: transparent;
+			--vcsi-story-step-bg-inactive: transparent;
+			--vcsi-step-box-shadow: none;
+		}
+	}
+
+	.section-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding-top: 0.75rem;
+		border-top: 3px solid var(--lem-hue);
+		text-align: left;
+		transition: opacity 400ms ease;
+	}
+
+	:global(.step:not(.active)) .section-head {
+		opacity: 0.45;
+	}
+
+	.section-head .section-num {
+		font-family: var(--vcsi-font-mono);
+		font-size: var(--vcsi-font-size-xs);
+		font-weight: var(--vcsi-font-weight-semibold);
+		letter-spacing: 0.08em;
+		color: var(--lem-hue);
+	}
+
+	.section-head .section-title {
+		margin: 0;
+		font-family: var(--vcsi-font-heading);
+		font-weight: var(--vcsi-font-weight-bold);
+		font-size: var(--vcsi-font-size-xl);
+		line-height: 1;
+		color: var(--lem-hue);
 	}
 
 	.kicker {

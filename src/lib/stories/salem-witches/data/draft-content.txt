@@ -1,0 +1,37 @@
+Every accusation of the Salem witch trials, drawn as a network. **412 people** appear in the record and **1,096 accusations** connect them. Each arrow runs from the person who made an accusation to the person they named — a directed graph of who pointed at whom, between February 1692 and January 1693.
+
+Seen from a distance it is a tangle. But the tangle has an order, and one structural fact about it explains why this record can be read not just as a chain of courtrooms and grudges, but as a **contagion**. This story builds toward that fact.
+
+Start with the raw graph, all 412 people and every arrow between them. The accused cluster together, the accusers fan out across them, and a few names sit at the center of nearly everything.
+
+Most people accuse a handful of times — many not at all. A handful accuse dozens of times. Highlighted here are the **six most prolific accusers**: Mary Walcott (79 accusations), Ann Putnam Jr. (77), Abigail Williams (62), Mary Warren (59), Mercy Lewis (59), and Elizabeth Hubbard (54).
+
+Together these six people account for **389 of the 1,096 accusations** — more than a third of the entire network. This is the signature of an outbreak driven by **superspreaders**: a small number of sources carrying most of the transmission.
+
+A contagion does more than spread outward — it recruits. Highlighted in red are **51 people who switch sides**: they appear first among the accusers and the afflicted, and later stand accused themselves. Among them are Tituba, Mary Warren, Abigail Williams, and Martha Corey.
+
+The record even names the mechanism. **95 accusations** describe the same act — the signing of the Devil's book. The network recruits from within its own victims, which is exactly how a spreading process replenishes itself.
+
+Now the structural fact this story has been building toward: **the network has no loops.**
+
+Follow any chain of accusations and you can never find your way back to where you started. The only exceptions are **seven people who appear to themselves** — the accused seen in their own dreams — drawn here as small rings. Apart from those seven, there is not a single cycle in all 1,096 accusations.
+
+Laid out by generation, the shape is unmistakable: **267 pure accusers** at the root, accusations passing downward through as many as **five steps**, always onward, never back.
+
+A network with no loops but with a recruitment step is precisely what a **witch-recruitment network — or an epidemic — looks like**. There is no way for the "infection" to cycle back on itself; it only moves forward to new people.
+
+And that is what makes this more than a picture. Because the structure is a contagion, we can fit **classic epidemiological models** to the data — the same models used for the spread of disease.
+
+## The curve of an outbreak
+
+If the accusations behave like a contagion, they should leave a contagion's trace in time. Here is every one of the 1,096 accusations, dated to the month it was made.
+
+Each bar is one month of accusations, from the first in February 1692 to the last in January 1693. Watch the outbreak accelerate through the spring.
+
+It crests in **May 1692**, when **290 accusations** are made in a single month — the high-water mark of the crisis.
+
+Then it falls away through the summer — until a **second wave** breaks in **August and September 1692**, with 174 and 183 accusations. Outbreaks rarely end in a straight line.
+
+This is the shape epidemiologists know well: rise, peak, decline, resurgence. Read together with the loop-free network underneath it, the Salem record stops being a local tragedy and becomes a case study in **how things spread** — one that classic epidemiological models are built to fit.
+
+The graph has hubs, it has a recruitment mechanism, and it has no loops. Each of those is a structural clue; together they are why a set of courtroom accusations from 1692 can be analyzed with the mathematics of contagion. What looks like a tangle, on inspection, is a network pointing in exactly one direction.

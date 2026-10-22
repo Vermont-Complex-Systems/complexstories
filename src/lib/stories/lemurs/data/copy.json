@@ -88,7 +88,7 @@
       "note": "Ordered categories — safe to render as a sequential ramp within one hue."
     },
     {
-      "order": 3, "id": "short-sleep", "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
+      "order": 3, "id": "short-sleep", "section": "Sleep", "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
       "stat": { "value": "32%", "label": "averaged under 7 hours" },
       "title": "A third of the cohort was running a deficit every night.",
       "body": "The cohort average was a respectable 7 hours 26 minutes — better than most college samples. But a third of students averaged less than seven hours across the whole semester, and the typical student's worst night was 5 hours 45.",
@@ -109,7 +109,22 @@
       ]
     },
     {
-      "order": 4, "id": "chronotype", "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
+      "order": 4, "id": "alarm-minutes", "visual": { "component": "sleepSignals", "view": "minutes" },
+      "theme": "sleep", "kicker": "01 — Sleep",
+      "stat": { "value": "1.5×", "label": "higher at :00, :15, :30 and :45" },
+      "title": "Waking happens on the quarter-hour. Falling asleep doesn't.",
+      "body": "Getting-up times pile onto the quarter-hours, and hardest of all onto the top of the hour: across the busiest waking hours those minutes sit about 1.5 times higher on the figure's scale than the rest of the hour. Falling asleep shows no such pull — 1.03, which is nothing. One of these two events is scheduled by a device; the other is what a body does.",
+      "caveat": "This grid is digitised from the published figure, so each minute's value is its position on the figure's colour scale, not a headcount. The ranking is faithful; the ratios are not a count of students. The source clock face is 12-hour, with no AM or PM.",
+      "extras": [
+        "Get-up minutes :00/:15/:30/:45 — 1.48× the rest of the hour",
+        "Bedtime minutes — 1.03×, no pull",
+        "Strongest single minute: :01, then :00",
+        "Busiest waking hours: 7–10 on the clock face"
+      ],
+      "note": "NEEDS A SOURCE. The component README cites 'LEMURS Figure 1 (sleep)' without naming the paper; add the key to `source` once confirmed."
+    },
+    {
+      "order": 5, "id": "chronotype", "visual": { "component": "sleepWindows" }, "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
       "stat": { "value": "50%", "label": "centred their night after 5 AM" },
       "title": "Left alone, half of them slept past a 5 AM midpoint.",
       "body": "Measured over Thanksgiving week, when no classes were in session, the median student's sleep period was centred on 5 AM. This is what their bodies did with no schedule imposed — and by definition, half of them ran even later than that.",
@@ -129,10 +144,17 @@
       ]
     },
     {
-      "order": 5, "id": "hr-shape", "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
-      "stat": { "value": "64%", "label": "of nights, late trough" },
+      "order": 6, "id": "hr-shape-hammock", "visual": { "component": "sleepSignals", "view": "arcs", "arcs": ["hammock"] }, "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
+      "stat": { "value": "36%", "label": "of nights, early trough" },
       "title": "Sleeping hearts come in exactly two shapes.",
-      "body": "Clustered across 20,167 nights, the heart-rate curve during sleep collapses into two stable families — and the thing that separates them is when the heart reaches its lowest point. Late-trough nights carry less deep sleep and less REM, with identical total duration. Length tells you nothing here; shape predicts impairment, prior diagnosis and prior trauma.",
+      "body": "Clustered across 20,167 nights, the heart-rate curve during sleep collapses into two stable families — and the thing that separates them is when the heart reaches its lowest point. The first is the hammock arc: heart rate sinks early, bottoms out about a third of the way into the night, and climbs back toward waking. It describes just over a third of nights.",
+      "source": "hr2024"
+    },
+    {
+      "order": 7, "id": "hr-shape", "visual": { "component": "sleepSignals", "view": "arcs", "arcs": ["hammock", "lateMinimum"] }, "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
+      "stat": { "value": "64%", "label": "of nights, late trough" },
+      "title": "The other shape bottoms out late.",
+      "body": "In the late-minimum arc, the heart keeps falling until about two thirds of the way through the night — and this is the more common shape. Late-trough nights carry less deep sleep and less REM, with identical total duration. Length tells you nothing here; shape predicts impairment, prior diagnosis and prior trauma.",
       "data": {
         "unit": "nights", "n": 20167, "dots": 600, "each": "1 dot ≈ 34 nights",
         "groups": [
@@ -151,7 +173,7 @@
       ]
     },
     {
-      "order": 6, "id": "nature-campus", "theme": "nature", "mode": "split", "kicker": "02 — Nature",
+      "order": 8, "id": "nature-campus", "visual": { "component": "natureLift", "view": "map" }, "section": "Nature", "theme": "nature", "mode": "split", "kicker": "02 — Nature",
       "stat": { "value": "65%", "label": "of logged nature time was on campus" },
       "title": "Most of their green space was the space they crossed to get to class.",
       "body": "A GPS app logged where students actually were. Two thirds of all recorded nature exposure happened inside university boundaries — and campus exposure was the exposure associated with slightly higher stress, depression and anxiety. Green space you commute through does not appear to restore anyone.",
@@ -167,7 +189,7 @@
       "note": "UNIT SWITCH: minutes of exposure, not students. n=548 students contributed."
     },
     {
-      "order": 7, "id": "nature-gap", "theme": "nature", "mode": "split", "kicker": "02 — Nature",
+      "order": 9, "id": "nature-gap", "visual": { "component": "natureLift", "view": "depression", "emphasis": "Nature" }, "theme": "nature", "mode": "split", "kicker": "02 — Nature",
       "stat": { "value": "44%", "label": "of felt nature was recorded" },
       "title": "For every hour students felt they'd spent outside, the phone found 26 minutes.",
       "body": "Students reported 6.06 hours a week in nature. Their phones logged 2.66. And the perceived number is the one that mattered: it predicted lower depression, stress, loneliness and higher positive affect, all at p<0.001 — while the measured number ran the other way. Restoration is an attention you pay, not a place you occupy.",
@@ -190,7 +212,23 @@
       ]
     },
     {
-      "order": 8, "id": "sync", "theme": "activity", "mode": "whole", "kicker": "03 — Activity",
+      "order": 10, "id": "nature-hrv", "visual": { "component": "natureLift", "view": "hrv", "emphasis": "Nature", "weekly": false },
+      "theme": "nature", "kicker": "02 — Nature",
+      "stat": { "value": "+4.5", "label": "HRV, the nature group alone" },
+      "title": "Only one of the four groups moved.",
+      "body": "Measured against its own pre-treatment baseline, the nature group's mean heart-rate variability rose from 67.9 to 72.5 across the fifteen treatment weeks. The exercise group gained 0.9. Control and therapy ended where they started, at −0.2 and −0.1. The confidence bands overlap for most of the semester, so this is a direction, not a verdict.",
+      "caveat": "These lines are traced from the published figure rather than read from a table. Where several confidence bands overlap the edges carry roughly ±0.5 HRV, and three control-group weeks — 11, 20 and 22 — run underneath another line and are interpolated.",
+      "extras": [
+        "Observational weeks 1–13, treatment weeks 14–28",
+        "Nature 67.9 → 72.5 (+4.5)",
+        "Exercise 65.6 → 66.5 (+0.9)",
+        "Control 62.7 → 62.5 (−0.2)",
+        "Therapy 61.0 → 60.9 (−0.1)"
+      ],
+      "note": "NEEDS A SOURCE, AND A PROVENANCE CHECK. This is a four-arm comparison (control / exercise / nature / therapy) with a treatment window, which is not the observational cohort B design the other nature steps describe. Confirm which paper and figure this is before publishing — the same question applies to the depression slope on the step above."
+    },
+    {
+      "order": 11, "id": "sync", "section": "Activity", "theme": "activity", "mode": "whole", "kicker": "03 — Activity",
       "stat": { "value": "100%", "label": "move on the same beat" },
       "title": "The one finding that sorts nobody.",
       "body": "Aggregate every student's movement at five-minute resolution and the class timetable appears as sharp synchronised spikes — 50-minute Monday/Wednesday/Friday blocks, 75-minute Tuesday/Thursday blocks. The spikes fall at identical clock times for men and women, and for students with and without mental-health impairment. Then they vanish over Thanksgiving break.",
@@ -207,7 +245,7 @@
       ]
     },
     {
-      "order": 9, "id": "activity-impairment", "theme": "activity", "mode": "split", "kicker": "03 — Activity",
+      "order": 12, "id": "activity-impairment", "theme": "activity", "mode": "split", "kicker": "03 — Activity",
       "stat": { "value": "35%", "label": "moved less — but only in term" },
       "title": "The same third, showing up in their step count.",
       "body": "Students reporting impairment from anxiety or depression burned about 2.8% fewer active calories a day. The effect is small, and it is entirely conditional: run the model on Thanksgiving break alone and impairment stops predicting activity at all. Whatever produces the gap, the academic term is what switches it on.",
@@ -222,7 +260,7 @@
       "note": "Same 35% as step 2 — if your sprites keep identity, these dots should not move between those frames. That recurrence is the strongest structural point in the piece."
     },
     {
-      "order": 10, "id": "gad-crossed", "theme": "anxiety", "mode": "split", "kicker": "04 — Anxiety",
+      "order": 13, "id": "gad-crossed", "section": "Anxiety", "theme": "anxiety", "mode": "split", "kicker": "04 — Anxiety",
       "stat": { "value": "51%", "label": "crossed the clinical threshold" },
       "title": "Half the cohort hit moderate anxiety at least once.",
       "body": "275 students scored 10 or higher on the GAD-7 in at least one week of the semester. Measured once in September and once in December, three-quarters of the cohort would have looked unchanged. Measured weekly, half of them cross a line.",
@@ -237,7 +275,7 @@
       "note": "The manuscript labels 275 as both '51% crossed' and '49% never'. 275/541 = 50.8%, so 275 is the crossing group and 266 is the remainder."
     },
     {
-      "order": 11, "id": "gad-persistence", "theme": "anxiety", "mode": "split", "kicker": "04 — Anxiety",
+      "order": 14, "id": "gad-persistence", "theme": "anxiety", "mode": "split", "motion": "threshold", "kicker": "04 — Anxiety",
       "stat": { "value": "9%", "label": "never came back under" },
       "title": "Almost nobody stays on one side of the line.",
       "body": "Only 43 students were above the moderate threshold at every single survey, and only 13 were severe throughout. The other 42% moved back and forth. One in five week-to-week transitions crossed up into moderate anxiety; one in five crossed back down.",
@@ -258,7 +296,7 @@
       ]
     },
     {
-      "order": 12, "id": "gad-priors", "theme": "anxiety", "mode": "columns", "kicker": "04 — Anxiety",
+      "order": 15, "id": "gad-priors", "theme": "anxiety", "mode": "columns", "kicker": "04 — Anxiety",
       "stat": { "value": "73% vs 37%", "label": "with vs without a prior diagnosis" },
       "title": "What they arrived with mattered more than what happened to them.",
       "body": "Students who started college with an anxiety diagnosis hit moderate anxiety at twice the rate of those who didn't — 153 of 210, against 122 of 331. For severe symptoms the gap widens further: 41% against 14%. A prior diagnosis also nearly tripled the odds of being above threshold every single week.",
@@ -291,7 +329,7 @@
       ]
     },
     {
-      "order": 13, "id": "panic", "theme": "anxiety", "mode": "split", "kicker": "04 — Anxiety",
+      "order": 16, "id": "panic", "theme": "anxiety", "mode": "split", "kicker": "04 — Anxiety",
       "stat": { "value": "38%", "label": "had a panic attack" },
       "title": "In the second cohort, nearly two in five reported at least one.",
       "body": "197 of 525 students. Of those, 84% had at least one adverse childhood experience. And the rate was almost identical whether a student had panic disorder, depression, or no diagnosis at all — roughly one attack every 18 to 21 days in every group. What the ring saw coming beforehand, though, shared not a single feature between them.",
@@ -313,7 +351,7 @@
       ]
     },
     {
-      "order": 14, "id": "stress-weeks", "theme": "stress", "mode": "split", "kicker": "05 — Stress",
+      "order": 17, "id": "stress-weeks", "section": "Stress", "theme": "stress", "mode": "split", "kicker": "05 — Stress",
       "stat": { "value": "64%", "label": "of weekly check-ins" },
       "title": "Two out of every three weeks were spent at moderate-to-high stress.",
       "body": "1,996 of 3,112 weekly responses scored 14 or higher on the PSS-10. The unit here is the student-week, not the student — this is a measure of how much of the semester was spent stressed, across everyone.",
@@ -336,7 +374,7 @@
       ]
     },
     {
-      "order": 15, "id": "stress-gender", "theme": "stress", "mode": "split", "kicker": "05 — Stress",
+      "order": 18, "id": "stress-gender", "theme": "stress", "mode": "split", "kicker": "05 — Stress",
       "stat": { "value": "73%", "label": "did not identify as male" },
       "title": "And they carried more stress in every week of the semester.",
       "body": "Female, nonbinary and transgender students reported perceived stress 2.5 to 3.4 points higher than male students, with roughly four to six times the odds of moderate-to-high stress depending on the model. The gap did not close at any point in the term.",
@@ -354,7 +392,7 @@
       ]
     },
     {
-      "order": 16, "id": "closing", "theme": "stress", "mode": "split", "kicker": "The last frame",
+      "order": 19, "id": "closing", "theme": "stress", "mode": "split", "kicker": "The last frame",
       "stat": { "value": "9%", "label": "stayed where they started" },
       "title": "Most of this cohort was moving.",
       "body": "Half crossed into clinical anxiety and almost all of them crossed back. Perceived stress fell steadily every week of the term — the hardest week was the first one. The durable group is small, and it is mostly made of students who arrived already carrying something. That is where an intervention would have to aim.",

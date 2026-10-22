@@ -4,6 +4,9 @@
 	// `hue` (the theme's main color), `tint` (a lighter shade for an ordered
 	// middle band), and `rest` (neutral). Everything is derived from the one
 	// step object handed down from Index.svelte; this component only draws.
+	import { onMount } from 'svelte';
+	import Stat from './Stat.svelte';
+
 	let { step = {} } = $props();
 
 	const CELL = 20; // viewBox units per cell
@@ -15,6 +18,7 @@
 	let mode = $derived(step?.mode ?? 'single');
 	let d = $derived(step?.data ?? {});
 	let stat = $derived(step?.stat ?? null);
+	let motion = $derived(step?.motion ?? null);
 
 	// Turn a list of groups into a flat array of dot roles over `count` dots.
 	// The last group absorbs the rounding remainder so the total is exact.
@@ -35,9 +39,75 @@
 		return { cols: c, rows, w: c * CELL, h: rows * CELL };
 	}
 
+	// `motion: "threshold"` — a horizontal line through the field. `hue` dots
+	// sit above it, `rest` dots below, and each `tint` dot owns a slot on both
+	// sides (mirrored across the line, same column) so it can hop back and forth.
+	const TH_COLS = 32; // wider than the square field: the tint band is drawn twice
+	const TH_GAP = CELL * 1.5; // clear space around the line
+	let threshold = $derived.by(() => {
+		if (motion !== 'threshold' || mode === 'columns') return null;
+		const count = d.dots ?? 0;
+		const roles = allocate(d.groups ?? [], count);
+		const nHue = roles.filter((r) => r === 'hue').length;
+		const nTint = roles.filter((r) => r === 'tint').length;
+		const rows = (n) => Math.ceil(n / TH_COLS);
+		const hueRows = rows(nHue);
+		const tintRows = rows(nTint);
+		const lineY = (hueRows + tintRows) * CELL + TH_GAP / 2;
+		const above = (row) => row * CELL + CELL / 2; // row counted from the top
+		const below = (row) => lineY + TH_GAP / 2 + row * CELL + CELL / 2; // from the line down
+		let h = 0, t = 0, r = 0, maxBelow = 0;
+		const dots = roles.map((role) => {
+			if (role === 'hue') {
+				const k = h++;
+				return { role, cx: (k % TH_COLS) * CELL + CELL / 2, cy: above(Math.floor(k / TH_COLS)) };
+			}
+			if (role === 'tint') {
+				// row 0 is the row nearest the line on either side
+				const k = t++, c = k % TH_COLS, j = Math.floor(k / TH_COLS);
+				return { role, cx: c * CELL + CELL / 2, cy: above(hueRows + tintRows - 1 - j), cyAlt: below(j) };
+			}
+			const k = r++, row = tintRows + Math.floor(k / TH_COLS);
+			maxBelow = Math.max(maxBelow, row + 1);
+			return { role, cx: (k % TH_COLS) * CELL + CELL / 2, cy: below(row) };
+		});
+		return { w: TH_COLS * CELL, h: lineY + TH_GAP / 2 + maxBelow * CELL, lineY, dots, nTint };
+	});
+
+	// Which tint dots are currently below the line. Every tick a few of them
+	// flip, so the band keeps churning; reduced motion holds a fixed half-split.
+	let down = $state([]);
+	let reduceMotion = $state(false);
+	onMount(() => {
+		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+		reduceMotion = mq.matches;
+		const onChange = (e) => (reduceMotion = e.matches);
+		mq.addEventListener('change', onChange);
+		return () => mq.removeEventListener('change', onChange);
+	});
+	$effect(() => {
+		const n = threshold?.nTint ?? 0;
+		if (!n) return;
+		down = Array.from({ length: n }, (_, k) => (reduceMotion ? k % 2 === 1 : Math.random() < 0.5));
+		if (reduceMotion) return;
+		const id = setInterval(() => {
+			down = down.map((v) => (Math.random() < 0.06 ? !v : v));
+		}, 280);
+		return () => clearInterval(id);
+	});
+
 	// single | split | whole — one field
 	let field = $derived.by(() => {
 		if (mode === 'columns') return null;
+		if (threshold) {
+			let t = 0;
+			return {
+				...threshold,
+				dots: threshold.dots.map((dot) =>
+					dot.role === 'tint' && down[t++] ? { ...dot, cy: dot.cyAlt } : dot
+				)
+			};
+		}
 		const count = d.dots ?? 0;
 		const { cols, w, h } = layout(count);
 		const roles = allocate(d.groups ?? [], count);
@@ -92,12 +162,7 @@
 	class="chart"
 	style="--lem-hue: var(--lem-{theme}); --lem-tint: var(--lem-{theme}-tint); --lem-rest: var(--lem-dot-rest);"
 >
-	{#if stat}
-		<div class="stat">
-			<span class="stat-value">{stat.value}</span>
-			<span class="stat-label">{stat.label}</span>
-		</div>
-	{/if}
+	<Stat {stat} />
 
 	<div class="plot">
 		{#if mode === 'columns' && columns}
@@ -118,13 +183,18 @@
 		{:else if field}
 			<svg
 				class:pulse={mode === 'whole'}
+				class:moving={!!threshold}
 				viewBox="0 0 {field.w} {field.h}"
 				role="img"
 				aria-label={ariaLabel}
 			>
+				<!-- positioned by transform (not cx/cy) so the threshold hops can ease -->
 				{#each field.dots as dot, i (i)}
-					<circle class="dot dot-{dot.role}" cx={dot.cx} cy={dot.cy} r={R} />
+					<circle class="dot dot-{dot.role}" r={R} style:transform="translate({dot.cx}px, {dot.cy}px)" />
 				{/each}
+				{#if threshold}
+					<line class="threshold" x1={-CELL / 2} x2={field.w + CELL / 2} y1={field.lineY} y2={field.lineY} />
+				{/if}
 			</svg>
 		{/if}
 	</div>
@@ -156,27 +226,6 @@
 		color: var(--lem-ink, currentColor);
 	}
 
-	.stat {
-		display: flex;
-		align-items: baseline;
-		gap: 0.5rem;
-		flex-wrap: wrap;
-	}
-
-	.stat-value {
-		font-family: var(--vcsi-font-heading);
-		font-weight: var(--vcsi-font-weight-bold);
-		font-size: var(--vcsi-font-size-xl);
-		line-height: 1;
-		color: var(--lem-hue);
-		transition: color 400ms ease;
-	}
-
-	.stat-label {
-		font-size: var(--vcsi-font-size-small);
-		color: var(--lem-muted, currentColor);
-	}
-
 	.plot {
 		display: flex;
 		justify-content: center;
@@ -204,11 +253,9 @@
 		fill: var(--lem-rest);
 	}
 
-	/* Whole-field synchrony state: every dot throbs on the same beat. */
-	svg.pulse .dot {
-		transform-box: fill-box;
-		transform-origin: center;
-	}
+	/* Whole-field synchrony state: every dot throbs on the same beat. The dots
+	   are placed with transform, so the beat scales a stroke rather than the
+	   transform itself (which would snap every dot back to the origin). */
 	@media (prefers-reduced-motion: no-preference) {
 		svg.pulse .dot {
 			animation: beat 1.5s ease-in-out infinite;
@@ -217,11 +264,34 @@
 	@keyframes beat {
 		0%,
 		100% {
-			transform: scale(1);
+			stroke-width: 0;
 		}
 		50% {
-			transform: scale(1.35);
+			stroke-width: 4;
 		}
+	}
+	svg.pulse .dot-hue {
+		stroke: var(--lem-hue);
+	}
+	svg.pulse .dot-tint {
+		stroke: var(--lem-tint);
+	}
+	svg.pulse .dot-rest {
+		stroke: var(--lem-rest);
+	}
+
+	/* Threshold state: dots glide to their side of the line, and tint dots keep
+	   hopping across it. */
+	@media (prefers-reduced-motion: no-preference) {
+		svg.moving .dot {
+			transition:
+				fill 500ms ease,
+				transform 900ms cubic-bezier(0.45, 0, 0.25, 1);
+		}
+	}
+	.threshold {
+		stroke: var(--lem-ink);
+		stroke-width: 2.5;
 	}
 
 	/* columns mode */
