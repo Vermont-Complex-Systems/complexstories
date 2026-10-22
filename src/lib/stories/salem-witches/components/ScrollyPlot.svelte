@@ -4,6 +4,7 @@
 	import { extent } from 'd3-array';
 	import { scaleSqrt } from 'd3-scale';
 	import network from '../data/salem_network_layout.json';
+	import { placeLabels, CHAR_W } from '../utils/labels.js';
 
 	let { scrollyIndex } = $props();
 
@@ -20,6 +21,11 @@
 	const VB_W = 1000; // viewBox width — its height follows the data's aspect ratio
 	const PAD = 0.06; // breathing room around the graph, as a fraction of VB_W
 	const LABEL_PX = 13; // on-screen label size, held constant regardless of panel size
+	const LABEL_PAD_PX = 5; // gap between a node's edge and its label, on screen
+	const LABEL_GAP_PX = 4; // vertical breathing room between labels, on screen
+	const QUOTE_INSET_PX = 110; // screen band the testimony quote card can occupy
+	const LEGEND_INSET_PX = 56; // screen band the legend occupies
+	const HUB_MIN = { w: 380, h: 210 }; // smallest hub-step frame, keeps the fan composition
 
 	/**
 	 * One entry per scrolly step, in the order the reader scrolls them.
@@ -30,13 +36,14 @@
 	 *                          legible at a glance.
 	 *  - node:    which nodes stay lit ('none' = all lit, no dimming).
 	 *  - edge:    how edges are emphasised for that step.
+	 *  - labels:  which names to draw — a key into LABEL_SETS, or null for none.
 	 */
 	const STEPS = [
-		{ layout: 'base', node: 'none', edge: 'none' }, // 0 — the whole raw network
-		{ layout: 'base', node: 'hubs', edge: 'hubs' }, // 1 — the six superspreaders
-		{ layout: 'base', node: 'turned', edge: 'book' }, // 2 — who switched sides
-		{ layout: 'layered', node: 'none', edge: 'flow' }, // 3 — no loops (laid out by generation)
-		{ layout: 'layered', node: 'none', edge: 'flow' } // 4 — hence: an epidemic
+		{ layout: 'base', node: 'none', edge: 'none', labels: null }, // 0 — the whole raw network
+		{ layout: 'base', node: 'hubs', edge: 'hubs', labels: 'hubs' }, // 1 — the six superspreaders
+		{ layout: 'base', node: 'turned', edge: 'book', labels: 'turned' }, // 2 — who switched sides
+		{ layout: 'layered', node: 'none', edge: 'flow', labels: 'selfs' }, // 3 — no loops (laid out by generation)
+		{ layout: 'layered', node: 'none', edge: 'flow', labels: 'selfs' } // 4 — hence: an epidemic
 	];
 
 	// =====================================================================
@@ -286,22 +293,6 @@
 	const baseBox = bbox(nodes.map((n) => [n.vx, n.vy]));
 	const layeredBox = bbox(nodes.map((n) => [n.lx, n.ly]));
 
-	// The superspreaders sit in a thin horizontal band at the graph's left edge.
-	// Anchor the frame's left edge near them so the cluster reads on the left
-	// (clear of the centred step cards) and its fan of accusations fills the rest.
-	const hubBox = (() => {
-		const hb = bbox([...hubs].map((id) => [byId.get(id).vx, byId.get(id).vy]));
-		const w = 380;
-		const h = 210;
-		const left = Math.max(hb.cx - w / 2, pad - 24);
-		return {
-			cx: left + w / 2,
-			cy: Math.min(Math.max(hb.cy, h / 2), VB_H - h / 2),
-			w,
-			h
-		};
-	})();
-
 	// =====================================================================
 	// Sizing — screen px per user unit, so node radii and labels stay constant
 	// on screen however large the panel is, and however far the camera zooms.
@@ -314,6 +305,66 @@
 	const unitPx = $derived(boxW && boxH ? Math.min(boxW / VB_W, boxH / VB_H) : 1);
 	const viewW = $derived(boxW ? boxW / unitPx : VB_W);
 	const viewH = $derived(boxH ? boxH / unitPx : VB_H);
+
+	// The superspreaders sit in a thin horizontal band at the graph's left edge.
+	// Anchor the frame's left edge near them so the cluster reads on the left
+	// (clear of the centred step cards) and its fan of accusations fills the
+	// rest — then grow the frame until every hub label fits. Labels are a fixed
+	// size on screen, so the room they need depends on the zoom this frame
+	// itself gets; two passes converge, deterministically.
+	const hubBox = $derived.by(() => {
+		const pts = [...hubs].map((id) => byId.get(id));
+		const xs = pts.map((n) => n.vx);
+		const ys = pts.map((n) => n.vy);
+		const nx0 = Math.min(...xs);
+		const nx1 = Math.max(...xs);
+		const ny0 = Math.min(...ys);
+		const ny1 = Math.max(...ys);
+		const hb = bbox(pts.map((n) => [n.vx, n.vy]));
+
+		const minFrame = (() => {
+			const left = Math.max(hb.cx - HUB_MIN.w / 2, pad - 24);
+			const cy = Math.min(Math.max(hb.cy, HUB_MIN.h / 2), VB_H - HUB_MIN.h / 2);
+			return {
+				x0: left,
+				y0: cy - HUB_MIN.h / 2,
+				x1: left + HUB_MIN.w,
+				y1: cy + HUB_MIN.h / 2
+			};
+		})();
+
+		let frame = minFrame;
+		for (let pass = 0; pass < 2; pass++) {
+			const w = frame.x1 - frame.x0;
+			const h = frame.y1 - frame.y0;
+			const k = Math.min(ZOOM.max, Math.max(ZOOM.min, Math.min(viewW / w, viewH / h) * ZOOM.fill));
+			const p = (unitPx || 1) * k; // screen px per user unit at this zoom
+			const fs = LABEL_PX / p;
+			const gap = LABEL_PAD_PX / p;
+			// Widest label extends the content's right edge; the overlay bands
+			// pad it top and bottom so no name hides under card or legend.
+			let xNeed = nx1;
+			for (const n of pts) {
+				const r = (radiusPx(n.size) * 1.25) / p + gap; // hubs render emphasized
+				xNeed = Math.max(xNeed, n.vx + r + n.label.length * CHAR_W * fs);
+			}
+			const cY0 = ny0 - fs - QUOTE_INSET_PX / p;
+			const cY1 = ny1 + fs + LEGEND_INSET_PX / p;
+			frame = {
+				x0: Math.min(minFrame.x0, nx0 - gap),
+				y0: Math.min(minFrame.y0, cY0),
+				x1: Math.max(minFrame.x1, xNeed),
+				y1: Math.max(minFrame.y1, cY1)
+			};
+		}
+
+		return {
+			cx: (frame.x0 + frame.x1) / 2,
+			cy: (frame.y0 + frame.y1) / 2,
+			w: frame.x1 - frame.x0,
+			h: frame.y1 - frame.y0
+		};
+	});
 
 	const focusBox = $derived.by(() => {
 		const i = scrollyIndex ?? 0;
@@ -399,17 +450,54 @@
 			.map((l) => ({ n: st.get(l.source), emph: i >= 3 }));
 	});
 
-	// Which nodes get a label for this step.
+	// Which nodes get a label for this step — a per-step key into LABEL_SETS,
+	// so a step's cast of names is editable right next to its other config.
+	const LABEL_SETS = {
+		hubs: () => [...hubs],
+		turned: () => ['Tituba', 'Mary Warren', 'Abigail Williams', 'Martha Corey'],
+		selfs: () => [...selfNodes]
+	};
+
 	const labels = $derived.by(() => {
-		const i = scrollyIndex ?? 0;
+		const build = LABEL_SETS[step.labels];
+		if (!build) return [];
 		const st = nodeState;
-		if (i === 1) return [...hubs].map((id) => st.get(id)).filter(Boolean);
-		if (i === 2)
-			return ['Tituba', 'Mary Warren', 'Abigail Williams', 'Martha Corey']
-				.map((id) => st.get(id))
-				.filter(Boolean);
-		if (i >= 3) return [...selfNodes].map((id) => st.get(id)).filter(Boolean);
-		return [];
+		return build()
+			.map((id) => st.get(id))
+			.filter(Boolean);
+	});
+
+	// Label placement. The visible rect, shrunk by the screen bands the quote
+	// card and legend occupy, is the safe frame: labels stay inside it even
+	// when their node does not, with a leader line carrying the binding.
+	const labelFrame = $derived.by(() => {
+		const p = pxToUser || 1;
+		const z = zoom.current;
+		return {
+			x0: -z.x / z.k,
+			y0: -z.y / z.k + QUOTE_INSET_PX / p,
+			x1: (viewW - z.x) / z.k,
+			y1: (viewH - z.y) / z.k - LEGEND_INSET_PX / p
+		};
+	});
+
+	const labelLayout = $derived.by(() => {
+		if (!boxW || !boxH) return [];
+		const p = pxToUser || 1;
+		const items = labels.map((n) => ({
+			id: n.id,
+			text: n.label,
+			color: n.color,
+			x: n.px,
+			y: n.py,
+			r: (radiusPx(n.size) * (n.emph ? 1.25 : 1)) / p
+		}));
+		return placeLabels(items, {
+			frame: labelFrame,
+			fontSize: LABEL_PX / p,
+			pad: LABEL_PAD_PX / p,
+			gap: LABEL_GAP_PX / p
+		});
 	});
 </script>
 
@@ -498,9 +586,17 @@
 
 		<!-- Labels are drawn last so they sit above the links. -->
 		<g class="labels">
-			{#each labels as n (n.id)}
-				<text x={n.px + (radiusPx(n.size) + 5) / pxToUser} y={n.py} dy="0.32em"
-					>{n.label}</text
+			{#each labelLayout as L (L.id)}
+				{#if L.leader}
+					<line class="leader" x1={L.sx} y1={L.sy} x2={L.ex} y2={L.ey} />
+				{/if}
+				<text
+					x={L.x}
+					y={L.y}
+					dy="0.32em"
+					text-anchor={L.side === 'left' ? 'end' : 'start'}
+					style="fill: {L.color}"
+					>{L.text}</text
 				>
 			{/each}
 		</g>
@@ -640,6 +736,13 @@
 		stroke: var(--vcsi-story-bg);
 		stroke-width: 3px;
 		stroke-linejoin: round;
+	}
+
+	.labels .leader {
+		stroke: var(--vcsi-gray-400);
+		stroke-width: 1px;
+		stroke-opacity: 0.7;
+		vector-effect: non-scaling-stroke;
 	}
 
 	.legend {
