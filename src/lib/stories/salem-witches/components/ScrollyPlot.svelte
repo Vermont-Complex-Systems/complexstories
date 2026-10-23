@@ -5,6 +5,8 @@
 	import { scaleSqrt } from 'd3-scale';
 	import network from '../data/salem_network_layout.json';
 	import { placeLabels, CHAR_W } from '../utils/labels.js';
+	import accuserSprite from '../data/illos/mini-accuser.jpg';
+	import accusedSprite from '../data/illos/mini-accused.jpg';
 
 	let { scrollyIndex } = $props();
 
@@ -298,9 +300,13 @@
 	// on screen however large the panel is, and however far the camera zooms.
 	// =====================================================================
 
-	const radiusPx = scaleSqrt()
+	const spriteHalf = scaleSqrt()
 		.domain(extent(nodes, (d) => d.size))
-		.range([3, 11]);
+		.range([6, 16]); // half the sprite's side, in screen px
+
+	const radiusDot = scaleSqrt()
+		.domain(extent(nodes, (d) => d.size))
+		.range([3, 11]); // dot radius for the opening, pre-sprite steps
 
 	const unitPx = $derived(boxW && boxH ? Math.min(boxW / VB_W, boxH / VB_H) : 1);
 	const viewW = $derived(boxW ? boxW / unitPx : VB_W);
@@ -345,7 +351,7 @@
 			// pad it top and bottom so no name hides under card or legend.
 			let xNeed = nx1;
 			for (const n of pts) {
-				const r = (radiusPx(n.size) * 1.25) / p + gap; // hubs render emphasized
+				const r = (spriteHalf(n.size) * 1.25) / p + gap; // hubs render emphasized
 				xNeed = Math.max(xNeed, n.vx + r + n.label.length * CHAR_W * fs);
 			}
 			const cY0 = ny0 - fs - QUOTE_INSET_PX / p;
@@ -395,7 +401,11 @@
 	// 0 while in the base layout, 1 while layered — tweened so the morph animates.
 	const mix = Tween.of(() => ({ v: layered ? 1 : 0 }), { duration: 900 });
 
-	// Per-node render state: interpolated position, dim/emph, and colour.
+	// Per-node render state: interpolated position, dim/emph, and whether the
+	// node draws as a sprite or a dot. The opening steps keep the plain dots
+	// (coloured by role, with the turned set going red); sprites take over in
+	// the layered closing steps, where accusers and "Both" people wear the
+	// accuser sprite and the pure accused wear theirs.
 	const nodeState = $derived.by(() => {
 		const m = mix.current.v;
 		const f = focus;
@@ -412,9 +422,15 @@
 				emph = turnedSet.has(n.id);
 				op = emph ? 1 : 0.07;
 			}
-			let color = roleColor(n.role);
-			if (f === 'turned' && emph) color = 'var(--role-turned)';
-			map.set(n.id, { id: n.id, label: n.label, size: n.size, px, py, op, emph, color });
+			let color;
+			let sprite;
+			if (layered) {
+				sprite = n.role === 'ACCUSED' ? accusedSprite : accuserSprite;
+			} else {
+				color = roleColor(n.role);
+				if (f === 'turned' && emph) color = 'var(--role-turned)';
+			}
+			map.set(n.id, { id: n.id, label: n.label, size: n.size, px, py, op, emph, color, sprite });
 		}
 		return map;
 	});
@@ -441,7 +457,7 @@
 			});
 	});
 
-	// The seven self-loops, as rings floating off their node.
+	// The seven self-loops, as concentric rings around their node.
 	const selfView = $derived.by(() => {
 		const st = nodeState;
 		const i = scrollyIndex ?? 0;
@@ -490,7 +506,7 @@
 			color: n.color,
 			x: n.px,
 			y: n.py,
-			r: (radiusPx(n.size) * (n.emph ? 1.25 : 1)) / p
+			r: (spriteHalf(n.size) * (n.emph ? 1.25 : 1)) / p
 		}));
 		return placeLabels(items, {
 			frame: labelFrame,
@@ -501,6 +517,15 @@
 	});
 </script>
 
+<svelte:head>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=MedievalSharp&family=Noto+Sans+Mono:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+		rel="stylesheet"
+	/>
+</svelte:head>
+
 <div class="network" bind:clientWidth={boxW} bind:clientHeight={boxH}>
 	<svg
 		viewBox="0 0 {viewW} {viewH}"
@@ -509,6 +534,11 @@
 		style="--label-size: {LABEL_PX / pxToUser}px"
 	>
 		<defs>
+			<!-- Rounded-square avatar: clips every sprite to the same soft-edged
+				shape. A circle would cut off the tall victim figure's head and feet. -->
+			<clipPath id="nodeAvatar" clipPathUnits="objectBoundingBox">
+				<rect width="1" height="1" rx="0.2" ry="0.2" />
+			</clipPath>
 			<marker
 				id="arrow"
 				viewBox="0 0 10 10"
@@ -554,17 +584,15 @@
 			{/each}
 		</g>
 
-		<!-- Self-loops: a ring attached to the node, drawn above the links. -->
+		<!-- Self-loops: a concentric halo ring around the node, drawn above the links. -->
 		<g class="selfloops">
 			{#each selfView as s (s.n.id)}
-				{@const nodeR = radiusPx(s.n.size) / pxToUser}
-				{@const loopR = (radiusPx(s.n.size) + 3) / pxToUser}
-				{@const dist = nodeR + loopR}
+				{@const loopR = (spriteHalf(s.n.size) * (s.emph ? 1.25 : 1) + 3) / pxToUser}
 				<circle
 					class="selfloop"
 					class:emph={s.emph}
-					cx={s.n.px + dist * 0.7071}
-					cy={s.n.py - dist * 0.7071}
+					cx={s.n.px}
+					cy={s.n.py}
 					r={loopR}
 				/>
 			{/each}
@@ -573,14 +601,29 @@
 		<g class="nodes">
 			{#each nodes as n (n.id)}
 				{@const s = nodeState.get(n.id)}
-				<circle
-					class="node"
-					class:emph={s.emph}
-					cx={s.px}
-					cy={s.py}
-					r={(radiusPx(s.size) * (s.emph ? 1.25 : 1)) / pxToUser}
-					style="fill: {s.color}; fill-opacity: {s.op}"
-				/>
+				{#if s.sprite}
+					{@const half = (spriteHalf(s.size) * (s.emph ? 1.25 : 1)) / pxToUser}
+					<image
+						class="node"
+						class:emph={s.emph}
+						href={s.sprite}
+						x={s.px - half}
+						y={s.py - half}
+						width={half * 2}
+						height={half * 2}
+						clip-path="url(#nodeAvatar)"
+						style="opacity: {s.op}"
+					/>
+				{:else}
+					<circle
+						class="node"
+						class:emph={s.emph}
+						cx={s.px}
+						cy={s.py}
+						r={(radiusDot(s.size) * (s.emph ? 1.25 : 1)) / pxToUser}
+						style="fill: {s.color}; fill-opacity: {s.op}"
+					/>
+				{/if}
 			{/each}
 		</g>
 
@@ -595,8 +638,7 @@
 					y={L.y}
 					dy="0.32em"
 					text-anchor={L.side === 'left' ? 'end' : 'start'}
-					style="fill: {L.color}"
-					>{L.text}</text
+					style={L.color ? `fill: ${L.color}` : undefined}>{L.text}</text
 				>
 			{/each}
 		</g>
@@ -607,8 +649,14 @@
 		<span class="item"><i class="swatch" style="background: var(--role-accuser)"></i>Accuser</span>
 		<span class="item"><i class="swatch" style="background: var(--role-accused)"></i>Accused</span>
 		<span class="item"><i class="swatch" style="background: var(--role-both)"></i>Both</span>
-		<span class="item"><i class="swatch" style="background: var(--role-turned)"></i
-			>Victim (deemed a witch)</span>
+		<!-- The red highlight only exists on the switch-sides step, so its entry
+			fades in with the step and out again after. -->
+		{#if step.node === 'turned'}
+			<span class="item" transition:fade={{ duration: 300 }}>
+				<i class="swatch" style="background: var(--role-turned)"></i>Victim (deemed a
+				witch)</span
+			>
+		{/if}
 	</div>
 
 	{#key stepQuote?.text}
@@ -649,13 +697,14 @@
 	}
 
 	.node {
-		stroke: none;
 		transition:
+			opacity var(--vcsi-transition-slow),
 			fill var(--vcsi-transition-slow),
 			fill-opacity var(--vcsi-transition-slow);
 	}
 
-	.node.emph {
+	/* The emphasis ring only reads on the dot rendering; sprites convey it by scale. */
+	circle.node.emph {
 		stroke: var(--vcsi-fg);
 		stroke-width: 1px;
 		stroke-opacity: 0.5;
@@ -782,11 +831,10 @@
 		transform: translateX(-50%);
 		margin: 0;
 		max-width: min(560px, 90%);
-		padding: 0.6rem 0.85rem;
+		padding: 0.2rem 0.45rem;
 		text-align: center;
-		font-family: var(--vcsi-font-serif, Georgia, 'Times New Roman', serif);
-		font-size: var(--vcsi-font-size-small, 0.85rem);
-		font-style: italic;
+		font-family: 'MedievalSharp', var(--vcsi-font-serif, Georgia, 'Times New Roman', serif);
+		font-size: var(--vcsi-font-size-small, 1.5em);
 		line-height: 1.45;
 		color: var(--vcsi-fg);
 		background: color-mix(in srgb, var(--vcsi-story-bg) 85%, transparent);

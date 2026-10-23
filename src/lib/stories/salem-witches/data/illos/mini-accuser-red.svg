@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" width="400" height="800">
+  <!-- Background is white by default -->
+  <g fill="none" stroke="#fca5a5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Head -->
+    <ellipse cx="200" cy="120" rx="40" ry="55" />
+    
+    <!-- Torso and Legs -->
+    <path d="M160,230 L240,230 
+             L230,480 
+             L230,740 
+             L190,750 
+             L180,740 
+             L170,480 
+             L160,230 Z" />
+    <!-- Simplified body/pants structure -->
+    <path d="M160,230 L240,230 L250,740 L200,760 L150,740 Z" opacity="0.8"/>
+    
+    <!-- Left Arm (Viewer's left) -->
+    <path d="M165,240 L90,310 L60,280" />
+    
+    <!-- Right Arm (Viewer's right) -->
+    <path d="M235,240 L310,310 L340,280" />
+  </g>
+</svg>

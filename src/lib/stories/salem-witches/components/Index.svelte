@@ -7,6 +7,7 @@
 	import accuserLeft from '../data/illos/accuse-left.jpg'
 	import accuserRight from '../data/illos/accuse-right.jpg'
 	import demonGirl from '../data/illos/demon-behind-girl.jpg'
+	import accuserGirl from '../data/illos/anne.jpg'
 	import tituba from '../data/illos/tituba.jpg'
 	import maryWarren from '../data/illos/mary warren.jpg'
 	import abigail from '../data/illos/Untitled_Artwork 3[1].jpg'
@@ -76,17 +77,18 @@
 		authors={data.authors}
 		date={data.date}
 	/>
-	<div class="side-by-side">
-		<img class="story-illo" src={accuserLeft} alt="A drawing of a woman pointing her finger accusingly at a man" />
-		<img class="story-illo" style="max-width: 280px; height: auto; width: 100%;" src={accuserRight} alt="A drawing of a woman pointing her finger accusingly at a man" />
+	<div class="side-by-side" id="story-header-image">
+		<img class="story-illo" src={accuserLeft} style="max-width: 200px; height: auto; width: 100%;" alt="A drawing of a woman pointing her finger accusingly at a man" />
+		<img class="story-illo" style="max-width: 180px; height: auto; width: 100%;" src={accuserRight} alt="A drawing of a woman pointing her finger accusingly at a man" />
 	</div>
 
 	<section class="prose">
 		<RenderContent items={data.introduction} />
 	</section>
 
-	<section>
-		<img style="max-width: 280px; height: auto; width: 100%;" src={demonGirl} alt="A drawing of a demon behind a girl" />
+	<section class="side-by-side">
+	<img class="story-illo" style="max-width: 280px; height: auto; width: 100%;" src={accuserGirl} alt="A drawing of a demon behind a girl" />
+		<img class="story-illo" style="max-width: 280px; height: auto; width: 100%;" src={demonGirl} alt="A drawing of a demon behind a girl" />
 	</section>
 
 	<section class="split-layout">
@@ -127,6 +129,9 @@
 
 	.split-layout {
 		--vcsi-panel-width: 60%;
+		/* Taller sticky panel than the kit's 600px default cap — the extra
+			height lets the graphics render slightly larger. */
+		--vcsi-panel-height: min(80vh, 720px);
 	}
 	.prose {
 		max-width: calc(var(--vcsi-story-max-width, 600px) + 2rem);
@@ -156,13 +161,62 @@
 
 	.side-by-side {
 		display: flex;
-		flex-wrap: wrap;
 		justify-content: center;
+		align-items: center;
 		gap: 2rem;
 		margin-top: 2rem;
 	}
 
+	.story-header {
+		margin-bottom: 10px;
+	}
+
+	#story-header-image {
+		margin-top: -50px;
+	}
+
+	/* Each header illustration tilts back and forth a touch — very slightly,
+		like the women are leaning into the accusation. The two images run offset
+		in direction and phase so the pair breathes rather than sways in unison. */
+	#story-header-image .story-illo {
+		animation: tilt-a 1.6s cubic-bezier(0.19, 1, 0.22, 1) infinite alternate;
+		transform-origin: 50% 92%;
+	}
+
+	#story-header-image .story-illo:last-child {
+		animation-name: tilt-b;
+		animation-duration: 1.4s;
+	}
+
+	@keyframes tilt-a {
+		from {
+			rotate: -2.5deg;
+		}
+		to {
+			rotate: 2.5deg;
+		}
+	}
+
+	@keyframes tilt-b {
+		from {
+			rotate: 2.5deg;
+		}
+		to {
+			rotate: -2.5deg;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		#story-header-image .story-illo {
+			animation: none;
+		}
+	}
+
 	.side-by-side .story-illo {
+		/* Split the row evenly and shrink rather than wrap, so the pair stays
+			side by side even on a phone. */
+		flex: 1 1 0;
+		min-width: 0;
 		max-width: 300px;
 		height: auto;
 		width: 100%;

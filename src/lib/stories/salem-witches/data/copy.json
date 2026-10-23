@@ -1,6 +1,6 @@
 {
-	"title": "Salem Witches",
-	"subtitle": "When accusing a witch looks like spreading a disease",
+	"title": "Witchcraft as Contagion",
+	"subtitle": "When accusing a witch looks a lot like spreading a disease",
 	"authors": [
 		{
 			"name": "Author Name",
@@ -11,33 +11,33 @@
 	"introduction": [
 		{
 			"type": "markdown",
-			"value": "Every accusation of the Salem witch trials, drawn as a network. **412 people** appear in the record and **1,096 accusations** connect them. Each arrow runs from the person who made an accusation to the person they named — a directed graph of who pointed at whom, between February 1692 and January 1693."
+			"value": "In 1692, a disease was spreading through the town of Salem, Massachussets. But instead of a biological contagion, it was a social one."
 		},
 		{
-			"type": "markdown",
-			"value": "Seen from a distance it is a tangle. But the tangle has an order, and one structural fact about it explains why this record can be read not just as a chain of courtrooms and grudges, but as a **contagion**. This story builds toward that fact."
+			"type":"markdown",
+			"value": "By analyzing who pointed at whom, we can see how the accusations spread through the community. And when you look at the structure of the network, it looks a lot like the outbreak of a disease."
 		}
 	],
 	"steps": [
 		{
 			"type": "markdown",
-			"value": "Start with the raw graph, all 412 people and every arrow between them. The accused cluster together, the accusers fan out across them, and a few names sit at the center of nearly everything."
+			"value": "Let's start with the raw graph: all 412 people with **1,096 accusations** connecting them. Each arrow runs from the person who made an accusation to the person they named, forming a directed graph of accustations between February 1692 and January 1693. The accused cluster together, the accusers fan out across them, and a few names sit at the center of nearly everything."
 		},
 		{
 			"type": "markdown",
-			"value": "Most people accuse a handful of times — many not at all. A handful accuse dozens of times. Highlighted here are the **six most prolific accusers**: Mary Walcott (79 accusations), Ann Putnam Jr. (77), Abigail Williams (62), Mary Warren (59), Mercy Lewis (59), and Elizabeth Hubbard (54).\n\nTogether these six people account for **389 of the 1,096 accusations** — more than a third of the entire network. This is the signature of an outbreak driven by **superspreaders**: a small number of sources carrying most of the transmission."
+			"value": "A handful of people threw out accustations dozens of times. Highlighted here are the **six most prolific accusers**: Mary Walcott (79 accusations), Ann Putnam Jr. (77), Abigail Williams (62), Mary Warren (59), Mercy Lewis (59), and Elizabeth Hubbard (54).\n\nTogether these six people account for **389 of the 1,096 accusations**, more than a third of the entire network. This is the signature of an outbreak driven by **superspreaders**: a small number of sources carrying most of the transmission."
 		},
 		{
 			"type": "markdown",
-			"value": "A contagion does more than spread outward — it recruits. Highlighted in red are **51 people who switch sides**: they appear first among the accusers and the afflicted, and later stand accused themselves. Among them are Tituba, Mary Warren, Abigail Williams, and Martha Corey.\n\nThe record even names the mechanism. **95 accusations** describe the same act — the signing of the Devil's book. The network recruits from within its own victims, which is exactly how a spreading process replenishes itself."
+			"value": "A contagion spreads outwards, but also recruits into the network. Highlighted in red are **51 people who switch sides. These are accusers turned victims, who are called witches themselves**. Among them are Tituba, Mary Warren, Abigail Williams, and Martha Corey.\n\nThe record even names the mechanism. **95 accusations** describe the same act of signing the Devil's book. The network recruits from within its own victims, which is exactly how a spreading process replenishes itself."
 		},
 		{
 			"type": "markdown",
-			"value": "Now the structural fact this story has been building toward: **the network has no loops.**\n\nFollow any chain of accusations and you can never find your way back to where you started. The only exceptions are **seven people who appear to themselves** — the accused seen in their own dreams — drawn here as small rings. Apart from those seven, there is not a single cycle in all 1,096 accusations.\n\nLaid out by generation, the shape is unmistakable: **267 pure accusers** at the root, accusations passing downward through as many as **five steps**, always onward, never back."
+			"value": "There is one defining characteristic of this network worth noting: **the network has no loops.**\n\nFollow any chain of accusations and you can never find your way back to where you started. The only exceptions are **seven people who appear to themselves** — the accused seen in their own dreams — drawn here as small rings. Apart from those seven, there is not a single cycle in all 1,096 accusations.\n\nLaid out by generation, the shape is unmistakable: **267 pure accusers** at the root, accusations passing downward through as many as **five steps**, always onward, never back."
 		},
 		{
 			"type": "markdown",
-			"value": "A network with no loops but with a recruitment step is precisely what a **witch-recruitment network — or an epidemic — looks like**. There is no way for the \"infection\" to cycle back on itself; it only moves forward to new people.\n\nAnd that is what makes this more than a picture. Because the structure is a contagion, we can fit **classic epidemiological models** to the data — the same models used for the spread of disease."
+			"value": "A network with no loops but with a recruitment step is precisely what a **witch-recruitment network — or an epidemic — looks like**. There is no way for the \"infection\" to cycle back on itself; it only moves forward to new people.\n\nAnd that is what makes this interesting. Because the structure is a contagion, we can fit classic epidemiological models to the data — the same models used for the spread of disease."
 		}
 	],
 	"curveIntro": [
