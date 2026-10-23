@@ -608,7 +608,7 @@
 		<span class="item"><i class="swatch" style="background: var(--role-accused)"></i>Accused</span>
 		<span class="item"><i class="swatch" style="background: var(--role-both)"></i>Both</span>
 		<span class="item"><i class="swatch" style="background: var(--role-turned)"></i
-			>Turned witch</span>
+			>Victim (deemed a witch)</span>
 	</div>
 
 	{#key stepQuote?.text}
@@ -629,9 +629,9 @@
 
 <style>
 	.network {
-		--role-accuser: #2563eb;
-		--role-accused: #d97706;
-		--role-both: #7c3aed;
+		--role-accuser: #afc74b;
+		--role-accused: #E29AFD;
+		--role-both: #841d8b;
 		--role-turned: #dc2626;
 
 		position: relative;
@@ -677,9 +677,9 @@
 	}
 
 	.link.emph {
-		stroke: var(--vcsi-color-accent);
+		stroke: var(--vcsi-gray-400);
 		stroke-opacity: 0.65;
-		marker-end: url(#arrowAccent);
+		marker-end: url(#arrow);
 	}
 
 	.link.book {
@@ -689,9 +689,9 @@
 	}
 
 	.link.flow {
-		stroke: var(--vcsi-color-accent);
+		stroke: var(--vcsi-gray-400);
 		stroke-opacity: 0.3;
-		marker-end: url(#arrowAccent);
+		marker-end: url(#arrow);
 	}
 
 	.link.dim {
