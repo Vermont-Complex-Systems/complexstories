@@ -12,6 +12,9 @@
 	import maryWarren from '../data/illos/mary warren.jpg'
 	import abigail from '../data/illos/Untitled_Artwork 3[1].jpg'
 	import martha from '../data/illos/Untitled_Artwork 1[1].jpg'
+	import network1 from '../data/illos/revised-illos/network1.png';	
+	import networkHead from '../data/illos/revised-illos/network-illos.png';
+	
 
 	let { story, data } = $props();
 
@@ -77,14 +80,16 @@
 		authors={data.authors}
 		date={data.date}
 	/>
-	<div class="side-by-side" id="story-header-image">
-		<img class="story-illo" src={accuserLeft} style="max-width: 200px; height: auto; width: 100%;" alt="A drawing of a woman pointing her finger accusingly at a man" />
-		<img class="story-illo" style="max-width: 180px; height: auto; width: 100%;" src={accuserRight} alt="A drawing of a woman pointing her finger accusingly at a man" />
-	</div>
+	<img class="story-illo" style="max-width: 1000px; height: auto; margin: 0 auto;" src={networkHead} alt="A network diagram of the Salem witch trials" />
 
 	<section class="prose">
 		<RenderContent items={data.introduction} />
 	</section>
+
+	<div class="side-by-side" id="story-header-image">
+		<img class="story-illo" src={accuserLeft} style="max-width: 200px; height: auto; width: 100%;" alt="A drawing of a woman pointing her finger accusingly at a man" />
+		<img class="story-illo" style="max-width: 180px; height: auto; width: 100%;" src={accuserRight} alt="A drawing of a woman pointing her finger accusingly at a man" />
+	</div>
 
 	<section class="side-by-side">
 	<img class="story-illo" style="max-width: 280px; height: auto; width: 100%;" src={accuserGirl} alt="A drawing of a demon behind a girl" />
@@ -117,6 +122,7 @@
 
 	<section class="prose conclusion">
 		<RenderContent items={data.conclusion} />
+		<img class="story-illo" src={network1} alt="A network diagram of the Salem witch trials" />
 	</section>
 </article>
 

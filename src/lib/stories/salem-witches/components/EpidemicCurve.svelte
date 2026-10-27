@@ -147,8 +147,8 @@
 			<text
 				class="note sub"
 				x={(x('1692-08') + x('1692-09') + x.bandwidth()) / 2}
-				y={M.top + 4}
-				text-anchor="middle">second wave</text
+				y={M.top + 24}
+				text-anchor="middle">second wave in Andover</text
 			>
 		{/if}
 	</svg>

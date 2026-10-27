@@ -5,7 +5,7 @@
 	import { scaleSqrt } from 'd3-scale';
 	import network from '../data/salem_network_layout.json';
 	import { placeLabels, CHAR_W } from '../utils/labels.js';
-	import accuserSprite from '../data/illos/mini-accuser.jpg';
+	import accuserSprite from '../data/illos/revised-illos/mini-green.png';
 	import accusedSprite from '../data/illos/mini-accused.jpg';
 
 	let { scrollyIndex } = $props();
@@ -544,8 +544,8 @@
 				viewBox="0 0 10 10"
 				refX="9"
 				refY="5"
-				markerWidth={6 / zoom.current.k}
-				markerHeight={6 / zoom.current.k}
+				markerWidth={8 / zoom.current.k}
+				markerHeight={8 / zoom.current.k}
 				markerUnits="userSpaceOnUse"
 				orient="auto"
 			>
@@ -556,8 +556,8 @@
 				viewBox="0 0 10 10"
 				refX="9"
 				refY="5"
-				markerWidth={6 / zoom.current.k}
-				markerHeight={6 / zoom.current.k}
+				markerWidth={8 / zoom.current.k}
+				markerHeight={8 / zoom.current.k}
 				markerUnits="userSpaceOnUse"
 				orient="auto"
 			>
@@ -568,8 +568,8 @@
 				viewBox="0 0 10 10"
 				refX="9"
 				refY="5"
-				markerWidth={6 / zoom.current.k}
-				markerHeight={6 / zoom.current.k}
+				markerWidth={8 / zoom.current.k}
+				markerHeight={8 / zoom.current.k}
 				markerUnits="userSpaceOnUse"
 				orient="auto"
 			>
@@ -581,20 +581,6 @@
 		<g class="links">
 			{#each linkView as l, i (i)}
 				<line class="link {l.cls}" x1={l.a.px} y1={l.a.py} x2={l.b.px} y2={l.b.py} />
-			{/each}
-		</g>
-
-		<!-- Self-loops: a concentric halo ring around the node, drawn above the links. -->
-		<g class="selfloops">
-			{#each selfView as s (s.n.id)}
-				{@const loopR = (spriteHalf(s.n.size) * (s.emph ? 1.25 : 1) + 3) / pxToUser}
-				<circle
-					class="selfloop"
-					class:emph={s.emph}
-					cx={s.n.px}
-					cy={s.n.py}
-					r={loopR}
-				/>
 			{/each}
 		</g>
 
@@ -624,6 +610,20 @@
 						style="fill: {s.color}; fill-opacity: {s.op}"
 					/>
 				{/if}
+			{/each}
+		</g>
+
+		<!-- Self-loops: drawn above the nodes so the red rings stay visible over sprites. -->
+		<g class="selfloops">
+			{#each selfView as s (s.n.id)}
+				{@const loopR = (spriteHalf(s.n.size) * (s.emph ? 1.25 : 1) + 3) / pxToUser}
+				<circle
+					class="selfloop"
+					class:emph={s.emph}
+					cx={s.n.px}
+					cy={s.n.py}
+					r={loopR}
+				/>
 			{/each}
 		</g>
 
@@ -677,7 +677,7 @@
 
 <style>
 	.network {
-		--role-accuser: #afc74b;
+		--role-accuser: #1ACD44;
 		--role-accused: #E29AFD;
 		--role-both: #841d8b;
 		--role-turned: #dc2626;

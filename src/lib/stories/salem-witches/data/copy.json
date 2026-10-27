@@ -3,7 +3,7 @@
 	"subtitle": "When accusing a witch looks a lot like spreading a disease",
 	"authors": [
 		{
-			"name": "Author Name",
+			"name": "Laurent Hébert-Dufresne and Juniper Lisa Lovato. Visualizations by Ben Dexter Cooley.",
 			"url": ""
 		}
 	],
@@ -11,7 +11,7 @@
 	"introduction": [
 		{
 			"type": "markdown",
-			"value": "In 1692, a disease was spreading through the town of Salem, Massachussets. But instead of a biological contagion, it was a social one."
+			"value": "In 1692, a contagion was spreading through the town of Salem, Massachussets. But instead of a biological pathogen, it was a social one: Accusations of witchcraft."
 		},
 		{
 			"type":"markdown",
@@ -25,11 +25,11 @@
 		},
 		{
 			"type": "markdown",
-			"value": "A handful of people threw out accustations dozens of times. Highlighted here are the **six most prolific accusers**: Mary Walcott (79 accusations), Ann Putnam Jr. (77), Abigail Williams (62), Mary Warren (59), Mercy Lewis (59), and Elizabeth Hubbard (54).\n\nTogether these six people account for **389 of the 1,096 accusations**, more than a third of the entire network. This is the signature of an outbreak driven by **superspreaders**: a small number of sources carrying most of the transmission."
+			"value": "A handful of people threw out accustations dozens of times. \n\nTogether these six people account for **389 of the 1,096 accusations**, more than a third of the entire network. This is the signature of an outbreak driven by **superspreaders**: a small number of sources carrying most of the transmission."
 		},
 		{
 			"type": "markdown",
-			"value": "A contagion spreads outwards, but also recruits into the network. Highlighted in red are **51 people who switch sides. These are accusers turned victims, who are called witches themselves**. Among them are Tituba, Mary Warren, Abigail Williams, and Martha Corey.\n\nThe record even names the mechanism. **95 accusations** describe the same act of signing the Devil's book. The network recruits from within its own victims, which is exactly how a spreading process replenishes itself."
+			"value": "A contagion spreads outwards, but also recruits into the network. Highlighted in red are **51 people who \"switch sides\" or get infected and pass on the contagion. These are often accused turned accusers.** Accepting the story, confessing, and passing guilt to others in an attempt to save their lives. Among them are Tituba, Mary Warren, Abigail Williams, and Martha Corey.\n\nThe record even names the mechanism. **95 accusations** describe the same act of signing the Devil's book. The network recruits from within its own victims, which is exactly how a spreading process replenishes itself."
 		},
 		{
 			"type": "markdown",
@@ -61,7 +61,7 @@
 		},
 		{
 			"type": "markdown",
-			"value": "Then it falls away through the summer — until a **second wave** breaks in **August and September 1692**, with 174 and 183 accusations. Outbreaks rarely end in a straight line."
+			"value": "Then it falls away through the summer — until a **second wave** breaks out in the nearby town of Andover during **August and September**, with 174 and 183 accusations respsectively. Outbreaks rarely end in a straight line."
 		},
 		{
 			"type": "markdown",
@@ -71,7 +71,15 @@
 	"conclusion": [
 		{
 			"type": "markdown",
-			"value": "The graph has hubs, it has a recruitment mechanism, and it has no loops. Each of those is a structural clue; together they are why a set of courtroom accusations from 1692 can be analyzed with the mathematics of contagion. What looks like a tangle, on inspection, is a network pointing in exactly one direction."
+			"value": "When taken together, a set of courtroom accusations from 1692 can be analyzed with the mathematics of contagion. What looks like a tangle, on inspection, is a network pointing in exactly one direction. But how did it get that way? Why did the accusations spread like a disease, and why did they leave no loops behind?"
+		},
+		{
+			"type": "markdown",
+			"value": "It could be that courts had to record the story as consistent with a contagion so that the narrative in the public record \"made sense\"; or it could be that people filtered themselves to tell a story consistent with previous statements so that their accusations would look believable."
+		},
+		{
+			"type": "markdown",
+			"value": "Or maybe, it always was an actual contagion... of witchcraft or of beliefs in witchcraft."
 		}
 	]
 }

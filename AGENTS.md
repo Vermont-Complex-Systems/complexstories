@@ -2,6 +2,10 @@
 
 A scrollytelling site built on `@the-vcsi/scrolly-kit` (SvelteKit + Svelte 5), dynamic / server-rendered (`adapter-node`). This is the Vermont Complex Systems flagship site: stories, a blog, and member pages, each driven by a CSV registry in `src/lib/data/` (`stories.csv`, `blog.csv`, `members.csv`).
 
+## Dev log
+
+`DEV_LOG.md` at the repo root records what changed, why, and what is still open. Read the newest entries before starting work, and add an entry at the end of each work session. Use the `dev-log` skill for the format.
+
 ## Creating a story — scaffold first
 
 When asked to create or start a new story, your FIRST action is `npm run new-story <slug>`. Do **not** survey the project or search for data files (`find … *.csv`, `~/data`, the repo root) first — the story's `data/` folder doesn't exist until you scaffold. So: scaffold → ask about the layout/shape → drop the dataset into the new `src/lib/stories/{slug}/data/` → build iteratively.
