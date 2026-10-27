@@ -2,12 +2,12 @@
 	"title": "Witchcraft as Contagion",
 	"subtitle": "When accusing a witch looks a lot like spreading a disease",
 	"authors": [
-		{
-			"name": "Laurent Hébert-Dufresne and Juniper Lisa Lovato. Visualizations by Ben Dexter Cooley.",
-			"url": ""
-		}
+		{ "name": "Laurent Hébert-Dufresne", "url": "https://joint-lab.github.io/" },
+		{ "name": "Juniper Lovato", "url": "https://juniperlovato.com/" },
+		{ "name": "Ben Dexter Cooley", "url": "https://benjamincooley.com/" },
+		{ "name": "Alexa Woodward", "url": "https://vermontcomplexsystems.org/who-we-are/alexa/" }
 	],
-	"date": "Oct 14, 2026",
+	"date": "Oct 27, 2026",
 	"introduction": [
 		{
 			"type": "markdown",

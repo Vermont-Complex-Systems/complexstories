@@ -7,7 +7,9 @@
 	import accuserLeft from '../data/illos/accuse-left.jpg'
 	import accuserRight from '../data/illos/accuse-right.jpg'
 	import demonGirl from '../data/illos/demon-behind-girl.jpg'
-	import accuserGirl from '../data/illos/anne.jpg'
+	import girlDemon from '../data/illos/girl-demon.jpg'
+	import hornsGirl from '../data/illos/horns-girl.jpg'
+	import accuserGirl from '../data/illos/revised-illos/accuser3.png'
 	import tituba from '../data/illos/tituba.jpg'
 	import maryWarren from '../data/illos/mary warren.jpg'
 	import abigail from '../data/illos/Untitled_Artwork 3[1].jpg'
@@ -83,6 +85,13 @@
 	<img class="story-illo" style="max-width: 1000px; height: auto; margin: 0 auto;" src={networkHead} alt="A network diagram of the Salem witch trials" />
 
 	<section class="prose">
+		<img
+			class="side-decoration side-decoration-left"
+			src={hornsGirl}
+			alt=""
+			aria-hidden="true"
+			loading="lazy"
+		/>
 		<RenderContent items={data.introduction} />
 	</section>
 
@@ -90,11 +99,6 @@
 		<img class="story-illo" src={accuserLeft} style="max-width: 200px; height: auto; width: 100%;" alt="A drawing of a woman pointing her finger accusingly at a man" />
 		<img class="story-illo" style="max-width: 180px; height: auto; width: 100%;" src={accuserRight} alt="A drawing of a woman pointing her finger accusingly at a man" />
 	</div>
-
-	<section class="side-by-side">
-	<img class="story-illo" style="max-width: 280px; height: auto; width: 100%;" src={accuserGirl} alt="A drawing of a demon behind a girl" />
-		<img class="story-illo" style="max-width: 280px; height: auto; width: 100%;" src={demonGirl} alt="A drawing of a demon behind a girl" />
-	</section>
 
 	<section class="split-layout">
 		<div class="sticky-panel">
@@ -107,6 +111,13 @@
 	</section>
 
 	<section class="prose">
+		<img
+			class="side-decoration side-decoration-right"
+			src={demonGirl}
+			alt=""
+			aria-hidden="true"
+			loading="lazy"
+		/>
 		<RenderContent items={data.curveIntro} />
 	</section>
 
@@ -121,9 +132,29 @@
 	</section>
 
 	<section class="prose conclusion">
+		<img
+			class="side-decoration side-decoration-left"
+			src={accuserGirl}
+			alt=""
+			aria-hidden="true"
+			loading="lazy"
+		/>
+		<img
+			class="side-decoration side-decoration-right"
+			src={girlDemon}
+			alt=""
+			aria-hidden="true"
+			loading="lazy"
+		/>
 		<RenderContent items={data.conclusion} />
 		<img class="story-illo" src={network1} alt="A network diagram of the Salem witch trials" />
 	</section>
+	<div class="paper-credit">
+		<div class="authors">
+			<span>Research and story by</span> Juniper Lovato and Laurent Hébert-Dufresne.<br> Visualizations by Ben Dexter Cooley. <br>Illustrations by Alexa Woodward.
+		</div>
+		
+	</div>
 </article>
 
 <Footer />
@@ -133,6 +164,13 @@
 		background: #fff
 	}
 
+	.paper-credit {
+		max-width: 550px; margin: 0 auto; font-size: 0.9rem; color: var(--vcsi-muted);
+		border-top: 1px solid var(--vcsi-border);
+		padding-top: 2rem;
+		padding-inline: var(--vcsi-space-md);
+	}
+
 	.split-layout {
 		--vcsi-panel-width: 60%;
 		/* Taller sticky panel than the kit's 600px default cap — the extra
@@ -140,6 +178,7 @@
 		--vcsi-panel-height: min(80vh, 720px);
 	}
 	.prose {
+		position: relative;
 		max-width: calc(var(--vcsi-story-max-width, 600px) + 2rem);
 		margin: 4rem auto;
 		padding: 0 1rem;
@@ -151,6 +190,34 @@
 		margin-left: 0;
 		margin-right: auto;
 		text-align: left;
+	}
+
+	/* Margin illustrations travel with their prose section without taking up
+		layout space or intercepting clicks. Keep narrow screens uncluttered. */
+	.side-decoration {
+		position: absolute;
+		top: 0;
+		display: none;
+		width: clamp(7rem, 13vw, 13rem);
+		max-width: none;
+		height: auto;
+		margin: 0;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.side-decoration-left {
+		right: calc(100% + var(--vcsi-space-lg));
+	}
+
+	.side-decoration-right {
+		left: calc(100% + var(--vcsi-space-lg));
+	}
+
+	@media (min-width: 1024px) {
+		.side-decoration {
+			display: block;
+		}
 	}
 
 	.conclusion {
@@ -173,8 +240,19 @@
 		margin-top: 2rem;
 	}
 
-	.story-header {
-		margin-bottom: 10px;
+	.story :global(.story-header h2) {
+		font-size: var(--vcsi-font-size-md);
+	}
+
+	.story :global(.story-header .author) {
+		margin-top: var(--vcsi-space-xl);
+		font-size: var(--vcsi-font-size-xs);
+	}
+
+	@media (max-width: 768px) {
+		.story :global(.story-header h2) {
+			font-size: 2.5rem;
+		}
 	}
 
 	#story-header-image {
@@ -185,30 +263,30 @@
 		like the women are leaning into the accusation. The two images run offset
 		in direction and phase so the pair breathes rather than sways in unison. */
 	#story-header-image .story-illo {
-		animation: tilt-a 1.6s cubic-bezier(0.19, 1, 0.22, 1) infinite alternate;
+		animation: tilt-a 0.9s cubic-bezier(0.19, 1, 0.22, 1) infinite alternate;
 		transform-origin: 50% 92%;
 	}
 
 	#story-header-image .story-illo:last-child {
 		animation-name: tilt-b;
-		animation-duration: 1.4s;
+		animation-duration: 0.8s;
 	}
 
 	@keyframes tilt-a {
 		from {
-			rotate: -2.5deg;
+			rotate: -4.5deg;
 		}
 		to {
-			rotate: 2.5deg;
+			rotate: 8deg;
 		}
 	}
 
 	@keyframes tilt-b {
 		from {
-			rotate: 2.5deg;
+			rotate: 4.5deg;
 		}
 		to {
-			rotate: -2.5deg;
+			rotate: -8deg;
 		}
 	}
 
