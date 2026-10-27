@@ -4,6 +4,16 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-10-27 15:39 — Limited Salem self-loop rings to five
+
+- **Agent:** opencode / kimi-k3.1-pro
+- **Intent:** Draw five red self-accusation rings instead of seven.
+- **Code:** `src/lib/stories/salem-witches/components/ScrollyPlot.svelte` limits `selfView` to the first five self-loop links before rendering.
+- **Why:** The requested ring count is a presentational cap; retaining the first five is deterministic, and the source data remains unchanged.
+- **Verified:** `npm run check` passes with 0 errors and 6 existing warnings.
+- **Open:** The source JSON still contains seven distinct self-loop people; only the ring rendering is capped at five per request.
+- **Git:** `main` @ `5900d56`; unrelated story changes remain uncommitted.
+
 ## 2026-10-27 10:08 — Intensified Salem illustration tilt animation
 
 - **Agent:** opencode / kimi-k3.1-pro

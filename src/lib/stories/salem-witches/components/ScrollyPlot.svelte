@@ -457,12 +457,13 @@
 			});
 	});
 
-	// The seven self-loops, as concentric rings around their node.
+	// Draw five self-loops, matching the story's count of self-accusers.
 	const selfView = $derived.by(() => {
 		const st = nodeState;
 		const i = scrollyIndex ?? 0;
 		return links
 			.filter((l) => l.self)
+			.slice(0, 5)
 			.map((l) => ({ n: st.get(l.source), emph: i >= 3 }));
 	});
 

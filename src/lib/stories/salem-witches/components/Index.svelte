@@ -15,7 +15,7 @@
 	import abigail from '../data/illos/Untitled_Artwork 3[1].jpg'
 	import martha from '../data/illos/Untitled_Artwork 1[1].jpg'
 	import network1 from '../data/illos/revised-illos/network1.png';	
-	import networkHead from '../data/illos/revised-illos/network-illos.png';
+	import networkHead from '../data/illos/revised-illos/network-directed.png';
 	
 
 	let { story, data } = $props();
