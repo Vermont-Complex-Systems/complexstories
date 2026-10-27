@@ -4,6 +4,16 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-10-27 15:49 — Made Salem illustrations mobile-responsive
+
+- **Agent:** opencode / kimi-k3.1-pro
+- **Intent:** Make every story illustration scale to small screens and remain centered on phones.
+- **Code:** `src/lib/stories/salem-witches/components/Index.svelte` gives `.story-illo` fluid sizing and automatic horizontal margins; at 768px and below, paired illustrations stack vertically and the portrait grid becomes two centered columns.
+- **Why:** Fluid width prevents large network illustrations from overflowing, while stacking and two-column portraits preserve readability instead of shrinking every image into a single row.
+- **Verified:** `npm run check` passes with 0 errors and 6 existing warnings.
+- **Open:** Browser visual review on a physical or emulated phone not run.
+- **Git:** `main` @ `8853c85`.
+
 ## 2026-10-27 15:39 — Limited Salem self-loop rings to five
 
 - **Agent:** opencode / kimi-k3.1-pro

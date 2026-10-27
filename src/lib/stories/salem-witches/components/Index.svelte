@@ -164,6 +164,15 @@
 		background: #fff
 	}
 
+	.story .story-illo {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		margin-inline: auto;
+		object-fit: contain;
+	}
+
 	.paper-credit {
 		max-width: 550px; margin: 0 auto; font-size: 0.9rem; color: var(--vcsi-muted);
 		border-top: 1px solid var(--vcsi-border);
@@ -297,8 +306,7 @@
 	}
 
 	.side-by-side .story-illo {
-		/* Split the row evenly and shrink rather than wrap, so the pair stays
-			side by side even on a phone. */
+		/* Split the row evenly on larger screens; phones stack the pair below. */
 		flex: 1 1 0;
 		min-width: 0;
 		max-width: 300px;
@@ -332,5 +340,27 @@
 		font-size: 0.68rem;
 		line-height: 1.2;
 		text-align: center;
+	}
+
+	@media (max-width: 768px) {
+		.side-by-side {
+			flex-direction: column;
+			align-items: center;
+			gap: var(--vcsi-space-lg);
+		}
+
+		.side-by-side .story-illo {
+			flex: 0 1 auto;
+			margin-inline: auto;
+		}
+
+		.portrait-row {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--vcsi-space-md);
+		}
+
+		.portrait-row img {
+			margin-inline: auto;
+		}
 	}
 </style>
