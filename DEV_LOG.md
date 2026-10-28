@@ -4,6 +4,16 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-10-28 10:08 — Registered the Salem story thumbnail
+
+- **Agent:** opencode / kimi-k3.1-pro
+- **Intent:** Fix the missing Salem thumbnail on story cards.
+- **Data:** Added `src/lib/assets/thumbnails/salem-witches.png`, copied from the existing valid static screenshot.
+- **Why:** `Story.svelte` found no optimized Salem asset and fell back to a nonexistent `.jpg`; placing the PNG in the glob-imported thumbnail directory lets `<enhanced:img>` render it directly.
+- **Verified:** The copied PNG opens successfully; `npm run check` passes with 0 errors and 6 existing warnings.
+- **Open:** `npm run build` reaches 4906 transformed modules but fails on the unrelated unresolved `tone` import in `taste-for-privacy/components/TrustSonification.svelte`.
+- **Git:** `main` @ `34969de`; unrelated `src/lib/data/stories.csv` changes remain uncommitted.
+
 ## 2026-10-27 15:49 — Made Salem illustrations mobile-responsive
 
 - **Agent:** opencode / kimi-k3.1-pro
