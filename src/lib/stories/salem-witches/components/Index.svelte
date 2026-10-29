@@ -151,7 +151,7 @@
 	</section>
 	<div class="paper-credit">
 		<div class="authors">
-			<span>Research and story by</span> Juniper Lovato and Laurent Hébert-Dufresne.<br> Visualizations by Ben Dexter Cooley. <br>Illustrations by Alexa Woodward.
+			<span>Research and story by</span> Juniper Lovato, Laurent Hébert-Dufresne, and Protiva Sen.<br> Visualizations by Ben Dexter Cooley. <br>Illustrations by Alexa Woodward.
 		</div>
 		
 	</div>
