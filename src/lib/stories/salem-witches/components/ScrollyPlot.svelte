@@ -471,7 +471,7 @@
 	// so a step's cast of names is editable right next to its other config.
 	const LABEL_SETS = {
 		hubs: () => [...hubs],
-		turned: () => ['Tituba', 'Mary Warren', 'Abigail Williams', 'Martha Corey'],
+		turned: () => ['Abigail Williams', 'Mary Warren', 'Tituba', 'Martha Corey'],
 		selfs: () => [...selfNodes]
 	};
 

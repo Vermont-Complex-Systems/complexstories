@@ -10,9 +10,9 @@
 	import girlDemon from '../data/illos/girl-demon.jpg'
 	import hornsGirl from '../data/illos/horns-girl.jpg'
 	import accuserGirl from '../data/illos/revised-illos/accuser3.png'
-	import tituba from '../data/illos/tituba.jpg'
+	import abby2 from '../data/illos/abby2.jpg'
 	import maryWarren from '../data/illos/mary warren.jpg'
-	import abigail from '../data/illos/Untitled_Artwork 3[1].jpg'
+	import tituba from '../data/illos/skull-girl.jpg'
 	import martha from '../data/illos/Untitled_Artwork 1[1].jpg'
 	import network1 from '../data/illos/revised-illos/network1.png';	
 	import networkHead from '../data/illos/revised-illos/network-directed.png';
@@ -48,16 +48,16 @@
 		<MarkdownRenderer text={parts.before} />
 		<div class="portrait-row">
 			<figure>
-				<img src={tituba} alt="Illustration of Tituba" />
-				<figcaption>Tituba</figcaption>
+				<img src={abby2} alt="Illustration of Tituba" />
+				<figcaption>Abigail Williams</figcaption>
 			</figure>
 			<figure>
 				<img src={maryWarren} alt="Illustration of Mary Warren" />
 				<figcaption>Mary Warren</figcaption>
 			</figure>
 			<figure>
-				<img src={abigail} alt="Illustration of Abigail Williams" />
-				<figcaption>Abigail Williams</figcaption>
+				<img src={tituba} alt="Illustration of Abigail Williams" />
+				<figcaption>Tituba</figcaption>
 			</figure>
 			<figure>
 				<img src={martha} alt="Illustration of Martha Corey" />
