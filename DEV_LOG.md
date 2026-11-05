@@ -4,6 +4,46 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-11-04 — Lemurs: section headers as full-width chapter breaks
+
+- **Agent:** opencode / claude-haiku-5-5
+- **Intent:** Stop section headers ("Sleep", "Nature", …) from being scroll steps. Each header is an independent full-width band, and each run of steps after it is its own scrolly section.
+- **Code:**
+  - `components/Chapter.svelte` (new): one scrolly section (sticky visual + steps). Owns its own step index and panel measurements, moved out of Index.
+  - `components/Index.svelte`: groups `data.steps` into chapters at each `section` key. Renders a `header.chapter-head.full-bleed` band (theme-coloured top rule) before each chapter after the first. Steps before the first header form an untitled opening chapter. Sources note unchanged.
+- **Verified:** `npm run check` 0 errors / 6 pre-existing warnings. Browser: 6 scrolly sections, 5 headers, each header 1440px wide at left 0 on a 1440px viewport. Step counts per section 3/5/3/2/4/3 = all 20 steps.
+- **Open:**
+  - Visual review of the header bands and section transitions not done.
+  - Header band styling (surface2 background, 3.5rem top margin) is a first pass.
+  - Each chapter's first step still shows its own chart when scrolled in; the chart does not carry over from the previous chapter.
+- **Git:** uncommitted; same lemurs set as the previous entries plus the new `Chapter.svelte`. The `--vcsi-step-height: 150vh` line in the fullscreen layout was already present and is preserved in `Chapter.svelte`.
+
+## 2026-11-04 — Lemurs: gaps between colour groups in sided splits
+
+- **Agent:** opencode / claude-haiku-5-5
+- **Intent:** Break the perfect square grid on the impairment and trauma steps by spacing the colour groups apart.
+- **Code:** `components/UnitChart.svelte` `sidePositions()` starts a new run of columns (desktop) or rows (phones) at each group boundary and adds `GROUP_GAP` (0.75 cell) before it. The arrangement is re-centred in the shared 520-unit box. Plain grid steps are unchanged.
+- **Verified:** `npm run check` 0 errors / 6 pre-existing warnings. Playwright: 35-unit gap between groups on desktop and phone; extents 440–495 units, inside the 520 box.
+- **Open:** Partial runs at group edges leave a ragged edge on some steps; accept or tune `GROUP_GAP`.
+- **Git:** uncommitted, same set as the previous lemurs entry.
+
+## 2026-11-04 — Lemurs: fullscreen layout, social cohort, sided splits, step transitions
+
+- **Agent:** opencode / claude-haiku-5-5
+- **Intent:** Cohort step becomes a mingling crowd; switch the lemurs scrolly to a centred full-viewport layout; put the impairment and trauma splits left/right (top/bottom on phones); tween dots between steps.
+- **Code:**
+  - `components/SocialField.svelte` (new): canvas crowd for `motion: "social"` on the cohort step; dots walk to clusters, chat, and re-form. Reduced motion falls back to the static grid.
+  - `components/Index.svelte`: `split-layout` → `fullscreen-layout`; charts measure a centred `.visual-wrap` (max 720px) so fit maths matches what is drawn; section headers keep their card.
+  - `components/UnitChart.svelte`: `arrange: "sides"` (columns left→right on desktop, rows top→bottom under 768px); all grid-style steps share one 520-unit box so steps don't rescale; every dot transitions transform (900ms) and fill (500ms), reduced-motion excepted.
+  - `data/copy.json`: `motion: "social"` on cohort; `arrange: "sides"` on impairment (order 1) and trauma (order 2).
+- **Verified:** `npm run check` 0 errors / 6 pre-existing warnings. Playwright: hue dots average x≈102 vs rest x≈334 on desktop; top/bottom on a 390px phone; dots report `transition: fill, transform`; cohort canvas frames change between captures.
+- **Open:**
+  - `copy.json` was changed on disk outside this session once (subtitle changed; `motion: "social"` removed and re-added). Confirm the subtitle is intended.
+  - The cohort crowd (canvas) does not tween into step 1; the dots appear at their grid slots.
+  - Purpose-built chart steps (sleep, nature) do not tween between steps.
+  - Steps 2 and 3 and section headers were not reviewed visually after the final CSS changes.
+- **Git:** `main`; changes uncommitted (lemurs component/data files, new SocialField.svelte, DEV_LOG.md). `src/lib/data/stories.csv` and `src/lib/stories/story-corps/` were already uncommitted before this session.
+
 ## 2026-10-28 10:08 — Registered the Salem story thumbnail
 
 - **Agent:** opencode / kimi-k3.1-pro

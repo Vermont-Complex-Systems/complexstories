@@ -1,6 +1,6 @@
 {
   "title": "The Cohort Re-sorted",
-  "subtitle": "One first-year class at UVM wore a ring for eight weeks. Each finding is a different way of dividing the same field.",
+  "subtitle": "One first-year class at UVM wore a ring for eight weeks. Using data on sleep, activity, stress, and anxiety, researchers at UVM examined how these factors influenced student well-being.",
   "authors": [{ "name": "Ben Dexter Cooley" }],
   "date": "August 2026",
   "description": "LEMURS findings framed as shares of a cohort, for a unit-chart scrollytelling piece.",
@@ -45,7 +45,7 @@
   },
   "steps": [
     {
-      "order": 0, "id": "cohort", "theme": "sleep", "mode": "single", "kicker": "The cohort",
+      "order": 0, "id": "cohort", "theme": "sleep", "mode": "single", "motion": "social", "kicker": "The cohort",
       "stat": { "value": "582", "label": "first-year students" },
       "title": "One semester, one ring each.",
       "body": "LEMURS put an Oura ring on an entire first-year cohort at the University of Vermont for eight weeks in the fall of 2022. Of this group, 97% of them aged 18 or 19, drawn from about a fifth of the class. Everything that follows is a way of dividing this field.",
@@ -57,7 +57,7 @@
       "note": "Cohort A. 65% female, 28% male, 6% non-binary — representative of the first-year class."
     },
     {
-      "order": 1, "id": "impairment", "theme": "anxiety", "mode": "split", "kicker": "Who they were",
+      "order": 1, "id": "impairment", "theme": "anxiety", "mode": "split", "arrange": "sides", "kicker": "Who they were",
       "stat": { "value": "35%", "label": "arrived impaired" },
       "title": "One-third reported impairment from diagnosed anxiety or depression.",
       "body": "Before the Oura tracking began, participants provided a self-report of existing, diagnosed conditions that were interfering with daily functioning at the moment they enrolled. This group reappears again and again below.",
@@ -72,7 +72,7 @@
       "note": "Counts derived from the reported 35% of n=582; the paper gives the percentage, not the headcount."
     },
     {
-      "order": 2, "id": "trauma", "theme": "anxiety", "mode": "split", "kicker": "Who they were",
+      "order": 2, "id": "trauma", "theme": "anxiety", "mode": "split", "arrange": "sides", "kicker": "Who they were",
       "stat": { "value": "40%", "label": "two or more traumatic events" },
       "title": "Most of them had already lived through something.",
       "body": "Before we dive in, there's some important context to consider: firsthand experience of potentially traumatic life events, recorded at baseline on the Life Events Checklist. Only 28% of the cohort reported none at all. Prior trauma turns out to predict both anxiety trajectories and the physiological shape of a night's sleep.",

@@ -6,11 +6,13 @@
 	// step object handed down from Index.svelte; this component only draws.
 	import { onMount } from 'svelte';
 	import Stat from './Stat.svelte';
+	import SocialField from './SocialField.svelte';
 
 	let { step = {} } = $props();
 
 	const CELL = 20; // viewBox units per cell
 	const R = 6; // dot radius
+	const BOX = 520; // every grid-style step draws into this same box, so a step change moves dots instead of rescaling the chart
 	const FIELD_COLS = (n) => Math.max(1, Math.ceil(Math.sqrt(n))); // near-square field
 	const COL_COLS = 13; // fixed width for the two-panel `columns` mode (shared pitch)
 
@@ -78,12 +80,21 @@
 	// flip, so the band keeps churning; reduced motion holds a fixed half-split.
 	let down = $state([]);
 	let reduceMotion = $state(false);
+	// Phones stack `sides` groups top-to-bottom instead of left-to-right.
+	let narrow = $state(false);
 	onMount(() => {
 		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
 		reduceMotion = mq.matches;
 		const onChange = (e) => (reduceMotion = e.matches);
 		mq.addEventListener('change', onChange);
-		return () => mq.removeEventListener('change', onChange);
+		const nq = window.matchMedia('(max-width: 768px)');
+		narrow = nq.matches;
+		const onNarrow = (e) => (narrow = e.matches);
+		nq.addEventListener('change', onNarrow);
+		return () => {
+			mq.removeEventListener('change', onChange);
+			nq.removeEventListener('change', onNarrow);
+		};
 	});
 	$effect(() => {
 		const n = threshold?.nTint ?? 0;
@@ -95,6 +106,10 @@
 		}, 280);
 		return () => clearInterval(id);
 	});
+
+	// `motion: "social"` — the opening cohort as a mingling crowd. Reduced motion
+	// skips the crowd entirely and falls back to the static grid field.
+	let social = $derived(motion === 'social' && mode !== 'columns' && !reduceMotion);
 
 	// single | split | whole — one field
 	let field = $derived.by(() => {
@@ -109,18 +124,72 @@
 			};
 		}
 		const count = d.dots ?? 0;
-		const { cols, w, h } = layout(count);
 		const roles = allocate(d.groups ?? [], count);
+		if (step?.arrange === 'sides') {
+			const pts = sidePositions(roles, !narrow);
+			return {
+				w: BOX,
+				h: BOX,
+				dots: roles.map((role, i) => ({ role, cx: pts[i][0], cy: pts[i][1] }))
+			};
+		}
+		const { slots, cols, rows } = gridSlots(count);
+		const ox = (BOX - cols * CELL) / 2;
+		const oy = (BOX - rows * CELL) / 2;
 		return {
-			w,
-			h,
+			w: BOX,
+			h: BOX,
 			dots: roles.map((role, i) => ({
 				role,
-				cx: (i % cols) * CELL + CELL / 2,
-				cy: Math.floor(i / cols) * CELL + CELL / 2
+				cx: ox + slots[i][0] * CELL + CELL / 2,
+				cy: oy + slots[i][1] * CELL + CELL / 2
 			}))
 		};
 	});
+
+	// Cell [col, row] for each dot index, row by row.
+	function gridSlots(count) {
+		const slots = [];
+		const cols = FIELD_COLS(count);
+		const rows = Math.max(1, Math.ceil(count / cols));
+		for (let i = 0; i < count; i++) slots.push([i % cols, Math.floor(i / cols)]);
+		return { slots, cols, rows };
+	}
+
+	// `sides`: each colour group is its own run of columns (desktop) or rows
+	// (phones), and every group boundary starts a new run with a gap before it.
+	const GROUP_GAP = CELL * 0.75;
+	function sidePositions(roles, byColumn) {
+		const span = Math.max(1, Math.ceil(Math.sqrt(roles.length)));
+		const pts = [];
+		let major = 0; // column index (desktop) or row index (phones)
+		let minor = 0; // row index (desktop) or column index (phones)
+		let gap = 0;
+		roles.forEach((role, i) => {
+			if (i > 0 && role !== roles[i - 1]) {
+				major += 1;
+				minor = 0;
+				gap += GROUP_GAP;
+			}
+			if (minor === span) {
+				major += 1;
+				minor = 0;
+			}
+			const along = major * CELL + gap + CELL / 2;
+			const across = minor * CELL + CELL / 2;
+			pts.push(byColumn ? [along, across] : [across, along]);
+			minor += 1;
+		});
+		if (!pts.length) return pts;
+		// Centre the whole arrangement in the shared box.
+		const xs = pts.map((p) => p[0]);
+		const ys = pts.map((p) => p[1]);
+		const minX = Math.min(...xs) - CELL / 2;
+		const minY = Math.min(...ys) - CELL / 2;
+		const ox = (BOX - (Math.max(...xs) + CELL / 2 - minX)) / 2 - minX;
+		const oy = (BOX - (Math.max(...ys) + CELL / 2 - minY)) / 2 - minY;
+		return pts.map(([x, y]) => [x + ox, y + oy]);
+	}
 
 	// columns — two panels at a shared dot pitch, so area is an honest comparison
 	let columns = $derived.by(() => {
@@ -165,7 +234,9 @@
 	<Stat {stat} />
 
 	<div class="plot">
-		{#if mode === 'columns' && columns}
+		{#if social}
+			<SocialField count={d.dots ?? 0} label={ariaLabel} />
+		{:else if mode === 'columns' && columns}
 			<div class="cols">
 				{#each columns as col (col.label)}
 					<div class="col">
@@ -221,12 +292,14 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
 		gap: var(--vcsi-space-md);
 		font-family: var(--vcsi-font-sans);
 		color: var(--lem-ink, currentColor);
 	}
 
 	.plot {
+		width: 100%;
 		display: flex;
 		justify-content: center;
 		min-height: 0;
@@ -235,13 +308,23 @@
 	svg {
 		width: 100%;
 		height: auto;
-		max-height: 46vh;
+		max-height: var(--lem-chart-max, 46vh);
 		display: block;
 		overflow: visible;
 	}
 
+	/* Every step tweens its dots from where they were to where they now belong,
+	   so a change of step re-sorts the field rather than swapping it. Positions
+	   are set with transform, which is what the transition runs on. */
 	.dot {
 		transition: fill 500ms ease;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.dot {
+			transition:
+				fill 500ms ease,
+				transform 900ms cubic-bezier(0.45, 0, 0.25, 1);
+		}
 	}
 	.dot-hue {
 		fill: var(--lem-hue);
@@ -282,13 +365,6 @@
 
 	/* Threshold state: dots glide to their side of the line, and tint dots keep
 	   hopping across it. */
-	@media (prefers-reduced-motion: no-preference) {
-		svg.moving .dot {
-			transition:
-				fill 500ms ease,
-				transform 900ms cubic-bezier(0.45, 0, 0.25, 1);
-		}
-	}
 	.threshold {
 		stroke: var(--lem-ink);
 		stroke-width: 2.5;
