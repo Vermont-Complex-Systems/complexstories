@@ -4,6 +4,13 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-11-09 — Lemurs: animate the crowd into the impairment grid
+
+- **Intent:** Make the opening social crowd visibly resolve into the “35% arrived impaired” dot grid instead of disappearing before its dots can arrive.
+- **Code:** `SocialField.svelte` maps each moving dot to its impairment-grid position. `UnitChart.svelte` keeps the crowd visible for the one-second movement, then fades it as the chart fades in; reduced-motion behavior remains static.
+- **Verified:** `npm run check` reports 0 errors; `git diff --check` passes.
+- **Open:** Browser visual review of the handoff has not been run.
+
 ## 2026-11-04 — Lemurs: section headers as full-width chapter breaks
 
 - **Agent:** opencode / claude-haiku-5-5

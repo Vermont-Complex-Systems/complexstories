@@ -16,7 +16,12 @@
 			if (s.section) {
 				n += 1;
 				out.push({
-					head: { label: s.section, number: String(n).padStart(2, '0'), theme: s.theme },
+					head: {
+						label: s.section,
+						intro: data.sectionIntros?.[s.section] ?? '',
+						number: String(n).padStart(2, '0'),
+						theme: s.theme
+					},
 					steps: []
 				});
 			}
@@ -44,6 +49,9 @@
 				<div class="chapter-inner">
 					<span class="section-num">{chapter.head.number}</span>
 					<h2 class="section-title">{chapter.head.label}</h2>
+					{#if chapter.head.intro}
+						<p class="section-intro">{chapter.head.intro}</p>
+					{/if}
 				</div>
 			</header>
 		{/if}
@@ -107,6 +115,10 @@
 		/* map the palette onto the scrolly-kit story tokens */
 		--vcsi-story-bg: var(--lem-bg);
 		--vcsi-story-fg: var(--lem-ink);
+	}
+
+	.lemurs-story :global(.step) {
+		--vcsi-step-height: 200vh;
 	}
 
 	/* Scoped-global on the story's unique class so Svelte keeps the rule (it
@@ -175,6 +187,14 @@
 		font-size: var(--vcsi-font-size-xl);
 		line-height: 1;
 		color: var(--lem-hue);
+	}
+
+	.chapter-head .section-intro {
+		max-width: 62ch;
+		margin: 0;
+		font-size: var(--vcsi-font-size-small);
+		line-height: var(--vcsi-line-height-relaxed);
+		color: var(--lem-ink2);
 	}
 
 	@media (max-width: 768px) {

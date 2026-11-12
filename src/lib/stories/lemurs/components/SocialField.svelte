@@ -8,12 +8,12 @@
 	// view stays the plain grid.
 	import { onMount } from 'svelte';
 
-	let { count = 0, label = '' } = $props();
+	let { count = 0, label = '', exitTargets = null } = $props();
 
 	// Logical field size; the canvas letterboxes it into whatever CSS box the
 	// layout gives it, so the simulation never has to know the pixel size.
 	const W = 520;
-	const H = 500;
+	const H = 520;
 	const TAU = Math.PI * 2;
 	const R = 4.5; // dot radius — smaller than the unit chart's, crowds need room
 	const SLOT = 11; // gap between "chairs" around a conversation
@@ -48,6 +48,7 @@
 			place(c);
 			clusters.push(c);
 		}
+		let exit = null;
 
 		// Start on the same near-square grid the static unit chart draws, then
 		// deal everyone into conversations and let them walk there — the field
@@ -70,6 +71,7 @@
 				const a = {
 					x: ox + (i % cols) * cells + cells / 2,
 					y: oy + Math.floor(i / cols) * cells + cells / 2,
+					i,
 					vx: 0,
 					vy: 0,
 					c,
@@ -192,7 +194,29 @@
 			const dt = Math.min(0.05, (now - last) / 1000);
 			last = now;
 			if (!visible || document.hidden) return;
-			tick(dt);
+			if (exitTargets?.length === agents.length) {
+				if (!exit || exit.targets !== exitTargets) {
+					exit = {
+						targets: exitTargets,
+						startedAt: now,
+						from: agents.reduce((positions, a) => {
+							positions[a.i] = [a.x, a.y];
+							return positions;
+						}, [])
+					};
+				}
+				const progress = Math.min(1, (now - exit.startedAt) / 1000);
+				const eased = 1 - (1 - progress) ** 3;
+				for (const a of agents) {
+					const from = exit.from[a.i];
+					const target = exit.targets[a.i];
+					a.x = from[0] + (target.cx - from[0]) * eased;
+					a.y = from[1] + (target.cy - from[1]) * eased;
+				}
+			} else {
+				exit = null;
+				tick(dt);
+			}
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			ctx.setTransform(scale, 0, 0, scale, padX, padY);
@@ -220,7 +244,13 @@
 	});
 </script>
 
-<div class="crowd" role="img" aria-label={label} style="aspect-ratio: {W} / {H};">
+<div
+	class="crowd"
+	role="img"
+	aria-label={label}
+	aria-hidden={!!exitTargets}
+	style="aspect-ratio: {W} / {H};"
+>
 	<canvas bind:this={canvas} width={W} height={H} aria-hidden="true"></canvas>
 </div>
 

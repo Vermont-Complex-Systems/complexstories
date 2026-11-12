@@ -117,8 +117,7 @@
 		{#snippet contentRenderer(item)}
 			<div class="step-inner">
 				{#if item.kicker}<p class="kicker">{item.kicker}</p>{/if}
-				{#if item.title}<h2 class="s-title">{item.title}</h2>{/if}
-				{#if item.body}<p class="s-body">{item.body}</p>{/if}
+				{#if item.description}<p class="s-description">{item.description}</p>{/if}
 				{#if item.caveat}<p class="s-caveat">{item.caveat}</p>{/if}
 				{#if item.extras?.length}
 					<ul class="s-extras">
@@ -150,7 +149,6 @@
 		--vcsi-step-border-radius: 8px;
 		/* The fullscreen layout owns the step width through its own token. */
 		--vcsi-fullscreen-step-max-width: 520px;
-		--vcsi-step-height: 150vh;
 	}
 
 	/* ---- The sticky panel ------------------------------------------------- */
@@ -275,13 +273,7 @@
 		color: var(--lem-muted);
 	}
 
-	.s-title {
-		margin: 0 0 0.6rem;
-		font-size: var(--vcsi-font-size-md);
-		line-height: var(--vcsi-line-height-snug);
-	}
-
-	.s-body {
+	.s-description {
 		margin: 0;
 		font-size: var(--vcsi-font-size-small);
 		line-height: var(--vcsi-line-height-relaxed);

@@ -234,9 +234,7 @@
 	<Stat {stat} />
 
 	<div class="plot">
-		{#if social}
-			<SocialField count={d.dots ?? 0} label={ariaLabel} />
-		{:else if mode === 'columns' && columns}
+		{#if mode === 'columns' && columns}
 			<div class="cols">
 				{#each columns as col (col.label)}
 					<div class="col">
@@ -253,10 +251,15 @@
 			</div>
 		{:else if field}
 			<svg
-				class:pulse={mode === 'whole'}
-				class:moving={!!threshold}
+				class={{
+					pulse: mode === 'whole',
+					moving: !!threshold,
+					revealing: social,
+					arriving: step?.id === 'impairment' && !reduceMotion
+				}}
 				viewBox="0 0 {field.w} {field.h}"
 				role="img"
+				aria-hidden={social}
 				aria-label={ariaLabel}
 			>
 				<!-- positioned by transform (not cx/cy) so the threshold hops can ease -->
@@ -267,6 +270,15 @@
 					<line class="threshold" x1={-CELL / 2} x2={field.w + CELL / 2} y1={field.lineY} y2={field.lineY} />
 				{/if}
 			</svg>
+		{/if}
+		{#if social || (step?.id === 'impairment' && !reduceMotion)}
+			<div class={['crowd-layer', { departing: !social }]}>
+				<SocialField
+					count={d.dots ?? 0}
+					label={ariaLabel}
+					exitTargets={!social ? field?.dots : null}
+				/>
+			</div>
 		{/if}
 	</div>
 
@@ -300,9 +312,24 @@
 
 	.plot {
 		width: 100%;
-		display: flex;
-		justify-content: center;
+		display: grid;
+		place-items: center;
 		min-height: 0;
+	}
+
+	.plot > svg,
+	.plot > .cols,
+	.plot > .crowd-layer {
+		grid-area: 1 / 1;
+	}
+
+	.crowd-layer {
+		width: 100%;
+		pointer-events: none;
+	}
+
+	svg.revealing {
+		opacity: 0;
 	}
 
 	svg {
@@ -311,6 +338,38 @@
 		max-height: var(--lem-chart-max, 46vh);
 		display: block;
 		overflow: visible;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		svg {
+			transition: opacity 250ms ease;
+		}
+
+		.crowd-layer.departing {
+			animation: crowd-depart 250ms ease 1000ms both;
+		}
+
+		svg.arriving {
+			animation: chart-arrive 250ms ease 1000ms both;
+		}
+	}
+
+	@keyframes crowd-depart {
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
+	}
+
+	@keyframes chart-arrive {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 
 	/* Every step tweens its dots from where they were to where they now belong,
