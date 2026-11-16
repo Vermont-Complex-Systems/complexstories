@@ -112,20 +112,6 @@
       ]
     },
     {
-      "order": 4, "id": "alarm-minutes", "visual": { "component": "sleepSignals", "view": "minutes" },
-      "theme": "sleep", "kicker": "01 — Sleep",
-      "stat": { "value": "1.5×", "label": "higher at :00, :15, :30 and :45" },
-      "description": "Waking happens on the quarter-hour. Falling asleep doesn't. Getting-up times pile onto the quarter-hours, and hardest of all onto the top of the hour: across the busiest waking hours those minutes sit about 1.5 times higher on the figure's scale than the rest of the hour. Falling asleep shows no such pull — 1.03, which is nothing. One of these two events is scheduled by a device; the other is what a body does.",
-      "caveat": "This grid is digitised from the published figure, so each minute's value is its position on the figure's colour scale, not a headcount. The ranking is faithful; the ratios are not a count of students. The source clock face is 12-hour, with no AM or PM.",
-      "extras": [
-        "Get-up minutes :00/:15/:30/:45 — 1.48× the rest of the hour",
-        "Bedtime minutes — 1.03×, no pull",
-        "Strongest single minute: :01, then :00",
-        "Busiest waking hours: 7–10 on the clock face"
-      ],
-      "note": "NEEDS A SOURCE. The component README cites 'LEMURS Figure 1 (sleep)' without naming the paper; add the key to `source` once confirmed."
-    },
-    {
       "order": 5, "id": "chronotype", "visual": { "component": "sleepWindows" }, "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
       "stat": { "value": "50%", "label": "centred their night after 5 AM" },
       "description": "Left alone, half of them slept past a 5 AM midpoint. Measured over Thanksgiving week, when no classes were in session, the median student's sleep period was centred on 5 AM. This is what their bodies did with no schedule imposed — and by definition, half of them ran even later than that.",

@@ -4,6 +4,13 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-11-16 — Removed sleep timing step
+
+- **Intent:** Remove the step comparing falling-asleep and getting-up times.
+- **Data:** Removed the `alarm-minutes` step from the lemurs story copy; other Sleep steps remain.
+- **Verified:** Validation commands were not run because permission was denied.
+- **Open:** Run `npm run check` when permitted.
+
 ## 2026-11-16 — Added lemurs chapter illustrations
 
 - **Intent:** Show the matching illustration in each chapter header.
