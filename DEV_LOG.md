@@ -4,6 +4,20 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-11-16 — Added lemurs chapter illustrations
+
+- **Intent:** Show the matching illustration in each chapter header.
+- **Code:** `components/Index.svelte` pairs Sleep, Nature, Activity, Anxiety and Stress with their namesake PNGs and places them beside the header text.
+- **Verified:** All five matching PNGs load and fit beside their titles at 1440px and 390px viewport widths. `npm run check` reports 0 errors and 6 existing warnings.
+- **Open:** None.
+
+## 2026-11-16 — Resized lemurs images
+
+- **Intent:** Reduce image file sizes while retaining PNG filenames and proportions.
+- **Data:** Resized all 11 images in `src/lib/stories/lemurs/data/images/` from 5400 × 5400 to 2000 × 2000 pixels.
+- **Verified:** All 11 images decode as PNG; the directory is 22 MB, down from approximately 169 MB. `npm run check` reports 0 errors and 6 existing warnings.
+- **Open:** None.
+
 ## 2026-11-09 — Lemurs: animate the crowd into the impairment grid
 
 - **Intent:** Make the opening social crowd visibly resolve into the “35% arrived impaired” dot grid instead of disappearing before its dots can arrive.

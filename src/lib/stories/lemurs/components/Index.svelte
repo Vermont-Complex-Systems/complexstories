@@ -2,8 +2,21 @@
 	import { Footer, StoryHeader } from '@the-vcsi/scrolly-kit';
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
 	import Chapter from './Chapter.svelte';
+	import sleepImage from '../data/images/sleep.png';
+	import natureImage from '../data/images/nature.png';
+	import activityImage from '../data/images/activity.png';
+	import anxietyImage from '../data/images/anxiety.png';
+	import stressImage from '../data/images/stress.png';
 
 	let { story, data } = $props();
+
+	const sectionImages = {
+		Sleep: sleepImage,
+		Nature: natureImage,
+		Activity: activityImage,
+		Anxiety: anxietyImage,
+		Stress: stressImage
+	};
 
 	// The story is a run of chapters. Each `section` in copy.json opens a new
 	// chapter with a full-width header; the steps after it (up to the next
@@ -20,7 +33,8 @@
 						label: s.section,
 						intro: data.sectionIntros?.[s.section] ?? '',
 						number: String(n).padStart(2, '0'),
-						theme: s.theme
+						theme: s.theme,
+						image: sectionImages[s.section]
 					},
 					steps: []
 				});
@@ -47,10 +61,15 @@
 		{#if chapter.head}
 			<header class="chapter-head full-bleed" style="--lem-hue: var(--lem-{chapter.head.theme});">
 				<div class="chapter-inner">
-					<span class="section-num">{chapter.head.number}</span>
-					<h2 class="section-title">{chapter.head.label}</h2>
-					{#if chapter.head.intro}
-						<p class="section-intro">{chapter.head.intro}</p>
+					<div class="chapter-copy">
+						<span class="section-num">{chapter.head.number}</span>
+						<h2 class="section-title">{chapter.head.label}</h2>
+						{#if chapter.head.intro}
+							<p class="section-intro">{chapter.head.intro}</p>
+						{/if}
+					</div>
+					{#if chapter.head.image}
+						<img class="chapter-image" src={chapter.head.image} alt="" width="2000" height="2000" loading="lazy" />
 					{/if}
 				</div>
 			</header>
@@ -168,8 +187,22 @@
 		width: 100%;
 		max-width: var(--vcsi-story-max-width);
 		display: flex;
+		align-items: center;
+		gap: var(--vcsi-space-lg);
+	}
+
+	.chapter-copy {
+		flex: 1;
+		min-width: 0;
+		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+	}
+
+	.chapter-image {
+		width: clamp(6rem, 24vw, 12rem);
+		height: auto;
+		flex-shrink: 0;
 	}
 
 	.chapter-head .section-num {
