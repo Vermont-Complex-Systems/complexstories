@@ -14,7 +14,6 @@
 	const R = 6; // dot radius
 	const BOX = 520; // every grid-style step draws into this same box, so a step change moves dots instead of rescaling the chart
 	const FIELD_COLS = (n) => Math.max(1, Math.ceil(Math.sqrt(n))); // near-square field
-	const COL_COLS = 13; // fixed width for the two-panel `columns` mode (shared pitch)
 
 	let theme = $derived(step?.theme ?? 'sleep');
 	let mode = $derived(step?.mode ?? 'single');
@@ -33,12 +32,6 @@
 			for (let k = 0; k < n; k++) roles.push(g.role ?? 'rest');
 		});
 		return roles;
-	}
-
-	function layout(count, cols) {
-		const c = cols ?? FIELD_COLS(count);
-		const rows = Math.max(1, Math.ceil(count / c));
-		return { cols: c, rows, w: c * CELL, h: rows * CELL };
 	}
 
 	// `motion: "threshold"` — a horizontal line through the field. `hue` dots
@@ -191,25 +184,22 @@
 		return pts.map(([x, y]) => [x + ox, y + oy]);
 	}
 
-	// columns — two panels at a shared dot pitch, so area is an honest comparison
+	// columns — separate 100%-stacked bars; each share is within its own group.
 	let columns = $derived.by(() => {
 		if (mode !== 'columns') return null;
 		return (d.columns ?? []).map((col) => {
 			const count = col.n ?? (col.groups ?? []).reduce((a, g) => a + (g.count ?? 0), 0);
-			const { w, h } = layout(count, COL_COLS);
-			const roles = allocate(col.groups ?? [], count);
-			const hueGroup = (col.groups ?? []).find((g) => g.role === 'hue');
+			const segments = (col.groups ?? []).map((group) => ({
+				...group,
+				pct: Math.round((group.share ?? 0) * 100)
+			}));
 			return {
 				label: col.label,
 				n: count,
-				pct: Math.round((hueGroup?.share ?? 0) * 100),
-				w,
-				h,
-				dots: roles.map((role, i) => ({
-					role,
-					cx: (i % COL_COLS) * CELL + CELL / 2,
-					cy: Math.floor(i / COL_COLS) * CELL + CELL / 2
-				}))
+				segments,
+				ariaLabel: `${col.label}: ${segments
+					.map((segment) => `${segment.count} ${segment.label.toLowerCase()} (${segment.pct}%)`)
+					.join('; ')}. Sample size n=${count}. Percentages are within this group.`
 			};
 		});
 	});
@@ -238,17 +228,44 @@
 			<div class="cols">
 				{#each columns as col (col.label)}
 					<div class="col">
-						<div class="col-pct">{col.pct}%</div>
-						<svg viewBox="0 0 {col.w} {col.h}" role="img" aria-label="{col.label}: {col.pct}%">
-							{#each col.dots as dot, i (i)}
-								<circle class="dot dot-{dot.role}" cx={dot.cx} cy={dot.cy} r={R} />
+						<div class="col-heading">
+							<div class="col-label">{col.label}</div>
+							<div class="col-n">n={col.n}</div>
+						</div>
+						<div class="stacked-bar" role="img" aria-label={col.ariaLabel}>
+							{#each col.segments as segment (segment.label)}
+								<div
+									class="bar-segment bar-{segment.role}"
+									style:width="{(segment.share ?? 0) * 100}%"
+									aria-hidden="true"
+								>
+									<span class="segment-count">{segment.count}</span>
+									<span class="segment-pct">{segment.pct}%</span>
+								</div>
 							{/each}
-						</svg>
-						<div class="col-label">{col.label}</div>
-						<div class="col-n">{col.n} students</div>
+						</div>
 					</div>
 				{/each}
 			</div>
+		{:else if mode === 'range'}
+			<svg
+				class="range-chart"
+				viewBox="0 65 520 110"
+				role="img"
+				aria-label="{d.reference} are the reference, shown by a dot. {d.label}: an estimated {d.min.toFixed(1)} to {d.max.toFixed(1)} PSS-10 points higher. Range across five models, not a confidence interval."
+			>
+				<text class="range-reference" x="60" y="89">{d.reference} (reference)</text>
+				<text class="range-group" x={60 + 50 * (d.min + d.max)} y="89" text-anchor="middle">{d.rangeLabel}</text>
+				<line class="range-axis" x1="60" x2="460" y1="112" y2="112" />
+				<circle class="range-reference-dot" cx="60" cy="112" r="7" />
+				<line class="range-span" x1={60 + 100 * d.min} x2={60 + 100 * d.max} y1="112" y2="112" />
+				<circle class="range-end" cx={60 + 100 * d.min} cy="112" r="7" />
+				<circle class="range-end" cx={60 + 100 * d.max} cy="112" r="7" />
+				{#each [1, 2, 3, 4] as tick (tick)}
+					<line class="range-tick" x1={60 + 100 * tick} x2={60 + 100 * tick} y1="120" y2="128" />
+					<text class="range-tick-label" x={60 + 100 * tick} y="151" text-anchor="middle">{tick}+</text>
+				{/each}
+			</svg>
 		{:else if field}
 			<svg
 				class={{
@@ -429,43 +446,101 @@
 		stroke-width: 2.5;
 	}
 
-	/* columns mode */
+	.range-chart text {
+		fill: var(--lem-ink);
+		font-family: var(--vcsi-font-sans);
+	}
+	.range-reference, .range-group {
+		font-size: 16px;
+	}
+	.range-chart text.range-group {
+		fill: var(--lem-hue);
+	}
+	.range-tick-label {
+		font-size: 19px;
+	}
+	.range-axis, .range-tick {
+		stroke: var(--lem-muted);
+		stroke-width: 2;
+	}
+	.range-span {
+		stroke: var(--lem-hue);
+		stroke-width: 10;
+	}
+	.range-end {
+		fill: var(--lem-hue);
+	}
+	.range-reference-dot {
+		fill: var(--lem-ink);
+	}
+
+	/* columns mode: equal-length 100% bars show within-group rates. */
 	.cols {
 		display: flex;
-		align-items: flex-start;
-		justify-content: center;
+		flex-direction: column;
 		gap: var(--vcsi-space-xl);
 		width: 100%;
+		min-width: 0;
 	}
 	.col {
-		flex: 1;
-		max-width: 45%;
 		display: flex;
 		flex-direction: column;
+		gap: var(--vcsi-space-sm);
+		width: 100%;
+		min-width: 0;
+	}
+	.col-heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--vcsi-space-sm);
+	}
+	.stacked-bar {
+		display: flex;
+		width: 100%;
+		min-height: 3.75rem;
+		overflow: hidden;
+		border-radius: var(--vcsi-radius-md);
+	}
+	.bar-segment {
+		display: flex;
+		flex: 0 0 auto;
+		flex-direction: column;
 		align-items: center;
-		gap: 0.35rem;
+		justify-content: center;
+		gap: var(--vcsi-space-xs);
+		box-sizing: border-box;
+		min-width: 0;
+		padding: var(--vcsi-space-xs);
+		text-align: center;
+		font-variant-numeric: tabular-nums;
+		line-height: 1.1;
 	}
-	.col svg {
-		max-height: 34vh;
-		width: auto;
-		max-width: 100%;
+	.bar-hue {
+		background: var(--lem-hue);
+		color: var(--lem-bg);
 	}
-	.col-pct {
-		font-family: var(--vcsi-font-heading);
+	.bar-rest {
+		background: var(--lem-rest);
+		color: var(--lem-ink);
+	}
+	.segment-count {
+		font-size: var(--vcsi-font-size-small);
 		font-weight: var(--vcsi-font-weight-bold);
-		font-size: var(--vcsi-font-size-lg);
-		color: var(--lem-hue);
-		line-height: 1;
+	}
+	.segment-pct {
+		font-size: var(--vcsi-font-size-xs);
+		font-weight: var(--vcsi-font-weight-semibold);
 	}
 	.col-label {
 		font-size: var(--vcsi-font-size-xs);
 		font-weight: var(--vcsi-font-weight-semibold);
-		text-align: center;
-		max-width: 20ch;
 	}
 	.col-n {
 		font-size: var(--vcsi-font-size-xs);
 		color: var(--lem-muted, currentColor);
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
 	}
 
 	/* legend */

@@ -4,7 +4,7 @@
 	// theme, with a full-width section header between them (see Index.svelte).
 	// Each chapter owns its own step index and its own measurements, so the
 	// chart a chapter draws is sized against that chapter's panel.
-	import { ScrollyContent } from '@the-vcsi/scrolly-kit';
+	import { MarkdownRenderer, ScrollyContent } from '@the-vcsi/scrolly-kit';
 	import UnitChart from './UnitChart.svelte';
 	import Stat from './Stat.svelte';
 	import SleepWindows from './SleepWindows/SleepWindows.svelte';
@@ -78,6 +78,7 @@
 							showControls={false}
 							showStats={false}
 							showTable={false}
+							animateEntrance={true}
 							ariaLabel="Each participant's average sleep window over Thanksgiving week, drawn on a 24-hour clock face as one ring per student, sorted by sleep midpoint from the centre outward. The median midpoint falls at 5 AM."
 						/>
 					{:else}
@@ -117,7 +118,9 @@
 		{#snippet contentRenderer(item)}
 			<div class="step-inner">
 				{#if item.kicker}<p class="kicker">{item.kicker}</p>{/if}
-				{#if item.description}<p class="s-description">{item.description}</p>{/if}
+				{#if item.description}
+					<div class="s-description"><MarkdownRenderer text={item.description} /></div>
+				{/if}
 				{#if item.caveat}<p class="s-caveat">{item.caveat}</p>{/if}
 				{#if item.extras?.length}
 					<ul class="s-extras">

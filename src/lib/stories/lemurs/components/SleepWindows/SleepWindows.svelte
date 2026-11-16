@@ -29,6 +29,7 @@
     highlight?: number | null;
     theme?: 'light' | 'dark' | 'auto';
     ariaLabel?: string;
+    animateEntrance?: boolean;
   }
 
   let {
@@ -45,7 +46,8 @@
     nightBand = [0, 6],          // shaded clock-night band; null to hide
     highlight = $bindable(null), // index into data to spotlight (e.g. from a scrolly step)
     theme = 'light',             // 'auto' follows OS / <html data-theme>
-    ariaLabel = 'Each participant’s average sleep window, stacked and sorted.'
+    ariaLabel = 'Each participant’s average sleep window, stacked and sorted.',
+    animateEntrance = false
   }: Props = $props();
 
   // ---------- formatting ----------
@@ -269,13 +271,13 @@
             <text x={cx - R + 6} y={cy - 6} text-anchor="start">{sortBy === 'midpoint' ? 'Latest' : 'Longest'}</text>
           </g>
 
-          <g class="sw-rings">
+          <g class={['sw-rings', { 'sw-enter': animateEntrance }]}>
             {#each data as d, i (i)}
-              <path d={arcPath(d.start, d.end, radius(i))} stroke-width={ringLw}
+              <path d={arcPath(d.start, d.end, radius(i))} pathLength="1" stroke-width={ringLw}
                 style:stroke="color-mix(in oklab, var(--sw-hi) {mixPct(d.duration)}%, var(--sw-lo))" />
             {/each}
           </g>
-          <g class="sw-mids">
+          <g class={['sw-mids', { 'sw-enter': animateEntrance }]}>
             {#each data as d, i (i)}
               {@const [ax0, ay0] = pt(d.midpoint, radius(i) - Math.max(0.5, ringLw / 2))}
               {@const [ax1, ay1] = pt(d.midpoint, radius(i) + Math.max(0.5, ringLw / 2))}
@@ -466,6 +468,22 @@
   .sw-rings path { fill: none; stroke-linecap: butt; }
   .sw-midr { stroke: var(--sw-mid); stroke-width: 2; }
   .sw-active path { fill: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sw-rings.sw-enter path {
+      stroke-dasharray: 1;
+      animation: sw-draw 1.4s ease-out both;
+    }
+    .sw-mids.sw-enter { animation: sw-reveal-midpoints 1.4s ease-out both; }
+    @keyframes sw-draw {
+      from { stroke-dashoffset: 1; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes sw-reveal-midpoints {
+      0%, 50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  }
 
   .sw-row { transition: transform var(--sw-duration) cubic-bezier(0.2, 0.7, 0.2, 1); }
   .sw-row line { stroke-linecap: butt; }

@@ -1,6 +1,6 @@
 {
-	"title": "Story Corps",
-	"subtitle": "Story subtitle",
+	"title": "Dialogue Is Not Monologue",
+	"subtitle": "What 48,144 StoryCorps conversations reveal about how we talk, and how that changes with age and memory loss",
 	"authors": [
 		{
 			"name": "Author Name",
@@ -11,19 +11,71 @@
 	"steps": [
 		{
 			"type": "markdown",
-			"value": "This is the **first step**. All bars start neutral."
+			"value": "Most of what we know about speech comes from one person talking: reading a passage, describing a picture, answering a prompt. But a **conversation is not one person's speech added to another's**. Each speaker is listening, reacting, and adjusting as they go."
 		},
 		{
 			"type": "markdown",
-			"value": "Now we highlight **bar B** — the highest value."
+			"value": "To measure that, we look at conversation at three scales. **Micro** features live inside an utterance: how fast people talk, how varied their words are."
 		},
 		{
 			"type": "markdown",
-			"value": "Let's look at **bar A** instead."
+			"value": "**Macro** features span sentences: how pronouns point back to earlier entities, and how ideas link together into a coherent story."
 		},
 		{
 			"type": "markdown",
-			"value": "Finally, the Y-axis **zooms in** using Tween — bars grow as maxValue shrinks."
+			"value": "**Super** features exist only between speakers: who takes a turn, how long it lasts, and how much one person's words echo the other's. You cannot find these in either speaker alone."
+		},
+		{
+			"type": "markdown",
+			"value": "**StoryCorps** makes this possible. Its archive holds **48,144** recorded conversations between two people, with speakers aged **18 to 103**. Other conversational corpora have very few people over sixty. This one covers the whole adult lifespan."
+		},
+		{
+			"type": "markdown",
+			"value": "Start with **speech rate**. Each line is a polynomial curve fit to a centile of the data (5th, 25th, 50th, 75th, 95th, and so on). The median line shows speech rate **declining with age**, which matches earlier studies."
+		},
+		{
+			"type": "markdown",
+			"value": "A straight line would miss the shape of that decline. Across features, the best-fitting median curves were typically **third- to fifth-order polynomials**: periods of growth, stability, and decline."
+		},
+		{
+			"type": "markdown",
+			"value": "Now compare other features. Not everything declines. Some features peak at different ages, some rise late in life, and some barely move. **Age does not act on conversation along a single axis.** It took three principal components to explain 97.6% of the variation across features."
+		},
+		{
+			"type": "markdown",
+			"value": "A conversation can't be described by one \"slowing down\" number. Dialogue has its own structure, and it behaves differently from monologue."
+		},
+		{
+			"type": "markdown",
+			"value": "Speech rate also depends on **who you are talking to**. Plot each conversation by the age of its *older* speaker, and younger speakers in inter-generational pairs roughly match the speech rate of their older partner once that partner is past about 50."
+		},
+		{
+			"type": "markdown",
+			"value": "People accommodate each other as they talk. Measure one speaker alone and you lose that. The dyad, not the individual, is the right unit."
+		},
+		{
+			"type": "markdown",
+			"value": "To go further, we need a unit that captures what speakers are *doing*, not only what they say. That unit is the **dialog act**: a segment of speech defined by its function, such as a statement, a question, a backchannel (\"mm-hm\"), an agreement, or a thanks."
+		},
+		{
+			"type": "markdown",
+			"value": "Dialog acts also change with age. Statements become more common until about age 80. Requests and signals of understanding stay flat until around 65, then rise sharply."
+		},
+		{
+			"type": "markdown",
+			"value": "Do dialog acts differ when one speaker has **memory loss**? This allotaxonograph compares conversations involving memory loss with the benchmark. Acts further left or right are used more by one group; higher on the plot means more common overall."
+		},
+		{
+			"type": "markdown",
+			"value": "**Statements** barely differ between the two groups. The biggest contributors to divergence are **quotations** and **opinions**, used more in the benchmark. In memory loss conversations, **yes/no questions**, **wh-questions**, and **yes-answers** stand out: more questions, and more short answers."
+		},
+		{
+			"type": "markdown",
+			"value": "Now zoom out to every **n-gram** between the same two groups. Dialog acts describe how people talk; n-grams show the words themselves. Do the same differences appear in the vocabulary?"
+		},
+		{
+			"type": "markdown",
+			"value": "TODO: describe what the n-gram allotaxonograph shows once the figure is built."
 		}
 	]
 }

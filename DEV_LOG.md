@@ -4,6 +4,132 @@ Project memory for agents. Newest entry first. One entry per work session or che
 
 <!-- dev-log:entries -->
 
+## 2026-11-16 — Labeled stress comparison groups
+
+- **Intent:** Make the male reference label smaller and identify the non-male range directly.
+- **Code:** Added a matching, theme-colored label above the estimated range.
+- **Verified:** Svelte autofixer reported no issues; `npm run check` passed with 6 existing warnings; story JSON and label validated.
+- **Open:** Browser layout review not run; `git diff --check` reports trailing whitespace on a separate edited copy line.
+
+## 2026-11-16 — Simplified stress chart labels
+
+- **Intent:** Place the male reference label next to its dot and remove duplicated chart text.
+- **Code:** Moved the reference label above the dot; the callout names both comparison groups.
+- **Verified:** Svelte autofixer reported no issues; `npm run check` passed with 6 existing warnings.
+- **Open:** Browser layout review not run.
+
+## 2026-11-16 — Mark the stress comparison reference
+
+- **Intent:** Make the male reference visible without suggesting a stress score of zero.
+- **Code:** Added a reference dot, removed the zero label, and marked the axis in points above the reference.
+- **Verified:** Browser inspection confirmed the reference dot and 1+ through 4+ labels; Svelte autofixer reported no issues, and `npm run check` passed with 6 existing warnings.
+- **Open:** None.
+
+## 2026-11-16 — Show the stress-score difference
+
+- **Intent:** Emphasize the estimated difference in perceived stress rather than the gender makeup of the cohort.
+- **Code:** Replaced the second stress step's student grid with the range of gender coefficients from the five models in the stress paper's Table 2, using male students as the reference.
+- **Copy:** Identified the range as model estimates rather than a confidence interval and described model adjustments.
+- **Verified:** Checked Table 2 endpoints, Svelte diagnostics, and the rendered chart at desktop and mobile widths.
+- **Open:** None.
+
+## 2026-11-16 — Distinguished stress responses from students
+
+- **Finding:** The 64% is 1,996 of 3,112 survey responses; the 73% is 381 of 525 students, not a breakdown of the above-threshold responses.
+- **Copy:** Replaced the response dot grid with a stacked bar and clarified that the following gender breakdown describes students in the cohort.
+- **Verified:** The stress paper reports the response count in Results and the gender counts in Table 1.
+- **Verified:** Checked counts and the rendered response bar at mobile width.
+- **Open:** None.
+
+## 2026-11-16 — Simplified the panic-attack step
+
+- **Intent:** Connect the 38% visual to its cohort count without mixing in findings from smaller analysis samples.
+- **Copy:** Kept the existing visual, clarified its reporting labels, and replaced the step text and diagnostic-group extras with a brief description of the 182-person analysis.
+- **Verified:** The panic paper's methods and Figure 1 describe the 525, 197, and 182-person samples.
+- **Open:** None.
+
+## 2026-11-16 — Compare prior diagnosis with stacked bars
+
+- **Intent:** Make the anxiety-diagnosis comparison read as two within-group rates rather than dot grids.
+- **Code:** `UnitChart.svelte` renders separate 100%-stacked rows with sample sizes and visible counts/percentages; `gad-priors` now explains the bar encoding.
+- **Verified:** Svelte autofixer reported no issues; JSON syntax validated.
+- **Open:** Browser layout review not run.
+
+## 2026-11-16 — Render Markdown in lemurs step descriptions
+
+- **Intent:** Make inline Markdown formatting in step descriptions, including bold text, render correctly.
+- **Code:** `components/Chapter.svelte` now renders each description with scrolly-kit’s `MarkdownRenderer`.
+- **Verified:** `npm run check` reports 0 errors and 6 warnings; Svelte autofixer reports no issues.
+- **Open:** None.
+
+## 2026-11-16 — Verified the heart-rate arc source
+
+- **Source:** PubMed PMID 39015512 links to the open-access PMC article and its PDF: *The Two Fundamental Shapes of Sleep Heart Rate Dynamics and Their Connection to Mental Health in College Students*.
+- **Copy:** Clarified that the 33.6% and 66.0% trough times are per-night medians, distinguished them from the displayed centroid curves, and changed “identical” sleep duration to “no significant difference.”
+- **Verified:** The article reports stable k=2 clusters, 20,167 periods from 599 participants, and the 36%/64% split.
+- **Open:** The PMC PDF is available online; it was not copied into the repository.
+
+## 2026-11-16 — Checked the newly added sleep paper
+
+- **Finding:** `papers/fudolig-arc-of-sleep.pdf` is the 2025 *npj Complexity* article on collective sleep and activity, not the 2024 *Digital Biomarkers* article cited for the heart-rate arcs. It cites the latter as reference 47.
+- **Verified:** The 2025 paper focuses on sleep timing and activity; it does not report the heart-rate clusters, 20,167-night sample, or arc statistics.
+- **Open:** Obtain *The two fundamental shapes of sleep heart rate dynamics and their connection to mental health in college students* (Digital Biomarkers 8:120–131, 2024) before validating the arc claims.
+
+## 2026-11-16 — Clarified lemurs visual claims
+
+- **Intent:** Apply fact-check wording updates without settling unresolved source conflicts.
+- **Copy:** Labeled threshold motion as simulated; reframed activity as aggregate synchrony; clarified panic, stress-response, sleep-average, and separate nature-exposure figures; softened causal language.
+- **Verified:** JSON syntax and requested-content checks passed.
+- **Open:** Nature chart provenance and the source manuscripts' conflicting anxiety figures remain unresolved.
+
+## 2026-11-16 — Fact-checked the lemurs story
+
+- **Intent:** Compare the story's claims and visualizations with the five supplied papers.
+- **Verified:** Reviewed the paper text, story copy, visualization provenance, and reconstructed sleep-window data; checked the reported counts and percentages.
+- **Open:** Resolve conflicting anxiety and nature results with the authors; obtain missing visualization sources and correct or clearly label reconstructed data before publication.
+
+## 2026-11-16 — Illustrated the introduction
+
+- **Intent:** Place `sensing.png` to the right of the introduction text.
+- **Code:** `components/Index.svelte` displays the illustration in a two-column introduction, stacking below the text on small screens.
+- **Verified:** `npm run check` reports 0 errors and 6 existing warnings; `git diff --check` passes.
+- **Open:** Browser layout review not run.
+
+## 2026-11-16 — Added introduction and conclusion placeholders
+
+- **Intent:** Make room for prose before and after the lemurs scrolly.
+- **Code:** `components/Index.svelte` renders introductory and concluding sections around the chapters; `data/copy.json` holds editable Markdown placeholders.
+- **Verified:** Checked the placeholder content and section ordering; Svelte autofixer reported no issues in the changed markup snippet.
+- **Open:** Replace both placeholders with story text. Browser review not run; `npm run check` was previously denied.
+
+## 2026-11-16 — Lightened the closing threshold tint
+
+- **Intent:** Make the moving "above it some weeks" group lighter orange.
+- **Code:** Updated the story's stress tint in light and dark themes; the closing step is its only current user.
+- **Verified:** Checked that both tints are orange and lighter than the main hue; Svelte autofixer reported no issues in the changed style snippet.
+- **Open:** Browser review not run; `npm run check` was previously denied.
+
+## 2026-11-16 — Reused anxiety threshold visualization in closing
+
+- **Intent:** Show the closing cohort crossing the anxiety threshold as in the earlier persistence step.
+- **Data:** Enabled threshold motion for the closing step and matched its three groups to the persistence step; corrected its headline to 8% above threshold at every survey.
+- **Verified:** A JSON assertion confirms both steps have identical group data, threshold motion, and headline percentage.
+- **Open:** Browser review not run; `npm run check` was previously denied.
+
+## 2026-11-16 — Corrected anxiety persistence percentage
+
+- **Intent:** Make the headline match the legend and the recorded 43 of 541 students.
+- **Data:** Changed the `gad-persistence` headline from 9% to 8%; the prior-diagnosis comparison remains unchanged for investigation.
+- **Verified:** The displayed 8% matches the existing group share of 0.08.
+- **Open:** The manuscript's reported 9% and the prior-diagnosis comparison need investigation.
+
+## 2026-11-16 — Animated sleep visualizations
+
+- **Intent:** Draw in the sleep-window rings and the first hammock heart-rate arc as their steps appear.
+- **Code:** `SleepWindows.svelte` has an opt-in radial entrance animation enabled in `Chapter.svelte`. `SleepSignals.svelte` uses global entrance transitions so the first arc animates when its chart appears; both respect reduced-motion preferences.
+- **Verified:** Svelte autofixer found no issues in the changed component snippets.
+- **Open:** `npm run check` and browser verification were not run because command permission was denied.
+
 ## 2026-11-16 — Removed sleep timing step
 
 - **Intent:** Remove the step comparing falling-asleep and getting-up times.
@@ -160,3 +286,12 @@ Project memory for agents. Newest entry first. One entry per work session or che
 - **Verified:** `npm run check` passes with 0 errors and 7 pre-existing warnings.
 - **Open:** None for this change.
 - **Git:** `main` @ `b194f56`; unrelated Salem copy and image changes were already uncommitted.
+
+## 2026-11-16 13:50 — Drafted story-corps copy
+
+- **Agent:** Copilot
+- **Intent:** Populate `story-corps` copy from the outline and the two papers.
+- **Code:** `src/lib/stories/story-corps/data/copy.json` now has 17 steps covering micro/macro/super, speech-rate centiles, accommodation, dialog acts, and the memory-loss allotaxonographs.
+- **Why:** Follows the outline; claims are taken from the papers.
+- **Verified:** JSON parses. `ScrollyPlot.svelte` is still the template bar chart.
+- **Open:** Pick the 2-3 deviating features (step 8 is generic); n-gram step is a TODO; no figures built yet.

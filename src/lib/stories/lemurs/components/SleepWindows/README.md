@@ -63,6 +63,7 @@ The component script uses `lang="ts"` for type annotations only. Svelte 5 compil
 | `nightBand` | `[number, number] \| null` | `[0, 6]` | Shaded band from midnight to 6 AM. `null` hides it. |
 | `theme` | `'light' \| 'dark' \| 'auto'` | `'light'` | `auto` follows the OS setting, or `data-theme="dark"` / `"light"` on `<html>`. |
 | `ariaLabel` | `string` | description | Screen-reader label for the chart. |
+| `animateEntrance` | `boolean` | `false` | Draw radial sleep windows on entry; disabled for reduced motion. |
 
 ## Theming
 

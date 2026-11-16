@@ -22,6 +22,7 @@
   import { scaleLinear, line, area, curveMonotoneX, max as d3max } from 'd3';
   import { draw, fade } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
+  import { prefersReducedMotion } from 'svelte/motion';
 
   interface Props {
     data: SleepSignalsData;
@@ -98,7 +99,9 @@
   }).filter((s) => arcs.includes(s.key as SleepSignalsArc)));
   // An arc that arrives mid-scroll draws itself in, then its ribbon, low-point
   // dot and label settle in behind the line.
-  const DRAW_MS = 1100;
+  const drawMs = $derived(prefersReducedMotion.current ? 0 : 1100);
+  const fadeMs = $derived(prefersReducedMotion.current ? 0 : 300);
+  const exitMs = $derived(prefersReducedMotion.current ? 0 : 250);
 
   // ---------------- interaction ----------------
   type Tip = { x: number; y: number; html: string } | null;
@@ -223,16 +226,16 @@
         {/if}
         {#each series as s (s.key)}
           <path class="ss-rib {s.cls}" d={rib(s.pts) ?? ''}
-            in:fade={{ delay: DRAW_MS * 0.4, duration: DRAW_MS * 0.6 }} out:fade={{ duration: 250 }} />
+            in:fade|global={{ delay: drawMs * 0.4, duration: drawMs * 0.6 }} out:fade={{ duration: exitMs }} />
           <path class="ss-line {s.cls}" d={ctr(s.pts) ?? ''}
-            in:draw={{ duration: DRAW_MS, easing: cubicInOut }} out:fade={{ duration: 250 }} />
+            in:draw|global={{ duration: drawMs, easing: cubicInOut }} out:fade={{ duration: exitMs }} />
           <circle class="ss-min {s.cls}" cx={ax(s.min.t)} cy={ay(s.min.mid)} r="5"
-            in:fade={{ delay: DRAW_MS * 0.7, duration: 300 }} out:fade={{ duration: 250 }} />
+            in:fade|global={{ delay: drawMs * 0.7, duration: fadeMs }} out:fade={{ duration: exitMs }} />
         {/each}
         {#if !narrow}
           {#each series as s (s.key)}
             {@const last = s.pts[s.pts.length - 1]}
-            <g in:fade={{ delay: DRAW_MS * 0.85, duration: 300 }} out:fade={{ duration: 250 }}>
+            <g in:fade|global={{ delay: drawMs * 0.85, duration: fadeMs }} out:fade={{ duration: exitMs }}>
               <text class="ss-dl" x={width - am.r + 10} y={ay(last.mid) + (s.key === 'hammock' ? -4 : 12)}>{s.name}</text>
               <text class="ss-dl2" x={width - am.r + 10} y={ay(last.mid) + (s.key === 'hammock' ? 10 : 26)}>{s.note}</text>
             </g>
@@ -247,7 +250,7 @@
       </svg>
       <div class="ss-keys">
         {#each series as s (s.key)}
-          <span in:fade={{ delay: DRAW_MS * 0.85, duration: 300 }}><i class="ss-sw {s.cls}"></i>{s.name}: lowest at step {s.min.t} of 29</span>
+          <span in:fade|global={{ delay: drawMs * 0.85, duration: fadeMs }}><i class="ss-sw {s.cls}"></i>{s.name}: lowest at step {s.min.t} of 29</span>
         {/each}
         {#if showSpread}<span><i class="ss-sw sp"></i>k = 3 centroids (10th–90th percentile)</span>{/if}
       </div>

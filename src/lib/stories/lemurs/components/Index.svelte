@@ -1,5 +1,5 @@
 <script>
-	import { Footer, StoryHeader } from '@the-vcsi/scrolly-kit';
+	import { Footer, RenderContent, StoryHeader } from '@the-vcsi/scrolly-kit';
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
 	import Chapter from './Chapter.svelte';
 	import sleepImage from '../data/images/sleep.png';
@@ -7,6 +7,7 @@
 	import activityImage from '../data/images/activity.png';
 	import anxietyImage from '../data/images/anxiety.png';
 	import stressImage from '../data/images/stress.png';
+	import sensingImage from '../data/images/sensing.png';
 
 	let { story, data } = $props();
 
@@ -57,6 +58,13 @@
 		date={data.date}
 	/>
 
+	<section class="story-prose introduction" aria-label="Introduction">
+		<div class="introduction-copy">
+			<RenderContent items={data.introduction} />
+		</div>
+		<img class="introduction-image" src={sensingImage} alt="" width="2000" height="2000" />
+	</section>
+
 	{#each chapters as chapter, i (chapter.head?.label ?? `intro-${i}`)}
 		{#if chapter.head}
 			<header class="chapter-head full-bleed" style="--lem-hue: var(--lem-{chapter.head.theme});">
@@ -77,10 +85,14 @@
 		<Chapter steps={chapter.steps} sources={data.sources ?? {}} />
 	{/each}
 
+	<section class="story-prose" aria-label="Conclusion">
+		<RenderContent items={data.conclusion} />
+	</section>
+
 	<section class="sources-note">
 		<h2>Sources</h2>
 		<p class="dek">
-			Every figure above is drawn from the LEMURS study's published papers. Percentages are shares
+			Every figure above is drawn from the LEMURS study's published papers. Where exact data could not be used due to privacy or other reasons, illustrative or synthetic data is used instead. Percentages are shares
 			of the cited analytic sample; where a unit other than "student" is used, the chart says so.
 		</p>
 		<ul class="sources">
@@ -129,7 +141,7 @@
 		--lem-anxiety: #4a3aa7;
 		--lem-anxiety-tint: #9a91cc;
 		--lem-stress: #e34948;
-		--lem-stress-tint: #e34948;
+		--lem-stress-tint: #f3a56a;
 
 		/* map the palette onto the scrolly-kit story tokens */
 		--vcsi-story-bg: var(--lem-bg);
@@ -138,6 +150,34 @@
 
 	.lemurs-story :global(.step) {
 		--vcsi-step-height: 200vh;
+	}
+
+	.story-prose {
+		max-width: var(--vcsi-story-max-width);
+		margin: var(--vcsi-space-2xl) auto;
+	}
+
+	.story > .introduction {
+		max-width: calc(2 * var(--vcsi-story-max-width));
+		display: grid;
+		gap: var(--vcsi-space-lg);
+		align-items: center;
+	}
+
+	.introduction-copy {
+		min-width: 0;
+	}
+
+	.introduction-image {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	@media (min-width: 769px) {
+		.story > .introduction {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		}
 	}
 
 	/* Scoped-global on the story's unique class so Svelte keeps the rule (it
@@ -167,7 +207,7 @@
 		--lem-anxiety: #9085e9;
 		--lem-anxiety-tint: #6f6aa3;
 		--lem-stress: #e66767;
-		--lem-stress-tint: #e66767;
+		--lem-stress-tint: #f6b985;
 	}
 
 	/* ---- Chapter headers (full width, between scrolly sections) ----------- */

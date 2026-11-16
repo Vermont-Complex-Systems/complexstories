@@ -5,6 +5,8 @@ A Svelte 5 + D3 component built from LEMURS Figure 1 (sleep). It has two views:
 - **`minutes`**: an hour × minute grid showing when students fall asleep and get up, with a minute-of-hour profile under each grid. Get-up times spike at :00/:01, :30/:31, :15/:16 and :45/:46, which is where alarms go off. Bedtimes show no such pull.
 - **`arcs`**: the two stable heart-rate arc clusters (k = 2) across the night. Each arc is drawn as its centre line plus a ribbon showing how much it moved across resampled subsets. A dot marks each arc's lowest point. You can switch on the unstable k = 3 spread behind them.
 
+Arcs draw in when the chart appears or a new arc is added. Reduced-motion preferences disable the animation.
+
 ## Install
 
 Copy this folder into `src/lib/`. It only needs `d3`.
