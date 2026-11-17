@@ -13,3 +13,5 @@ src/lib/stories/compass-of-meaning/data/*txt
 # including in a public git repo, breaches the license. Copy them in locally
 # from the lab's own license; they are not distributed with this repo.
 static/assets/fonts/atlas/
+
+.github/

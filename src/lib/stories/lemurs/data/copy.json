@@ -1,8 +1,8 @@
 {
   "title": "We gave over 600 first-year students at UVM an Oura ring to track their health. Here's what we learned.",
   "subtitle": "The Lived Experiences Measured Using Rings Study (LEMURS) uses data on sleep, activity, stress, and anxiety to examine the relationship between these factors and student well-being.",
-  "authors": [{ "name": "Ben Dexter Cooley" }],
-  "date": "August 2026",
+  "authors": [{ "name": "Ben Dexter Cooley" }, { "name": "Julia Zimmerman" }],
+  "date": "Nov 17, 2026",
   "description": "LEMURS findings framed as shares of a cohort, for a unit-chart scrollytelling piece.",
   "introduction": [
     { "type": "markdown", "value": "At the start of Fall 2022, the Lived Experiences Measured Using Rings Study (LEMURS) recruited a cohort of more than 600 first-year students at the University of Vermont to take part in a longitudinal experiment incentivizing healthy behaviors. During the Fall of 2022, we assessed changes in students' sleep, stress, mental health, and other outcomes through a series of weekly surveys. We also monitored heart-rate (HR), sleep, and activity continuously in this cohort using Oura rings." }
@@ -99,7 +99,7 @@
     },
     {
       "order": 3, "id": "short-sleep", "section": "Sleep", "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
-      "stat": { "value": "32%", "label": "averaged under 7 hours" },
+      "stat": { "value": "32%", "label": "averaged under 7 hours of sleep" },
       "description": "Most students got over 7 hours of sleep per night on average. But **about 32% averaged under seven hours a night** across the semester. The cohort average was 7 hours 26 minutes. The typical student's worst night was 5 hours 45.",
       "data": {
         "unit": "students", "n": 525, "dots": 525, "each": "1 dot = 1 student",
@@ -123,23 +123,18 @@
         ]
       },
       "source": "collective",
-      "note": "This is a median, so the 50/50 split is definitional rather than a measured headcount. Say so if you use it.",
-      "extras": [
-        "Males later by 0.47 h (p<0.001)",
-        "Impairment later by 0.27 h (p=0.014)",
-        "Weekday–weekend social jetlag 0.92 h (p<0.001)"
-      ]
+      "note": "This is a median, so the 50/50 split is definitional rather than a measured headcount. Say so if you use it."
     },
     {
       "order": 6, "id": "hr-shape-hammock", "visual": { "component": "sleepSignals", "view": "arcs", "arcs": ["hammock"] }, "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
       "stat": { "value": "36%", "label": "of nights, early trough" },
-      "description": "Heart-rate traces from 20,167 sleep periods formed two stable clusters. The earlier-trough cluster accounted for 36% of periods; its median time to the lowest heart rate was 33.6% of the sleep period. We call its representative curve the hammock arc: it dips and rises toward waking.",
+      "description": "From analyzing 20,167 sleep periods, we found two distinct shapes of sleep. This first one is called the hammock arc: it dips and rises toward waking. The earlier-trough cluster accounted for 36% of periods, and its median time to the lowest heart rate was 33.6% of the sleep period.",
       "source": "hr2024"
     },
     {
       "order": 7, "id": "hr-shape", "visual": { "component": "sleepSignals", "view": "arcs", "arcs": ["hammock", "lateMinimum"] }, "theme": "sleep", "mode": "split", "kicker": "01 — Sleep",
       "stat": { "value": "64%", "label": "of nights, late trough" },
-      "description": "The other cluster had a later trough and accounted for 64% of periods. Its median time to the lowest heart rate was 66% of the sleep period. The late-minimum cluster had lower median percentages of deep and REM sleep than the early cluster, while total sleep duration did not differ significantly (p=0.18). Its membership was associated with impairment, prior diagnosis and two or more traumatic events.",
+      "description": "The other cluster had a later trough and accounted for 64% of periods. Its median time to the lowest heart rate was 66% of the sleep period. The late-minimum cluster had lower median percentages of deep and REM sleep than the early cluster, while total sleep duration did not differ significantly (p=0.18). Sleep periods in this cluster were associated with students who had impairment from anxiety or depression, a prior diagnosis, or two or more past traumatic life events.",
       "data": {
         "unit": "nights", "n": 20167, "dots": 600, "each": "1 dot ≈ 34 nights",
         "groups": [
@@ -148,19 +143,12 @@
         ]
       },
       "source": "hr2024",
-      "note": "UNIT SWITCH: nights, not students (599 students contributed them).",
-      "extras": [
-        "Deep sleep 30% vs 34%",
-        "REM 20% vs 22%",
-        "Light 49% vs 44%",
-        "Total duration: no significant difference (p=0.18)",
-        "Impairment OR 1.54, prior diagnosis OR 1.44, ≥2 traumatic events OR 1.45"
-      ]
+      "note": "UNIT SWITCH: nights, not students (599 students contributed them)."
     },
     {
       "order": 8, "id": "nature-campus", "visual": { "component": "natureLift", "view": "map" }, "section": "Nature", "theme": "nature", "mode": "split", "kicker": "02 — Nature",
       "stat": { "value": "65%", "label": "of logged nature time was on campus" },
-      "description": "Most of their logged nature exposure was on campus. A GPS app recorded where students were, and about two thirds of logged nature exposure fell inside university boundaries. In the study, on-campus exposure was associated with slightly higher stress, depression and anxiety; this association does not necessarily show that campus exposure caused those outcomes, just that it was different than off-campus nature exposure.",
+      "description": "Most of their logged nature exposure was on campus. A GPS app recorded where students were, and **about two thirds of logged nature exposure fell inside university boundaries**. In the study, on-campus exposure was associated with slightly higher stress, depression and anxiety; this association does not necessarily show that campus exposure caused those outcomes, just that it was different than off-campus nature exposure.",
       "data": {
         "unit": "logged nature-minutes", "n": null, "dots": 600,
         "each": "share of a mean 159.5 logged minutes per student per week",
@@ -175,14 +163,14 @@
     {
       "order": 9, "id": "nature-gap", "visual": { "component": "natureLift", "view": "depression", "emphasis": "Nature" }, "theme": "nature", "mode": "split", "kicker": "02 — Nature",
       "stat": { "value": "6.06 vs. 2.66", "label": "self-reported vs. GPS recorded hours per week" },
-      "description": "**Self-reported nature time was associated with lower depression, stress and loneliness, and higher positive affect**. Students self-reported an average of 6.06 hours a week in nature; GPS measured an average of 2.66 hours a week. Self-reported nature time was also associated with lower depression (b=−0.069), stress (b=−0.048) and loneliness (b=−0.021), and higher positive affect (b=+0.118); all p<0.001",
+      "description": "**Self-reported nature time was associated with lower depression, stress and loneliness. It was also associated with higher positive affect**. Students self-reported an average of 6.06 hours a week in nature; GPS measured an average of 2.66 hours a week. **The felt experience of nature (about 4 hours more than GPS-tracked) was the one that mattered**. Self-reported nature time was also associated with lower depression (b=−0.069), stress (b=−0.048) and loneliness (b=−0.021), and higher positive affect (b=+0.118); all p<0.001",
       "source": "nature2026"
     },
     {
       "order": 10, "id": "nature-hrv", "visual": { "component": "natureLift", "view": "hrv", "emphasis": "Nature", "weekly": false },
       "theme": "nature", "kicker": "02 — Nature",
       "stat": { "value": "+4.5", "label": "within-group HRV change" },
-      "description": "When compared with excercise, therapy, and the control group, the nature group showed the largest increase in average heart-rate variability (67.9 to 72.5) across fifteen treatment weeks. The exercise, control and therapy group means changed by +0.9, −0.2 and −0.1. Confidence bands do overlap for most of the semester, so these trends alone do not establish a group difference.",
+      "description": "When compared with excercise, therapy, and the control group, **the nature group showed the largest increase in average heart-rate variability (67.9 to 72.5)** across fifteen treatment weeks. The exercise, control and therapy group means changed by +0.9, −0.2 and −0.1. Confidence bands do overlap for most of the semester, so these trends alone do not establish a group difference.",
       "note": "NEEDS A SOURCE, AND A PROVENANCE CHECK. This is a four-arm comparison (control / exercise / nature / therapy) with a treatment window, which is not the observational cohort B design the other nature steps describe. Confirm which paper and figure this is before publishing — the same question applies to the depression slope on the step above."
     },
     {
@@ -247,14 +235,13 @@
       "order": 15, "id": "gad-priors", "theme": "anxiety", "mode": "columns", "kicker": "04 — Anxiety",
       "stat": { "value": "Anxious indicators", "label": "with vs without a prior diagnosis" },
       "description": "Students who started college with an anxiety diagnosis more often crossed the moderate-anxiety threshold: 153 of 210, compared with 122 of 331 without a prior diagnosis. For severe symptoms, the rates were 41% and 14%. A prior diagnosis was also associated with higher odds of being above threshold every week.",
-      "caveat": "The manuscript states these as 75% and 40%; the counts it gives compute to 73% and 37%. Quote the counts, not the percentages.",
       "data": {
         "unit": "students", "n": 541, "dots": 541, "each": "Each bar is 100% of its diagnosis group; n is shown per row.",
         "columns": [
           {
             "label": "Arrived with an anxiety diagnosis", "n": 210,
             "groups": [
-              { "label": "Crossed the threshold", "count": 153, "share": 0.729, "role": "hue" },
+              { "label": "Crossed threshold for moderate anxiety", "count": 153, "share": 0.729, "role": "hue" },
               { "label": "Did not", "count": 57, "share": 0.271, "role": "rest" }
             ]
           },
@@ -268,17 +255,12 @@
         ]
       },
       "source": "gad",
-      "note": "Each bar shows within-group percentages; equal bar lengths compare rates, not group sizes.",
-      "extras": [
-        "Prior anxiety diagnosis: AOR 2.10 occurrence, IRR 1.64 persistence, 2.90 for every-week",
-        "≥2 traumatic events: AOR 1.80 occurrence, IRR 1.36 persistence",
-        "Test or project in the past week: 2.12× odds; AOR 0.69 for recovery"
-      ]
+      "note": "Each bar shows within-group percentages; equal bar lengths compare rates, not group sizes."
     },
     {
       "order": 16, "id": "panic", "theme": "anxiety", "mode": "split", "kicker": "04 — Anxiety",
       "stat": { "value": "38%", "label": "reported a panic attack" },
-      "description": "Of 525 students in the second cohort, 197 reported at least one panic attack. Researchers used data from 182 of those students to examine whether wearable measurements were associated with panic attacks.",
+      "description": "Of 525 students in the second cohort, **197 reported at least one panic attack**. Researchers used data from 182 of those students to examine whether wearable measurements were associated with panic attacks.",
       "data": {
         "unit": "students", "n": 525, "dots": 525, "each": "1 dot = 1 student",
         "groups": [
@@ -306,15 +288,7 @@
         ]
       },
       "source": "stress2024",
-      "note": "UNIT SWITCH: completed weekly survey responses (student-weeks), not unique students. 525 students contributed them.",
-      "extras": [
-        "Mean PSS 15.85 (SD 7.33)",
-        "Sleep duration: OR 0.617 per additional hour (−38.3% odds)",
-        "Resting HR: OR 1.036 per +1 bpm",
-        "HRV: OR 0.988 per +1 ms",
-        "Breathing rate: OR 1.230 per +1 breath/min",
-        "PSS falls −0.35 per week of semester"
-      ]
+      "note": "UNIT SWITCH: completed weekly survey responses (student-weeks), not unique students. 525 students contributed them."
     },
     {
       "order": 18, "id": "stress-gender", "theme": "stress", "mode": "range", "kicker": "05 — Stress",
@@ -328,21 +302,6 @@
         "each": "Range across five models, not a confidence interval."
       },
       "source": "stress2024" 
-    },
-    {
-      "order": 19, "id": "closing", "theme": "stress", "mode": "split", "motion": "threshold", "kicker": "The last frame",
-      "stat": { "value": "8%", "label": "above threshold at every survey" },
-      "description": "About half the cohort crossed the moderate-anxiety threshold at least once, and most did not remain above it at every survey. Only 43 students were above the threshold at every survey, and only 13 were severe throughout. The other 42% moved back and forth. One in five week-to-week transitions crossed up into moderate anxiety; one in five crossed back down.",
-      "data": {
-        "unit": "students", "n": 541, "dots": 541, "each": "1 dot = 1 student; dot motion is simulated",
-        "groups": [
-          { "label": "Above threshold every week", "count": 43, "share": 0.08, "role": "hue" },
-          { "label": "Above it some weeks", "count": 232, "share": 0.429, "role": "tint" },
-          { "label": "Never above it", "count": 266, "share": 0.491, "role": "rest" }
-        ]
-      },
-      "source": "gad",
-      "note": "Deliberate bookend to the persistence step — same 43 dots, restated as the conclusion."
     }
   ]
 }

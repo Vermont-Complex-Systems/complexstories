@@ -1,5 +1,7 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { Footer, RenderContent, StoryHeader } from '@the-vcsi/scrolly-kit';
+	import { onMount } from 'svelte';
 	import BackToHome from '$lib/components/helpers/BackToHome.svelte';
 	import Chapter from './Chapter.svelte';
 	import sleepImage from '../data/images/sleep.png';
@@ -46,6 +48,46 @@
 	});
 
 	let sources = $derived(Object.values(data.sources ?? {}));
+	let activeSectionId = $state(null);
+
+	onMount(() => {
+		const nav = document.querySelector('.section-nav');
+		const headers = document.querySelectorAll('.chapter-head[id]');
+
+		const updateActiveSection = () => {
+			const threshold = (nav?.getBoundingClientRect().bottom ?? 0) + 1;
+			let currentSectionId = null;
+
+			for (const header of headers) {
+				if (header.getBoundingClientRect().top > threshold) break;
+				currentSectionId = header.id;
+			}
+
+			activeSectionId = currentSectionId;
+		};
+
+		window.addEventListener('scroll', updateActiveSection, { passive: true });
+		window.addEventListener('resize', updateActiveSection);
+		updateActiveSection();
+
+		return () => {
+			window.removeEventListener('scroll', updateActiveSection);
+			window.removeEventListener('resize', updateActiveSection);
+		};
+	});
+
+	async function scrollToChapter(event, id) {
+		const target = document.getElementById(id);
+		if (!target) return;
+
+		event.preventDefault();
+		await goto(`#${id}`, { shallow: true, reset: false });
+		target.focus({ preventScroll: true });
+		target.scrollIntoView({
+			behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+			block: 'start'
+		});
+	}
 </script>
 
 <BackToHome />
@@ -65,9 +107,31 @@
 		<img class="introduction-image" src={sensingImage} alt="" width="2000" height="2000" />
 	</section>
 
+	<nav class="section-nav full-bleed" aria-label="Story sections">
+		<div class="section-nav-inner">
+			{#each chapters.filter((chapter) => chapter.head) as chapter (chapter.head.number)}
+				{@const sectionId = `chapter-${chapter.head.number}`}
+				<a
+					href={`#${sectionId}`}
+					class={{ active: activeSectionId === sectionId }}
+					aria-current={activeSectionId === sectionId ? 'location' : undefined}
+					style="--section-hue: var(--lem-{chapter.head.theme});"
+					onclick={(event) => scrollToChapter(event, sectionId)}
+				>
+					{chapter.head.label}
+				</a>
+			{/each}
+		</div>
+	</nav>
+
 	{#each chapters as chapter, i (chapter.head?.label ?? `intro-${i}`)}
 		{#if chapter.head}
-			<header class="chapter-head full-bleed" style="--lem-hue: var(--lem-{chapter.head.theme});">
+			<header
+				id={`chapter-${chapter.head.number}`}
+				class="chapter-head full-bleed"
+				style="--lem-hue: var(--lem-{chapter.head.theme});"
+				tabindex="-1"
+			>
 				<div class="chapter-inner">
 					<div class="chapter-copy">
 						<span class="section-num">{chapter.head.number}</span>
@@ -143,6 +207,8 @@
 		--lem-stress: #e34948;
 		--lem-stress-tint: #f3a56a;
 
+		--lemurs-section-nav-height: 3.5rem;
+
 		/* map the palette onto the scrolly-kit story tokens */
 		--vcsi-story-bg: var(--lem-bg);
 		--vcsi-story-fg: var(--lem-ink);
@@ -213,11 +279,64 @@
 	/* ---- Chapter headers (full width, between scrolly sections) ----------- */
 	/* `full-bleed` (scrolly-kit) stretches the band across the viewport. The band
 	   is its own block, not a scroll step, so it doesn't sit over any chart. */
+	.section-nav {
+		position: sticky;
+		top: 0;
+		z-index: 90;
+		height: var(--lemurs-section-nav-height);
+		background: var(--lem-surface);
+		color: var(--lem-ink);
+		border-bottom: 1px solid var(--lem-line);
+		box-shadow: 0 2px 6px color-mix(in srgb, var(--lem-ink) 8%, transparent);
+	}
+
+	.section-nav-inner {
+		display: flex;
+		align-items: stretch;
+		gap: var(--vcsi-space-sm);
+		width: 100%;
+		max-width: var(--vcsi-page-max-width);
+		height: 100%;
+		margin-inline: auto;
+		padding-inline: var(--vcsi-page-inline-padding);
+		overflow-x: auto;
+		scrollbar-width: thin;
+	}
+
+	.section-nav a {
+		display: inline-flex;
+		flex: 0 0 auto;
+		align-items: center;
+		padding-inline: var(--vcsi-space-sm);
+		border-bottom: 3px solid transparent;
+		color: inherit;
+		font-size: var(--vcsi-font-size-small);
+		font-weight: var(--vcsi-font-weight-semibold);
+		text-decoration: none;
+		white-space: nowrap;
+		transition:
+			color var(--vcsi-transition-base),
+			border-color var(--vcsi-transition-base);
+	}
+
+	.section-nav a:hover,
+	.section-nav a:focus-visible,
+	.section-nav a.active {
+		color: var(--section-hue);
+		border-color: var(--section-hue);
+	}
+
+	.section-nav a:focus-visible {
+		outline: 2px solid var(--section-hue);
+		outline-offset: -4px;
+	}
+
 	.chapter-head {
 		display: flex;
 		justify-content: center;
 		margin-block: 3.5rem 0;
 		padding-block: 2.5rem;
+		scroll-margin-top: var(--lemurs-section-nav-height);
 		background: var(--lem-surface2);
 		border-top: 3px solid var(--lem-hue);
 		text-align: left;
